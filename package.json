@@ -2,6 +2,10 @@
   "name": "rentnoww-client",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "npm": "^5.7.1",
+    "node": "^9.5.0"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -11,10 +15,10 @@
     "react-scripts": "3.4.3"
   },
   "scripts": {
-    "start": "npm start",
-    "build": "npm build",
-    "test": "npm test",
-    "eject": "npm eject"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
