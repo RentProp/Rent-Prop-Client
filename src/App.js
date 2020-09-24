@@ -18,8 +18,8 @@ function App() {
       <Container className="flex-grow-1 mt-5">
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/profile" component={Profile} />
-          <Route path="/external-api" component={ExternalApi} />
+          <PrivateRoute path="/profile" component={Profile} />
+          <PrivateRoute path="/external-api" component={ExternalApi} />
         </Switch>
       </Container>
     </div>
