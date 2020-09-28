@@ -1,13 +1,24 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
-import { Container } from "react-bootstrap";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
+// import { Container } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./App.css";
-import { NavBar, Footer, Loading, PrivateRoute } from "./components";
+import {  Loading, PrivateRoute } from "./components";
 import { Home, Profile, ExternalApi } from "./views";
-import 'bootstrap/dist/css/bootstrap.min.css'
+// import "bootstrap/dist/css/bootstrap.min.css";
+import { createBrowserHistory } from "history";
+import Dashboard from "views/Search/Dashboard.js";
+import ProfilePage from "views/Components/ProfilePage/ProfilePage.js";
+import CaptureDetails from "views/CaptureDetails/CaptureDetails.js"
+import NavBar from "views/Components/NavBar/NavBar"
+import Footer from "components/Footer/Footer.js";
+import Account from "layouts/Account.js";
+import "assets/css/material-dashboard-react.css?v=1.9.0";
+
+var hist = createBrowserHistory();
 
 function App() {
+  
   const { isLoading } = useAuth0();
   if (isLoading) {
     return <Loading />;
@@ -15,13 +26,13 @@ function App() {
   return (
     <div className="App">
       <NavBar />
-      <Container className="flex-grow-1 mt-5">
         <Switch>
-          <Route path="/" exact component={Home} />
-          <PrivateRoute path="/profile" component={Profile} />
-          <PrivateRoute path="/external-api" component={ExternalApi} />
+          <PrivateRoute path="/capture-details" component={CaptureDetails} />
+          <Route path="/search" component={Dashboard} />
+          <PrivateRoute path="/account" component={Account} />
+          <Redirect from="/" to="/search" />
         </Switch>
-      </Container>
+      <Footer />
     </div>
   );
 }

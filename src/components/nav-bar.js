@@ -8,7 +8,7 @@ import LoginButton from "./login-button";
 
 const MainNav = () => (
   <Nav className="mr-auto">
-    <Nav.Link
+    <Nav.Link 
       as={RouterNavLink}
       to="/"
       exact
@@ -37,7 +37,6 @@ const MainNav = () => (
 
 const AuthNav = () => {
   const {isAuthenticated} = useAuth0();
-  console.log(isAuthenticated)
   return (
     <Nav className="justify-content-end">
       {isAuthenticated ? <LogoutButton /> : <LoginButton />}

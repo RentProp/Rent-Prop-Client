@@ -35,7 +35,7 @@ export const ExternalApi = () => {
 
       setMessage(responseData);
     } catch (error) {
-      setMessage(error.message);
+      setMessage(error);
     }
   };
 

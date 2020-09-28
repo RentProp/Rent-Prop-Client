@@ -20,7 +20,7 @@ const Profile = () => {
         </Col>
         <Col md>
           <h2>{name}</h2>
-          <p className="lead text-muted">{email}</p>
+          <p className="lead text-muted">"email"</p>
         </Col>
       </Row>
       <Row>
