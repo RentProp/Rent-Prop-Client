@@ -12,8 +12,6 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-
-import avatar from "assets/img/faces/marc.jpg";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const styles = {
@@ -147,12 +145,12 @@ const { email, picture, name, username } = user;
           <Card profile>
             <CardAvatar profile>
               <a href="#" onClick={(e) => e.preventDefault()}>
-                <img src={avatar} alt="..." />
+                <img src={picture} alt="..." />
               </a>
             </CardAvatar>
             <CardBody profile>
               <h6 className={classes.cardCategory}>{email}</h6>
-              <h4 className={classes.cardTitle}>Alec Thompson</h4>
+              <h4 className={classes.cardTitle}>{name}</h4>
               <p className={classes.description}>
                 Don{"'"}t be scared of the truth because we need to restart the
                 human foundation in truth And I love you like Kanye loves Kanye

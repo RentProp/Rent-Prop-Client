@@ -30,6 +30,7 @@ function App() {
           <PrivateRoute path="/capture-details" component={CaptureDetails} />
           <Route path="/search" component={Dashboard} />
           <PrivateRoute path="/account" component={Account} />
+          <PrivateRoute path="/external" component={ExternalApi} />
           <Redirect from="/" to="/search" />
         </Switch>
       <Footer />
