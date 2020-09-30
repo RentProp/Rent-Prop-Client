@@ -33,38 +33,20 @@ export default function Footer(props) {
           <List className={classes.list}>
             <ListItem className={classes.inlineBlock}>
               <a
-                href="https://www.creative-tim.com/?ref=mkr-footer"
+                href="https://github.com/orgs/RentProp/people"
                 className={classes.block}
                 target="_blank"
               >
-                Creative Tim
+                TEAM08
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a
-                href="https://www.creative-tim.com/presentation?ref=mkr-footer"
+                href="https://github.com/RentProp"
                 className={classes.block}
                 target="_blank"
               >
-                About us
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="http://blog.creative-tim.com/?ref=mkr-footer"
-                className={classes.block}
-                target="_blank"
-              >
-                Blog
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="https://www.creative-tim.com/license?ref=mkr-footer"
-                className={classes.block}
-                target="_blank"
-              >
-                Licenses
+                GITHUB
               </a>
             </ListItem>
           </List>
@@ -73,13 +55,13 @@ export default function Footer(props) {
           &copy; {1900 + new Date().getYear()} , made with{" "}
           <Favorite className={classes.icon} /> by{" "}
           <a
-            href="https://www.creative-tim.com?ref=mkr-footer"
+            href="https://github.com/RentProp"
             className={aClasses}
             target="_blank"
           >
-            Creative Tim
+            TEAM08
           </a>{" "}
-          for a better web.
+          for a better rental experience.
         </div>
       </div>
     </footer>

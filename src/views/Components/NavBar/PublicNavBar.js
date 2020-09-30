@@ -11,6 +11,7 @@ import profileImage from "assets/img/faces/avatar.jpg";
 import styles from "assets/jss/material-kit-react/views/componentsSections/navbarsStyle.js";
 import { useAuth0 } from "@auth0/auth0-react";
 import {  LockOpen } from "@material-ui/icons";
+import logo from "./logo192.png"
 
 const useStyles = makeStyles(styles);
 
@@ -19,7 +20,9 @@ export default function PublicNavBar() {
   const { loginWithRedirect } = useAuth0();
   return (
         <Header
-          brand="RentNoww"
+          brand={
+            <img src={logo}  alt="logo" />
+          }
           color="danger"
           rightLinks={
             <List className={classes.list}>

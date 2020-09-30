@@ -13,6 +13,7 @@ import styles from "assets/jss/material-kit-react/views/componentsSections/navba
 import { useAuth0 } from "@auth0/auth0-react";
 import { useHistory } from "react-router-dom";
 import ListingModal from "../ListingModal/Listing";
+import logo from "./logo192.png"
 const useStyles = makeStyles(styles);
 
 export default function PrivateNavBar() {
@@ -36,7 +37,9 @@ export default function PrivateNavBar() {
   };
   return (
     <Header
-      brand="RentNoww"
+      brand={
+        <img src={logo}  alt="logo" />
+      }
       color="danger"
       rightLinks={
         <List className={classes.list}>
