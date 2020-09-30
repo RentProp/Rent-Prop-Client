@@ -13,12 +13,14 @@ import styles from "assets/jss/material-kit-react/views/componentsSections/navba
 import { useAuth0 } from "@auth0/auth0-react";
 import { useHistory } from "react-router-dom";
 import ListingModal from "../ListingModal/Listing";
-import logo from "./logo192.png"
+import logo from "./logo192.png";
 const useStyles = makeStyles(styles);
 
 export default function PrivateNavBar() {
   const classes = useStyles();
-  const { user, logout } = useAuth0();
+  const { user } = useAuth0();
+  const { logout } = useAuth0();
+
   const history = useHistory();
 
   const { email, picture } = user;
@@ -30,16 +32,14 @@ export default function PrivateNavBar() {
     let path = `/account/dashboard`;
     history.push(path);
   };
-  
+
   const routeUserProfile = () => {
     let path = `/account/user`;
     history.push(path);
   };
   return (
     <Header
-      brand={
-        <img src={logo}  alt="logo" />
-      }
+      brand={<img src={logo} alt="logo" />}
       color="danger"
       rightLinks={
         <List className={classes.list}>
@@ -68,27 +68,23 @@ export default function PrivateNavBar() {
                 className: classes.navLink + " " + classes.imageDropdownButton,
                 color: "transparent",
               }}
-              dropdownList={[
-                <Button
-                  className={classes.navLink}
-                  onClick={routeUserProfile}
-                  color="transparent"
-                >
+              dropdownList={[ 
+                <Button  className={classes.navLink} onClick={routeUserProfile} color="transparent">
                   <AccountCircle className={classes.icons} />
                   My Account
                 </Button>,
                 <Button
                 className={classes.navLink}
-                onClick = {() =>
-                  logout({
-                    returnTo: window.location.origin,
-                  })
-                }
-                color="transparent"
-              >
-                <ExitToApp className={classes.icons} />
-                Logout
-              </Button>,
+                  onClick={() =>
+                    logout({
+                      returnTo: window.location.origin,
+                    })
+                  }
+                  color="transparent"
+                >
+                  <ExitToApp className={classes.icons} />
+                  Logout
+                </Button>,
               ]}
             />
           </ListItem>
