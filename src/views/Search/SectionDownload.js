@@ -8,6 +8,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Button from "components/CustomButtons/Button.js";
 // core components
 import styles from "assets/jss/material-kit-react/views/componentsSections/downloadStyle.js";
+import Listing from "./Listing";
 
 const useStyles = makeStyles(styles);
 
@@ -16,6 +17,32 @@ export default function SectionDownload() {
   return (
     <div className={classes.section}>
       <div className={classes.container}>
+        <GridContainer>
+          <Listing
+            title="Luddy School of Informatics, Computing, and Engineering"
+            price="1,000.99"
+            rating={74}
+            location="700 N Woodlawn Ave, Bloomington, IN 47408"
+          />
+          <Listing
+            title="Luddy School of Informatics, Computing, and Engineering"
+            price="1,000.99"
+            rating={74}
+            location="700 N Woodlawn Ave, Bloomington, IN 47408"
+          />
+          <Listing
+            title="Luddy School of Informatics, Computing, and Engineering"
+            price="1,000.99"
+            rating={74}
+            location="700 N Woodlawn Ave, Bloomington, IN 47408"
+          />
+          <Listing
+            title="Luddy School of Informatics, Computing, and Engineering"
+            price="1,000.99"
+            rating={74}
+            location="700 N Woodlawn Ave, Bloomington, IN 47408"
+          />
+        </GridContainer>
         <div className={classes.textCenter + " " + classes.sharingArea}>
           <GridContainer justify="center">
             <h3>Thank you for supporting us!</h3>
