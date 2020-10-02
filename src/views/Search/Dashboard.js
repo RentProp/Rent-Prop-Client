@@ -15,7 +15,12 @@ import styles from "assets/jss/material-kit-react/views/components.js";
 import CaptureDetails from "../CaptureDetails/CaptureDetails"
 import { whiteColor } from "assets/jss/material-dashboard-react.js";
 import TextField from "@material-ui/core/TextField";
-import SearchIcon from '@material-ui/icons/Search';
+import ArrowForwardRounded from '@material-ui/icons/ArrowForwardRounded';
+import SearchIcon from '@material-ui/icons/Search'
+import { IconButton, InputAdornment } from "@material-ui/core";
+
+
+
 const useStyles = makeStyles(styles);
 
 export default function Dashboard(props) {
@@ -31,15 +36,39 @@ export default function Dashboard(props) {
                 <TextField
                   id="search-bar"
                   placeholder="rent anything, anywhere noww"
-                  style={{color: whiteColor}}
+                  style={{ color: whiteColor }}
                   variant="outlined"
                   fullWidth
                   autoFocus
                   InputProps={{
-                    classes: {input: classes.title},
-                    style: {color: whiteColor}
+                    classes: { input: classes.title },
+                    style: { color: whiteColor },
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon
+                          htmlColor="rgba(255, 255, 255, 0.5)"
+                          fontSize="large"
+                        />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="search button"
+                          onClick={() => {
+                            alert("search!");
+                          }}
+                          edge="end"
+                        >
+                          <ArrowForwardRounded
+                            htmlColor="rgba(255, 255, 255, 0.5)"
+                            fontSize="large"
+                          />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
                   }}
-                /> 
+                />
               </div>
             </GridItem>
           </GridContainer>
