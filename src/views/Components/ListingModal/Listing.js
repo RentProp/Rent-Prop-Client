@@ -28,8 +28,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Menu from "./Menu.js";
 import Select from "react-select";
-import CountryRegionMUISelectors from "./Region";
-import ImageUpload from "./ImageUpload"
+import ItemAddress from "./ItemAddress";
+import ImageUpload from "./ImageUpload";
 const useStyles = makeStyles(modalStyle);
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -103,25 +103,67 @@ export default function ListingModal() {
                 </CardHeader>
                 <CardBody>
                   <GridContainer>
-                    <GridItem xs={12} sm={12} md={12}>
-                      <Menu />
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={8}>
-                      <Select placeholder="Shipping Available?" name="shipping">
-                        <options aria-label="None" value="" />
-                        <options value={1}>Yes</options>
-                        <options svalue={0}>No</options>
-                      </Select>
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={4}>
-                      <Select placeholder="Currency" name="currency">
-                        <options aria-label="None" value="" />
-                        <options value={1}>Yes</options>
-                        <options svalue={0}>No</options>
-                      </Select>
-                    </GridItem>
+                      <GridItem xs={12} sm={6} md={5} lg={5}>
+                        <FormControl
+                          fullWidth
+                          className={classes.selectFormControl}
+                        >
+                          <InputLabel
+                            htmlFor="simple-select"
+                            className={classes.selectLabel}
+                          >
+                            Single Select
+                          </InputLabel>
+                          <Select
+                            MenuProps={{
+                              className: classes.selectMenu,
+                            }}
+                            classes={{
+                              select: classes.select,
+                            }}
+                            inputProps={{
+                              name: "simpleSelect",
+                              id: "simple-select",
+                            }}
+                          >
+                            <MenuItem
+                              disabled
+                              classes={{
+                                root: classes.selectMenuItem,
+                              }}
+                            >
+                              Single Select
+                            </MenuItem>
+                            <MenuItem
+                              classes={{
+                                root: classes.selectMenuItem,
+                                selected: classes.selectMenuItemSelected,
+                              }}
+                              value="2"
+                            >
+                              Paris
+                            </MenuItem>
+                            <MenuItem
+                              classes={{
+                                root: classes.selectMenuItem,
+                                selected: classes.selectMenuItemSelected,
+                              }}
+                              value="3"
+                            >
+                              Bucharest
+                            </MenuItem>
+                            <MenuItem
+                              classes={{
+                                root: classes.selectMenuItem,
+                                selected: classes.selectMenuItemSelected,
+                              }}
+                              value="4"
+                            >
+                              Rome
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
+                      </GridItem>
                   </GridContainer>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={12}>
@@ -161,27 +203,9 @@ export default function ListingModal() {
                       />
                     </GridItem>
                   </GridContainer>
-
-                  
-
                   <GridContainer>
-                    <GridItem xs={12} sm={12} md={12}>
-                      <CustomInput
-                        labelText="Address"
-                        id="address"
-                        formControlProps={{
-                          fullWidth: true,
-                        }}
-                      />
-                    </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText="City"
-                        id="city"
-                        formControlProps={{
-                          fullWidth: true,
-                        }}
-                      />
+                      <ItemAddress />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
                       <CustomInput
@@ -191,11 +215,6 @@ export default function ListingModal() {
                           fullWidth: true,
                         }}
                       />
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={12}>
-                      <CountryRegionMUISelectors style={{ width: "100%" }} />
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
