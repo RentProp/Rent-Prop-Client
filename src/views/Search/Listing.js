@@ -31,9 +31,6 @@ const styles = {
     },
     mHalf: {
         margin: '0.5em'
-    },
-    fullWidth: {
-        width: '100%'
     }
 }
 
@@ -53,7 +50,7 @@ export default function Listing(props) {
             src="https://via.placeholder.com/200"
             alt="Card-img-cap"
           />
-          <CardBody style={{display: "flex", flexDirection: "column"}}>
+          <CardBody>
             <h6 class={classes.cardTitle}>{props.title}</h6>
             <div className={classes.row} style={{ marginBottom: "1em" }}>
               <LocationIcon className={classes.m0} />
@@ -61,19 +58,19 @@ export default function Listing(props) {
                 {props.location}
               </p>
             </div>
-            <h5
-              className={classes.cardSubtitle}
-              style={{
-                color: "#4caf50",
-                //fontFamily: '"Roboto Slab", "Times New Roman", serif',
-              }}
-            >
-              {"$" + props.price}
-            </h5>
             <p className={classes.mHalf}>{props.rating + "%"}</p>
-            <Button className={classes.fullWidth} color="success">
-              Add To Cart
-            </Button>
+            <div className={classes.row} style={{ justifyContent: "space-between" }}>
+              <Button color="success" style={{ flexGrow: 0 }}>Add To Cart</Button>
+              <p
+                style={{
+                  color: "#4caf50",
+                  flexGrow: 0
+                  //fontFamily: '"Roboto Slab", "Times New Roman", serif',
+                }}
+              >
+                {"$" + props.price}
+              </p>  
+            </div>
           </CardBody>
         </Card>
       </GridItem>
