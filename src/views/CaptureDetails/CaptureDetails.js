@@ -1,59 +1,86 @@
-import React from "react";
-// @material-ui/core components
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Icon from "@material-ui/core/Icon";
-// @material-ui/icons
-import Email from "@material-ui/icons/Email";
-import People from "@material-ui/icons/People";
-// core components
-import Header from "components/Header/Header.js";
-import HeaderLinks from "components/Header/HeaderLinks.js";
-import Footer from "components/Footer/Footer.js";
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
-import CardFooter from "components/Card/CardFooter.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
-import useCustomForm from "./useCustomForm";
-import styles from "assets/jss/material-kit-react/views/loginPage.js";
-import { useForm } from "react-hook-form";
-import image from "assets/img/bg7.jpg";
 import Avatar from "@material-ui/core/Avatar";
 import { useAuth0 } from "@auth0/auth0-react";
 import Badge from "@material-ui/core/Badge";
-import AssignmentIcon from '@material-ui/icons/AddCircleRounded';
-const useStyles = makeStyles(styles);
-function onSubmitForm(formData) {
-  alert("Hi your phone number is: " + formData.firstName);
-}
+import AssignmentIcon from "@material-ui/icons/AddCircleRounded";
+import Address from "./Address";
 
-const SmallAvatar = withStyles((theme) => ({
-  root: {
-    width: 22,
-    height: 22,
-    border: `2px solid ${theme.palette.background.paper}`,
-  },
-}))(Avatar);
 export default function LoginPage(props) {
-  const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
-  setTimeout(function () {
-    setCardAnimation("");
-  }, 700);
-  const classes = useStyles();
-  const { register, handleSubmit } = useForm();
   const { user } = useAuth0();
-  // const { email, picture } = user;
-  
+  const { email, picture, username, user_id } = user;
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const [message, setMessage] = useState("");
+  const { getAccessTokenSilently } = useAuth0();
+  const callSecureApi = async (userDetails) => {
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await fetch(`${apiUrl}/api/profiles`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: userDetails,
+      });
+      const responseData = await response.json();
+      setMessage(responseData);
+      return <Redirect to="/search" />;
+    } catch (error) {
+      setMessage(error);
+    }
+  };
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    let streeAddress = localStorage.getItem("streeAddress");
+    let city = localStorage.getItem("city");
+    let state = localStorage.getItem("state");
+    let country = localStorage.getItem("country");
+    let googleMapLink = localStorage.getItem("googleMapLink");
+    let auth0Id = user.sub;
+    let userName = user.nickname;
+    let addressObject = JSON.stringify({
+      streeAddress,
+      city,
+      state,
+      zipCode,
+      country,
+      googleMapLink
+    })
+    let userDetails = JSON.stringify({
+      auth0Id,
+      userName,
+      firstName,
+      lastName,
+      contactNumber,
+      email,
+      addressObject
+    });
+    console.log(userDetails)
+    callSecureApi(userDetails)
+  };
+
   return (
     <div>
       <GridContainer justify="center">
-        <GridItem xs={11} sm={10} md={5} lg={4}>
+        <GridItem xs={11} sm={10} md={7} lg={7}>
           <Card>
-            <CardHeader color="danger" style={{ justifyContent: "center", display: "flex" }}>Create Profile</CardHeader>
+            <CardHeader
+              color="danger"
+              style={{ justifyContent: "center", display: "flex" }}
+            >
+              Create Profile
+            </CardHeader>
             <CardBody>
               <GridContainer
                 direction="column"
@@ -63,107 +90,107 @@ export default function LoginPage(props) {
                 <GridItem style={{ justifyContent: "center", display: "flex" }}>
                   <Badge
                     overlap="circle"
-                    style = {{color: "#f44336"}}
+                    style={{ color: "#f44336" }}
                     anchorOrigin={{
                       vertical: "bottom",
                       horizontal: "right",
                     }}
-                    badgeContent={
-                      <AssignmentIcon  />
-                    }
-                    
+                    badgeContent={<AssignmentIcon />}
                   >
-                    {/* <Avatar alt={email} srcSet={picture} style={{height: "75px", width : "75px"}}/> */}
+                    <Avatar
+                      alt={email}
+                      srcSet={picture}
+                      style={{ height: "75px", width: "75px" }}
+                    />
                   </Badge>
                 </GridItem>
-                <GridItem>
-                  <CustomInput
-                    labelText="First Name"
-                    id="float"
-                    formControlProps={{ fullWidth: true }}
-                    labelProps={{ required: true }}
-                    inputProps={{
-                      required: true,
-                    }}
-                    ref={register}
-                    name="firstName"
-                  />
-                </GridItem>
-                <GridItem>
-                  <CustomInput
-                    labelText="Last Name"
-                    id="float"
-                    formControlProps={{ fullWidth: true }}
-                    labelProps={{ required: true }}
-                    inputProps={{
-                      required: true,
-                    }}
-                    ref={register}
-                    name="lastName"
-                  />
-                </GridItem>
-                <GridItem>
-                  <CustomInput
-                    labelText="Address"
-                    id="float"
-                    formControlProps={{ fullWidth: true }}
-                    labelProps={{ required: true }}
-                    inputProps={{
-                      required: true,
-                    }}
-                    ref={register}
-                    name="address"
-                  />
-                </GridItem>
-                <GridItem>
-                  <CustomInput
-                    labelText="Country"
-                    id="float"
-                    formControlProps={{ fullWidth: true }}
-                    labelProps={{ required: true }}
-                    inputProps={{
-                      required: true,
-                    }}
-                    ref={register}
-                    name="country"
-                  />
-                </GridItem>
-                <GridItem>
-                  <CustomInput
-                    labelText="Zipcode"
-                    id="float"
-                    formControlProps={{ fullWidth: true }}
-                    labelProps={{ required: true }}
-                    inputProps={{
-                      required: true,
-                    }}
-                    ref={register}
-                    name="zipCode"
-                  />
-                </GridItem>
-                <GridItem>
-                  <CustomInput
-                    labelText="Contact Number"
-                    id="float"
-                    formControlProps={{ fullWidth: true }}
-                    labelProps={{ required: true }}
-                    inputProps={{required: true}}
-                    ref={register}
-                    name="contactNumber"
-                  />
-                </GridItem>
-                <GridItem></GridItem>
-                <GridItem>
-                  <Button
-                    type="submit"
-                    value="Submit"
-                    color="danger"
-                    style={{ width: "100%" }}
-                    onClick={handleSubmit(onSubmitForm)}
-                  >
-                    Submit
-                  </Button>
-                </GridItem>
+                <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <CustomInput
+                        labelText="First Name"
+                        id="float"
+                        formControlProps={{ fullWidth: true }}
+                        labelProps={{ required: true }}
+                        inputProps={{
+                          required: true,
+                          onChange: (e) => setFirstName(e.target.value),
+                        }}
+                        value={firstName}
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <CustomInput
+                        labelText="Last Name"
+                        id="float"
+                        formControlProps={{ fullWidth: true }}
+                        labelProps={{ required: true }}
+                        inputProps={{
+                          required: true,
+                          onChange: (e) => setLastName(e.target.value),
+                        }}
+                        value={lastName}
+                      />
+                    </GridItem>
+                  </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <CustomInput
+                        labelText="Contact Number"
+                        id="float"
+                        formControlProps={{ fullWidth: true }}
+                        labelProps={{ required: true }}
+                        inputProps={{
+                          required: true,
+                          onChange: (e) => setContactNumber(e.target.value),
+                        }}
+                        value={contactNumber}
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <CustomInput
+                        labelText={"Email "+ email }
+                        id="username"
+                        formControlProps={{
+                          fullWidth: true,
+                        }}
+                        inputProps={{
+                          disabled: true,
+                        }}
+                      />
+                    </GridItem>
+                  </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <Address />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={6}>
+                    <CustomInput
+                        labelText="Zip Code"
+                        id="float"
+                        formControlProps={{ fullWidth: true }}
+                        labelProps={{ required: true }}
+                        inputProps={{
+                          required: true,
+                          onChange: (e) => setZipCode(e.target.value),
+                        }}
+                        value={zipCode}
+                      />
+                    </GridItem>
+                  </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={12}>
+                      <Button
+                        type="submit"
+                        value="Submit"
+                        color="danger"
+                        style={{ width: "100%" }}
+                      >
+                        Submit
+                      </Button>
+                    </GridItem>
+                  </GridContainer>
+                </form>
               </GridContainer>
             </CardBody>
           </Card>
