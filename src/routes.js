@@ -25,7 +25,7 @@ import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
-import DashboardPage from "views/AddListing/AddListing.js";
+import DashboardPage from "views/YourListings/YourListing.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/Orders/TableList.js";
 import Maps from "views/Maps/Maps.js";
@@ -41,8 +41,8 @@ const dashboardRoutes = [
     layout: "/account"
   },
   {
-    path: "/dashboard",
-    name: "Add Listing",
+    path: "/listings",
+    name: "Your Listings",
     icon: Dashboard,
     component: DashboardPage,
     layout: "/account"
@@ -50,7 +50,7 @@ const dashboardRoutes = [
   
   {
     path: "/table",
-    name: "Your Orders",
+    name: "Past Rentings",
     icon: "content_paste",
     component: TableList,
     layout: "/account"

@@ -69,7 +69,7 @@ export default function Notifications() {
     <Card>
       <CardBody>
         <GridContainer>
-          <GridItem xs={12} sm={12} md={12}>
+          {/* <GridItem xs={12} sm={12} md={12}>
             <h5>Notifications States</h5>
             <br />
             <SnackbarContent
@@ -107,7 +107,7 @@ export default function Notifications() {
               close
               color="primary"
             />
-          </GridItem>
+          </GridItem> */}
         </GridContainer>
         
       </CardBody>

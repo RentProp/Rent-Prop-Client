@@ -38,7 +38,7 @@ const useStyles = makeStyles(styles);
 export default function UserProfile() {
 const classes = useStyles();
 const { user } = useAuth0();
-const { email, picture, name, username } = user;
+const { email, picture, name, nickname } = user;
   return (
     <div>
       <GridContainer>
@@ -64,7 +64,7 @@ const { email, picture, name, username } = user;
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
-                    labelText={"Username  " + username}
+                    labelText={"Username  " + nickname}
                     id="username"
                     formControlProps={{
                       fullWidth: true,

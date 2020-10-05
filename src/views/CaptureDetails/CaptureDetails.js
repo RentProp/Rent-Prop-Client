@@ -30,6 +30,7 @@ export default function LoginPage(props) {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
         body: userDetails,
       });
@@ -49,14 +50,14 @@ export default function LoginPage(props) {
     let googleMapLink = localStorage.getItem("googleMapLink");
     let auth0Id = user.sub;
     let userName = user.nickname;
-    let addressObject = JSON.stringify({
+    let addressObject = {
       streeAddress,
       city,
       state,
       zipCode,
       country,
       googleMapLink
-    })
+    }
     let userDetails = JSON.stringify({
       auth0Id,
       userName,
@@ -157,6 +158,7 @@ export default function LoginPage(props) {
                         inputProps={{
                           disabled: true,
                         }}
+                        defaultValue = {"Email "+ email }
                       />
                     </GridItem>
                   </GridContainer>

@@ -42,11 +42,10 @@ export default function Dashboard() {
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           <CustomTabs
-            title="Tasks:"
             headerColor="danger"
             tabs={[
               {
-                tabName: "Bugs",
+                tabName: "Rented Listings",
                 tabIcon: BugReport,
                 tabContent: (
                   <Tasks
@@ -57,7 +56,7 @@ export default function Dashboard() {
                 )
               },
               {
-                tabName: "Website",
+                tabName: "Past Orders",
                 tabIcon: Code,
                 tabContent: (
                   <Tasks
@@ -68,7 +67,7 @@ export default function Dashboard() {
                 )
               },
               {
-                tabName: "Server",
+                tabName: "Available Listings",
                 tabIcon: Cloud,
                 tabContent: (
                   <Tasks

@@ -30,26 +30,26 @@ import Menu from "./Menu.js";
 import Select from "react-select";
 import ItemAddress from "./ItemAddress";
 import ImageUpload from "./ImageUpload";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 const useStyles = makeStyles(modalStyle);
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const useSelectStyles = makeStyles((theme) => ({
-  formControl: {
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
-
 export default function ListingModal() {
   const [modal, setModal] = React.useState(false);
   const classes = useStyles();
+  const defaultProps = {
+    options: itemCategory,
+    getOptionLabel: (option) => option.title,
+  };
+  const defaultPropsType = {
+    options: itemType,
+    getOptionLabel: (option) => option.title,
+  };
 
-  const classesSelect = useSelectStyles();
   return (
     <div>
       <div>
@@ -97,73 +97,40 @@ export default function ListingModal() {
             <GridItem xs={12} sm={12} md={12}>
               <Card>
                 <CardHeader color="danger">
-                  <h4 className={classesSelect.cardTitleWhite}>
+                  <h4 className={classes.cardTitleWhite}>
                     Add Items to Rent Out
                   </h4>
                 </CardHeader>
                 <CardBody>
                   <GridContainer>
-                      <GridItem xs={12} sm={6} md={5} lg={5}>
-                        <FormControl
-                          fullWidth
-                          className={classes.selectFormControl}
-                        >
-                          <InputLabel
-                            htmlFor="simple-select"
-                            className={classes.selectLabel}
-                          >
-                            Single Select
-                          </InputLabel>
-                          <Select
-                            MenuProps={{
-                              className: classes.selectMenu,
-                            }}
-                            classes={{
-                              select: classes.select,
-                            }}
-                            inputProps={{
-                              name: "simpleSelect",
-                              id: "simple-select",
-                            }}
-                          >
-                            <MenuItem
-                              disabled
-                              classes={{
-                                root: classes.selectMenuItem,
-                              }}
-                            >
-                              Single Select
-                            </MenuItem>
-                            <MenuItem
-                              classes={{
-                                root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected,
-                              }}
-                              value="2"
-                            >
-                              Paris
-                            </MenuItem>
-                            <MenuItem
-                              classes={{
-                                root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected,
-                              }}
-                              value="3"
-                            >
-                              Bucharest
-                            </MenuItem>
-                            <MenuItem
-                              classes={{
-                                root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected,
-                              }}
-                              value="4"
-                            >
-                              Rome
-                            </MenuItem>
-                          </Select>
-                        </FormControl>
-                      </GridItem>
+                    <GridItem xs={12} sm={6} md={6} lg={6}>
+                      <Autocomplete
+                        {...defaultProps}
+                        id="debug"
+                        debug
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Category"
+                            margin="normal"
+                          />
+                        )}
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={6} md={6} lg={6}>
+                      <Autocomplete
+                        {...defaultPropsType}
+                        id="debug"
+                        debug
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Type"
+                            margin="normal"
+                          />
+                        )}
+                      />
+                    </GridItem>
                   </GridContainer>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={12}>
@@ -241,3 +208,37 @@ export default function ListingModal() {
     </div>
   );
 }
+
+
+
+
+
+const itemCategory = [
+  { title: 'Real State And Property', value: 'realstate' },
+  { title: 'Vehicles (Road/Water)', value: 'vehicles'},
+  { title: 'Staffing And Services',value: 'services' },
+  { title: 'Applicance And Other Items', value: 'otheritems' },
+]
+
+const itemType = [
+  { value: 'apartment', title: 'Apartment' },
+  { value: 'bunglow', title: 'Bunglow' },
+  { value: 'land', title: 'Land' },
+  { value: 'Electrical', title: 'Electrical' },
+  { value: 'Carpanter', title: 'Carpanter' },
+  { value: 'Painter', title: 'Painter' },
+  { value: 'Plumber', title: 'Plumber' },
+  { value: 'Cleaners', title: 'Cleaners' },
+  { value: 'Packer', title: 'Packers And Movers' },
+  { value: 'car', title: 'Car' },
+  { value: 'bike', title: 'Bike' },
+  { value: 'motorbike', title: 'Motorbike' },
+  { value: 'truck', title: 'Truck' },
+  { value: 'boats', title: 'Boats' },
+  { value: 'Machinery', title: 'Machinery' },
+  { value: 'Toolkits', title: 'Toolkits' },
+  { value: 'Electrial', title: 'Electrial Appliances' },
+  { value: 'Clothings', title: 'Clothings' },
+  { value: 'Ballon', title: 'Air Ballon' },
+  { value: 'Other', title: 'Other' }
+]
