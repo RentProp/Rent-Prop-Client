@@ -10,10 +10,12 @@ import { createBrowserHistory } from "history";
 import Dashboard from "views/Search/Dashboard.js";
 import ProfilePage from "views/Components/ProfilePage/ProfilePage.js";
 import CaptureDetails from "views/CaptureDetails/CaptureDetails.js"
+import ListingPage from "views/ListingPage/ListingPage";
 import NavBar from "views/Components/NavBar/NavBar"
 import Footer from "components/Footer/Footer.js";
 import Account from "layouts/Account.js";
 import "assets/css/material-dashboard-react.css?v=1.9.0";
+
 
 var hist = createBrowserHistory();
 
@@ -29,6 +31,7 @@ function App() {
         <Switch>
           <PrivateRoute path="/capture-details" component={CaptureDetails} />
           <Route path="/search" component={Dashboard} />
+          <Route path="/listing" component={ListingPage} />
           <PrivateRoute path="/account" component={Account} />
           <PrivateRoute path="/external" component={ExternalApi} />
           <Redirect from="/" to="/search" />
