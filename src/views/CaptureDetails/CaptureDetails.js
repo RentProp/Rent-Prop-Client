@@ -48,24 +48,27 @@ export default function LoginPage(props) {
     let state = localStorage.getItem("state");
     let country = localStorage.getItem("country");
     let googleMapLink = localStorage.getItem("googleMapLink");
-    let auth0Id = user.sub;
-    let userName = user.nickname;
-    let addressObject = {
-      streeAddress,
+    let auth0_id = user.sub;
+    let username = user.nickname;
+    let address = {
+      address: streeAddress,
       city,
       state,
-      zipCode,
+      zip: zipCode,
       country,
-      googleMapLink
-    }
+      google_map_link: googleMapLink
+    };
+    let profile = {
+      first_name: firstName,
+      last_name: lastName,
+      contact_number: contactNumber,
+      address
+    };
     let userDetails = JSON.stringify({
-      auth0Id,
-      userName,
-      firstName,
-      lastName,
-      contactNumber,
+      auth0_id,
+      username,
       email,
-      addressObject
+      profile
     });
     console.log(userDetails)
     callSecureApi(userDetails)
