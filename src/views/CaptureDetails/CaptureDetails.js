@@ -58,17 +58,14 @@ export default function LoginPage(props) {
       country,
       google_map_link: googleMapLink
     };
-    let profile = {
-      first_name: firstName,
-      last_name: lastName,
-      contact_number: contactNumber,
-      address
-    };
     let userDetails = JSON.stringify({
       auth0_id,
       username,
       email,
-      profile
+      first_name: firstName,
+      last_name: lastName,
+      contact_number: contactNumber,
+      address
     });
     console.log(userDetails)
     callSecureApi(userDetails)
