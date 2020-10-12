@@ -7,6 +7,8 @@ import Button from 'components/CustomButtons/Button.js';
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 
+import Rating from "@material-ui/lab/Rating";
+
 import { cardTitle, cardSubtitle } from "assets/jss/material-kit-react.js";
 import imagesStyles from 'assets/jss/material-kit-react/imagesStyles.js';
 
@@ -40,7 +42,6 @@ export default function Listing(props) {
 
     const classes = useStyles();
     
-    
     return (
       <GridItem xs={10} md={3}>
         <Card>
@@ -52,13 +53,18 @@ export default function Listing(props) {
           />
           <CardBody>
             <h6 class={classes.cardTitle}>{props.title}</h6>
+            <Rating
+              name="listing-rating"
+              value={5*(props.rating/100)}
+              percision={0.1}
+              size="large"
+            />
             <div className={classes.row} style={{ marginBottom: "1em" }}>
               <LocationIcon className={classes.m0} />
               <p className={classes.m0} style={{ marginLeft: "0.5em" }}>
                 {props.location}
               </p>
             </div>
-            <p className={classes.mHalf}>{props.rating + "%"}</p>
             <div className={classes.row} style={{ justifyContent: "space-between" }}>
               <Button color="success" style={{ flexGrow: 0 }}>Add To Cart</Button>
               <p
