@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import Button from "components/CustomButtons/Button.js";
@@ -12,8 +12,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Badge from "@material-ui/core/Badge";
 import AssignmentIcon from "@material-ui/icons/AddCircleRounded";
 import Address from "./Address";
-
+import { Loading } from "../../../src/components";
 export default function LoginPage(props) {
+  const history = useHistory();
   const { user } = useAuth0();
   const { email, picture, username, user_id } = user;
   const [firstName, setFirstName] = useState("");
@@ -23,25 +24,29 @@ export default function LoginPage(props) {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [message, setMessage] = useState("");
   const { getAccessTokenSilently } = useAuth0();
+  const [isLoadingTrue, setLoading] = useState("False");
+
   const callSecureApi = async (userDetails) => {
-    try {
-      const token = await getAccessTokenSilently();
-      const response = await fetch(`${apiUrl}/api/profiles`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: userDetails,
-      });
-      const responseData = await response.json();
-      setMessage(responseData);
-      return <Redirect to="/search" />;
-    } catch (error) {
-      setMessage(error);
-    }
+    
+    const token = await getAccessTokenSilently();
+    fetch(`${apiUrl}/api/profiles`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: userDetails,
+    }).then((response) => {
+      if (!response.ok) {
+        console.log("SOMETHING WENT WRONG");
+      } else {
+        console.log("SUCCESSS");
+        history.push(window.location.origin);
+      }
+    });
   };
   const handleSubmit = (evt) => {
+    setLoading("True")
     evt.preventDefault();
     let streeAddress = localStorage.getItem("streeAddress");
     let city = localStorage.getItem("city");
@@ -56,8 +61,9 @@ export default function LoginPage(props) {
       state,
       zip: zipCode,
       country,
-      google_map_link: googleMapLink
+      google_map_link: googleMapLink,
     };
+
     let userDetails = JSON.stringify({
       auth0_id,
       username,
@@ -65,11 +71,15 @@ export default function LoginPage(props) {
       first_name: firstName,
       last_name: lastName,
       contact_number: contactNumber,
-      address
+      address,
     });
-    console.log(userDetails)
-    callSecureApi(userDetails)
+    console.log(userDetails);
+    callSecureApi(userDetails);
   };
+  
+  if (isLoadingTrue === "True") {
+    return <Loading />;
+  }
 
   return (
     <div>
@@ -150,7 +160,7 @@ export default function LoginPage(props) {
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
                       <CustomInput
-                        labelText={"Email "+ email }
+                        labelText={"Email " + email}
                         id="username"
                         formControlProps={{
                           fullWidth: true,
@@ -158,7 +168,7 @@ export default function LoginPage(props) {
                         inputProps={{
                           disabled: true,
                         }}
-                        defaultValue = {"Email "+ email }
+                        defaultValue={"Email " + email}
                       />
                     </GridItem>
                   </GridContainer>
@@ -167,7 +177,7 @@ export default function LoginPage(props) {
                       <Address />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
+                      <CustomInput
                         labelText="Zip Code"
                         id="float"
                         formControlProps={{ fullWidth: true }}

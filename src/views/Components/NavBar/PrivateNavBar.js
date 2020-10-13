@@ -13,6 +13,8 @@ import styles from "assets/jss/material-kit-react/views/componentsSections/navba
 import { useAuth0 } from "@auth0/auth0-react";
 import { useHistory } from "react-router-dom";
 import ListingModal from "../ListingModal/Listing";
+import { AddCircle } from "@material-ui/icons";
+
 import logo from "./logo192.png";
 const useStyles = makeStyles(styles);
 
@@ -28,8 +30,8 @@ export default function PrivateNavBar() {
     let path = `/search`;
     history.push(path);
   };
-  const routeAddItem = () => {
-    let path = `/account/dashboard`;
+  const routeAddItems = () => {
+    let path = `/addListing`;
     history.push(path);
   };
 
@@ -54,7 +56,14 @@ export default function PrivateNavBar() {
             </Button>
           </ListItem>
           <ListItem className={classes.listItem}>
-            <ListingModal />
+          <Button
+              className={classes.navLink}
+              onClick={routeAddItems}
+              color="transparent"
+            >
+              <AddCircle className={classes.icons} />
+              Add Item Listing
+            </Button>
           </ListItem>
           <ListItem className={classes.listItem}>
             <CustomDropdown
