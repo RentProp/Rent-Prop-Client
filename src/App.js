@@ -14,6 +14,7 @@ import ListingPage from "views/ListingPage/ListingPage";
 import NavBar from "views/Components/NavBar/NavBar"
 import Footer from "components/Footer/Footer.js";
 import Account from "layouts/Account.js";
+import Listing from "views/Components/ListingModal/Listing"
 import "assets/css/material-dashboard-react.css?v=1.9.0";
 
 
@@ -31,8 +32,9 @@ function App() {
         <Switch>
           <PrivateRoute path="/capture-details" component={CaptureDetails} />
           <Route path="/search" component={Dashboard} />
-          <Route path="/listing" component={ListingPage} />
+          <Route path="/items" component={ListingPage} />
           <PrivateRoute path="/account" component={Account} />
+          <PrivateRoute path="/addListing" component={Listing} />
           <PrivateRoute path="/external" component={ExternalApi} />
           <Redirect from="/" to="/search" />
         </Switch>

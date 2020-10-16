@@ -2,7 +2,7 @@ import React from 'react';
 
 import Datetime from 'react-datetime';
 
-import { makeStyles } from '@material-ui/core/Styles';
+import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 
