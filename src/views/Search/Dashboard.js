@@ -19,7 +19,9 @@ import ArrowForwardRounded from '@material-ui/icons/ArrowForwardRounded';
 import SearchIcon from '@material-ui/icons/Search'
 import { IconButton, InputAdornment } from "@material-ui/core";
 
+import Filters from './Filters';
 
+styles['transparent'] = { backgroundColor: 'rgba(255, 255, 255, 0.5)' };
 
 const useStyles = makeStyles(styles);
 
@@ -69,6 +71,7 @@ export default function Dashboard(props) {
                     ),
                   }}
                 />
+                <Filters />
               </div>
             </GridItem>
           </GridContainer>
