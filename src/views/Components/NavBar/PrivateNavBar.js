@@ -78,7 +78,7 @@ export default function PrivateNavBar() {
                 color: "transparent",
               }}
               dropdownList={[ 
-                <Button  className={classes.navLink} onClick={routeUserProfile} color="transparent">
+                <Button  className={classes.navLink} onClick={routeUserProfile} color="transparent" style = {{width: "100%"}}>
                   <AccountCircle className={classes.icons} />
                   My Account
                 </Button>,
@@ -90,6 +90,7 @@ export default function PrivateNavBar() {
                     })
                   }
                   color="transparent"
+                  style = {{width: "100%"}}
                 >
                   <ExitToApp className={classes.icons} />
                   Logout
@@ -97,6 +98,8 @@ export default function PrivateNavBar() {
               ]}
             />
           </ListItem>
+          <ListItem className={classes.listItem}>
+            </ListItem>
         </List>
       }
     />

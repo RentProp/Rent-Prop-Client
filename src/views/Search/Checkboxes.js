@@ -25,7 +25,7 @@ function CustomCheckbox(props) {
             <Checkbox
               tabIndex={-1}
               //onClick={() => handleToggle(21)}
-              //inputProps={{style: {color:"rgba(255, 255, 255, 0.5)"}}}
+              // inputProps={{style: {color:"rgba(255, 255, 255, 0.5)"}}}
               checkedIcon={<Check className={classes.checkedIcon} />}
               icon={<Check className={classes.uncheckedIcon} />}
               classes={{ checked: classes.checked }}
@@ -43,7 +43,7 @@ export default function Checkboxes(props) {
 
     return (
         <div>
-            <h4 style={{color:"rgba(255, 255, 255, 0.5)", marginBottom: '0px'}}>{props.label}</h4>
+            <h4 style={{color:"#cecece", marginBottom: '0px'}}>{props.label}</h4>
             {props.items.map((item) => <CustomCheckbox label={item} />)}
         </div>
     );

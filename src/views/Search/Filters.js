@@ -13,60 +13,52 @@ export default function Filters(props) {
       <GridContainer>
         <GridItem md={3}>
           <Checkboxes
-            label="Product Type"
             items={["Property", "Service", "Vehicles", "Items"]}
           />
         </GridItem>
         <GridItem md={3}>
           <Checkboxes
-            label="Product Category"
             items={[
-              "Electrical",
+              "Electrician",
               "Carpenter",
               "Painter",
-              "Plumber",
               "Cleaners",
-              "Packers and Movers",
             ]}
           />
         </GridItem>
         <GridItem md={3}>
           <Checkboxes
-            label="State"
+            label=""
             items={[
-              "Electrical",
-              "Carpenter",
-              "Painter",
-              "Plumber",
-              "Cleaners",
-              "Packers and Movers",
+              "Car",
+              "Boat",
+              "Electronic Appliances",
+              "Apartment",
             ]}
           />
         </GridItem>
         <GridItem md={3}>
-          <h4 style={{color:"rgba(255, 255, 255, 0.5)", marginBottom: '4px'}}>Price Range</h4>
           <div style={{ width: "50%" }}>
             <TextField
               id="min price"
-              placeholder="min"
-              style={{ color: whiteColor }}
+              placeholder="Minimum Price"
+              style={{ color: "#979097",margin: '23px' }}
               variant="outlined"
               fullWidth
               InputProps={{
-                style: { color: whiteColor },
+                style: { color: "#979097" },
               }}
             />
           </div>
-          <p style={{color:"rgba(255, 255, 255, 0.5)"}}>to</p>
           <div style={{ width: "50%" }}>
             <TextField
               id="max price"
-              placeholder="max"
-              style={{ color: whiteColor }}
+              placeholder="Maximum Price"
+              style={{ color: "#979097",margin: '23px' }}
               variant="outlined"
               fullWidth
               InputProps={{
-                style: { color: whiteColor },
+                style: { color: "#979097" },
               }}
             />
           </div>

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 // core components
+import Input from '@material-ui/core/Input';
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
@@ -13,7 +14,7 @@ import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import { useAuth0 } from "@auth0/auth0-react";
-
+import TextField from '@material-ui/core/TextField';
 const styles = {
   cardCategoryWhite: {
     color: "rgba(255,255,255,.62)",
@@ -36,9 +37,55 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 export default function UserProfile() {
-const classes = useStyles();
-const { user } = useAuth0();
-const { email, picture, name, nickname } = user;
+  const classes = useStyles();
+  const [data, setData] = useState({})
+  const { user, getAccessTokenSilently } = useAuth0();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [streetAddrs, setStreetAddrs] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [state, setState] = useState("");
+  const apiUrl = process.env.REACT_APP_API_URL;
+  
+  const setProps = (userDetails) => {
+    console.log(userDetails)
+    setLastName(userDetails.last_name)
+    setContactNumber(userDetails.contact_number)
+    setZipCode(userDetails.address.zip)
+    setStreetAddrs(userDetails.address.address)
+    setCity(userDetails.address.city)
+    setCountry(userDetails.address.country)
+    setState(userDetails.address.state)
+    console.log(firstName)
+
+  }
+
+  useEffect(() => {
+    (async () => {
+        try {
+            const token = await getAccessTokenSilently();
+            let result = await fetch(`${apiUrl}/api/profiles/me`, {
+                    method: "GET",
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                      "Content-Type": "application/json",
+                    },
+                  })
+            const res = await result.json();
+            console.log(res.first_name)
+            let fn = res.first_name
+            await setFirstName(prevFirstName => fn);
+            console.log(firstName)
+        } catch {}
+    })(data)
+}, [user.sub])
+  
+  
+
+  const { email, picture, name, nickname } = user;
   return (
     <div>
       <GridContainer>
@@ -49,8 +96,10 @@ const { email, picture, name, nickname } = user;
               <p className={classes.cardCategoryWhite}>Complete your profile</p>
             </CardHeader>
             <CardBody>
+            <form className={classes.root} noValidate autoComplete="off">
               <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
+                  
                   <CustomInput
                     labelText={"Email  " + email}
                     id="company-disabled"
@@ -77,17 +126,19 @@ const { email, picture, name, nickname } = user;
               </GridContainer>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    labelText="First Name"
-                    id="first-name"
+                <CustomInput
+                labelText={"First Name  " + localStorage.getItem("firstName")}
+                  defaultValue= {lastName}
+                    id="last-name"
                     formControlProps={{
                       fullWidth: true,
                     }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    labelText="Last Name"
+                  <Input
+                  defaultValue={"Last Name  " +localStorage.getItem("lastName")}
+                  
                     id="last-name"
                     formControlProps={{
                       fullWidth: true,
@@ -98,7 +149,8 @@ const { email, picture, name, nickname } = user;
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
                   <CustomInput
-                    labelText="Address"
+                  labelText={"Street Address  " +localStorage.getItem("streetAddrs")}
+                  defaultValue= {streetAddrs}
                     id="address"
                     formControlProps={{
                       fullWidth: true,
@@ -109,7 +161,8 @@ const { email, picture, name, nickname } = user;
               <GridContainer>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
-                    labelText="City"
+                  labelText={"City  " +localStorage.getItem("city")}
+                  defaultValue= {city}
                     id="city"
                     formControlProps={{
                       fullWidth: true,
@@ -118,7 +171,9 @@ const { email, picture, name, nickname } = user;
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
-                    labelText="Country"
+                  labelText={"Country  " +localStorage.getItem("country")}
+                    
+                    defaultValue= {country}
                     id="country"
                     formControlProps={{
                       fullWidth: true,
@@ -127,7 +182,8 @@ const { email, picture, name, nickname } = user;
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
-                    labelText="Postal Code"
+                  labelText={"Zip Code   " +localStorage.getItem("zipCode")}
+                  
                     id="postal-code"
                     formControlProps={{
                       fullWidth: true,
@@ -135,7 +191,9 @@ const { email, picture, name, nickname } = user;
                   />
                 </GridItem>
               </GridContainer>
+              </form>
             </CardBody>
+            
             <CardFooter>
               <Button color="danger">Update Profile</Button>
             </CardFooter>
@@ -151,11 +209,9 @@ const { email, picture, name, nickname } = user;
             <CardBody profile>
               <h6 className={classes.cardCategory}>{email}</h6>
               <h4 className={classes.cardTitle}>{name}</h4>
-              <p className={classes.description}>
-                Don{"'"}t be scared of the truth because we need to restart the
-                human foundation in truth And I love you like Kanye loves Kanye
-                I love Rick Owens’ bed design but the back is...
-              </p>
+              <p className={classes.description}>Items Rented : 0</p>
+              <p className={classes.description}>Items Listed : 0</p>
+              <p className={classes.description}>Rating: 5/5</p>
             </CardBody>
           </Card>
         </GridItem>
