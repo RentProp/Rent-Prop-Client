@@ -129,6 +129,7 @@ export default function ListingModal(props) {
       category : itemCategory,
       type : itemType,
       name : itemName,
+      price: itemPrice,
       brand : itemBrand,
       company : user.email,
       description: itemDescription,
