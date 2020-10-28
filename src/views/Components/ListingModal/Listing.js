@@ -271,6 +271,7 @@ export default function ListingModal(props) {
                     <GridContainer>
                       <GridItem xs={12} sm={12} md={9}>
                         <Input
+                        required
                           type="file"
                           inputProps={{ multiple: true }}
                           onChange={handleImageChange}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
@@ -25,6 +25,27 @@ export default function LoginPage(props) {
   const [message, setMessage] = useState("");
   const { getAccessTokenSilently } = useAuth0();
   const [isLoadingTrue, setLoading] = useState("False");
+
+  useEffect(() => {
+    (async () => {
+      const token = await getAccessTokenSilently();
+    fetch(`${apiUrl}/api/profiles/me`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      }
+    }).then((response) => {
+      if (!response.ok) {
+        console.log("SOMETHING WENT WRONG");
+      } else {
+        console.log("SUCCESSS");
+        history.push(window.location.origin);
+      }
+    });
+    })(firstName);
+  }, [user.sub]);
+
 
   const callSecureApi = async (userDetails) => {
     

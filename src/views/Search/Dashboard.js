@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,44 +9,43 @@ import GridItem from "components/Grid/GridItem.js";
 import Button from "components/CustomButtons/Button.js";
 import Parallax from "components/Parallax/Parallax.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
-import SectionDownload from "./SectionDownload.js"
+import SectionDownload from "./SectionDownload.js";
 import { Loading } from "../../../src/components";
 import { useAuth0 } from "@auth0/auth0-react";
 import styles from "assets/jss/material-kit-react/views/components.js";
-import CaptureDetails from "../CaptureDetails/CaptureDetails"
+import CaptureDetails from "../CaptureDetails/CaptureDetails";
 import { whiteColor } from "assets/jss/material-dashboard-react.js";
 import TextField from "@material-ui/core/TextField";
-import ArrowForwardRounded from '@material-ui/icons/ArrowForwardRounded';
-import SearchIcon from '@material-ui/icons/Search'
+import ArrowForwardRounded from "@material-ui/icons/ArrowForwardRounded";
+import SearchIcon from "@material-ui/icons/Search";
 import { IconButton, InputAdornment } from "@material-ui/core";
 import Listing from "./Listing";
-import Filters from './Filters';
+import Filters from "./Filters";
 import downloadStyles from "assets/jss/material-kit-react/views/componentsSections/downloadStyle.js";
 
-styles['transparent'] = { backgroundColor: 'rgba(255, 255, 255, 0.5)' };
+styles["transparent"] = { backgroundColor: "rgba(255, 255, 255, 0.5)" };
 
 const useStyles = makeStyles(styles);
 const useDownloadStyles = makeStyles(downloadStyles);
 
 export default function Dashboard(props) {
-  const initialValues= [
+  const initialValues = [
     {
       address: {},
       name: "",
       price: 0,
       brand: "",
       category: "",
-      description:"",
+      description: "",
       pictures: [],
-      reviews:[],
-      type:"",
-      seller:0,
-      company: ""
-
-    }
-  ]
-  const [items, setItems] = useState(initialValues)
-  const [price, setPrice] = useState("")
+      reviews: [],
+      type: "",
+      seller: 0,
+      company: "",
+    },
+  ];
+  const [items, setItems] = useState([]);
+  const [price, setPrice] = useState("");
   const classes = useStyles();
   const classesDownload = useDownloadStyles();
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -54,20 +53,19 @@ export default function Dashboard(props) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoadingTrue, setLoading] = useState("False");
 
-  const callSecureApi =  (searchTerm) => {
-    console.log('sending request')
+  const callSecureApi = (searchTerm) => {
+    console.log("sending request");
     fetch(`${apiUrl}/api/items?search=${searchTerm}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-    }).then(response => response.json())
-    .then(data =>{
-      console.log(data)
-      setPrice(data.price)
     })
-    console.log("price")
-
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setItems((previndex) => data);
+      });
   };
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -84,43 +82,44 @@ export default function Dashboard(props) {
           <GridContainer>
             <GridItem>
               <div className={classes.brand}>
-              <form onSubmit={handleSubmit} style={{ width: "100%" }}>
-                <TextField
-                  id="search-bar"
-                  placeholder="rent anything, anywhere noww"
-                  style={{ color: whiteColor }}
-                  variant="outlined"
-                  fullWidth
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  autoFocus
-                  InputProps={{
-                    classes: { input: classes.title },
-                    style: { color: whiteColor },
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchIcon
-                          htmlColor="rgba(255, 255, 255, 0.5)"
-                          fontSize="large"
-                        />
-                      </InputAdornment>
-                    ),
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          type = "submit"
-                          aria-label="search button"
-                          edge="end"
-                        >
-                          <ArrowForwardRounded
+                <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+                  <TextField
+                    id="search-bar"
+                    placeholder="rent anything, anywhere noww"
+                    style={{ color: whiteColor }}
+                    variant="outlined"
+                    fullWidth
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    autoFocus
+                    required
+                    InputProps={{
+                      classes: { input: classes.title },
+                      style: { color: whiteColor },
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <SearchIcon
                             htmlColor="rgba(255, 255, 255, 0.5)"
                             fontSize="large"
                           />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                <Filters />
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            type="submit"
+                            aria-label="search button"
+                            edge="end"
+                          >
+                            <ArrowForwardRounded
+                              htmlColor="rgba(255, 255, 255, 0.5)"
+                              fontSize="large"
+                            />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <Filters />
                 </form>
               </div>
             </GridItem>
@@ -128,18 +127,25 @@ export default function Dashboard(props) {
         </div>
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
-      <div className={classesDownload.section}>
-      <div className={classesDownload.container}>
-      <GridContainer>
-          <Listing
-            title="Luddy School of Informatics, Computing, and Engineering"
-            price="1,000.99"
-            rating={74}
-            location="700 N Woodlawn Ave, Bloomington, IN 47408"
-          />
-          </GridContainer>
+        <div className={classesDownload.section}>
+          <div className={classesDownload.container}>
+            <GridContainer>
+              {items.map((item, i) => {
+                return (
+                  <div key={i}>
+                    <Listing
+                      title={item.name}
+                      price={item.price}
+                      rating={74}
+                      location={item.address.city}
+                      image={item.pictures}
+                    />
+                  </div>
+                );
+              })}
+            </GridContainer>
           </div>
-          </div>
+        </div>
       </div>
     </div>
   );

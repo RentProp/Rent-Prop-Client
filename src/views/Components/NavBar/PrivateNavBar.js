@@ -1,6 +1,6 @@
 import React from "react";
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Explore from "@material-ui/icons/Explore";
@@ -13,11 +13,19 @@ import styles from "assets/jss/material-kit-react/views/componentsSections/navba
 import { useAuth0 } from "@auth0/auth0-react";
 import { useHistory } from "react-router-dom";
 import ListingModal from "../ListingModal/Listing";
-import { AddCircle } from "@material-ui/icons";
-
+import { AddCircle, ShoppingCart } from "@material-ui/icons";
+import Badge from "@material-ui/core/Badge";
 import logo from "./logo192.png";
+import IconButton from "@material-ui/core/IconButton";
 const useStyles = makeStyles(styles);
-
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    right: -3,
+    top: 1,
+    border: `1px solid ${theme.palette.background.paper}`,
+    padding: "0 4px",
+  },
+}))(Badge);
 export default function PrivateNavBar() {
   const classes = useStyles();
   const { user } = useAuth0();
@@ -28,6 +36,10 @@ export default function PrivateNavBar() {
   const { email, picture } = user;
   const routeSearch = () => {
     let path = `/search`;
+    history.push(path);
+  };
+  const routeCart = () => {
+    let path = `/cart`;
     history.push(path);
   };
   const routeAddItems = () => {
@@ -56,13 +68,27 @@ export default function PrivateNavBar() {
             </Button>
           </ListItem>
           <ListItem className={classes.listItem}>
-          <Button
+            <Button
               className={classes.navLink}
               onClick={routeAddItems}
               color="transparent"
             >
               <AddCircle className={classes.icons} />
               Add Item Listing
+            </Button>
+          </ListItem>
+          <ListItem className={classes.listItem}>
+            <Button
+              justIcon
+              round
+              href="#pablo"
+              className={classes.notificationNavLink}
+              onClick={routeCart}
+              color="transparent"
+            >
+              <StyledBadge badgeContent={0} color="secondary">
+                <ShoppingCart style={{ color: "white" }} />
+              </StyledBadge>
             </Button>
           </ListItem>
           <ListItem className={classes.listItem}>
@@ -77,20 +103,25 @@ export default function PrivateNavBar() {
                 className: classes.navLink + " " + classes.imageDropdownButton,
                 color: "transparent",
               }}
-              dropdownList={[ 
-                <Button  className={classes.navLink} onClick={routeUserProfile} color="transparent" style = {{width: "100%"}}>
+              dropdownList={[
+                <Button
+                  className={classes.navLink}
+                  onClick={routeUserProfile}
+                  color="transparent"
+                  style={{ width: "100%" }}
+                >
                   <AccountCircle className={classes.icons} />
                   My Account
                 </Button>,
                 <Button
-                className={classes.navLink}
+                  className={classes.navLink}
                   onClick={() =>
                     logout({
                       returnTo: window.location.origin,
                     })
                   }
                   color="transparent"
-                  style = {{width: "100%"}}
+                  style={{ width: "100%" }}
                 >
                   <ExitToApp className={classes.icons} />
                   Logout
@@ -98,8 +129,7 @@ export default function PrivateNavBar() {
               ]}
             />
           </ListItem>
-          <ListItem className={classes.listItem}>
-            </ListItem>
+          <ListItem className={classes.listItem}></ListItem>
         </List>
       }
     />

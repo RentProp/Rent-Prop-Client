@@ -43,12 +43,12 @@ export default function Listing(props) {
     const classes = useStyles();
     
     return (
-      <GridItem xs={10} md={3}>
+      <GridItem xs={10} md={12}>
         <Card>
           <img
             style={{ height: "180px", width: "100%", display: "block" }}
             className={classes.imgCardTop}
-            src="https://via.placeholder.com/200"
+            src={props.image}
             alt="Card-img-cap"
           />
           <CardBody>

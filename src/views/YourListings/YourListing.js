@@ -1,86 +1,100 @@
-import React from "react";
-// react plugin for creating charts
+import React, { useState, useEffect } from "react";
+import { Redirect, useHistory } from "react-router-dom";
 import ChartistGraph from "react-chartist";
-// @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
-import Icon from "@material-ui/core/Icon";
-// @material-ui/icons
-import Store from "@material-ui/icons/Store";
-import Warning from "@material-ui/icons/Warning";
-import DateRange from "@material-ui/icons/DateRange";
-import LocalOffer from "@material-ui/icons/LocalOffer";
-import Update from "@material-ui/icons/Update";
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
-import AccessTime from "@material-ui/icons/AccessTime";
-import Accessibility from "@material-ui/icons/Accessibility";
 import BugReport from "@material-ui/icons/BugReport";
 import Code from "@material-ui/icons/Code";
 import Cloud from "@material-ui/icons/Cloud";
-// core components
+import { useAuth0 } from "@auth0/auth0-react";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import Table from "components/Table/Table.js";
 import Tasks from "components/Tasks/Tasks.js";
 import CustomTabs from "components/CustomTabs/CustomTabs.js";
-import Danger from "components/Typography/Danger.js";
-import Card from "components/Card/Card.js";
-import CardHeader from "components/Card/CardHeader.js";
-import CardIcon from "components/Card/CardIcon.js";
-import CardBody from "components/Card/CardBody.js";
-import CardFooter from "components/Card/CardFooter.js";
-
 import { bugs, website, server } from "variables/general.js";
-
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
-
+import { Loading } from "../../../src/components";
+import Listing from "./EditItem";
+import classNames from "classnames";
 const useStyles = makeStyles(styles);
 
 export default function Dashboard() {
   const classes = useStyles();
+  const [items, setData] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const history = useHistory();
+  const { user, getAccessTokenSilently } = useAuth0();
+  const { email, picture, username, user_id } = user;
+  const [currentListing, setCurrentListing] = useState(["A", "B"]);
+  const [currentIndex, setIndex] = useState(0);
+  const [currentRented, setCurrentRented] = useState(["A", "C"]);
+  const [isLoadingTrue, setLoading] = useState("False");
+  
+  useEffect(() => {
+    (async () => {
+      try {
+        const token = await getAccessTokenSilently();
+        let userid = localStorage.getItem("userid")
+        let result = await fetch(`${apiUrl}/api/items?seller=${userid}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        const res = await result.json();
+        console.log(res)
+        await setData((previndex) => res);
+      } catch {}
+    })(items);
+  }, [user.sub]);
+  
+  if (isLoadingTrue === "True") {
+    return <Loading />;
+  }
   return (
-    <div>
       <GridContainer>
-        <GridItem xs={12} sm={12} md={12}>
           <CustomTabs
             headerColor="danger"
             tabs={[
               {
-                tabName: "Rented Listings",
+                tabName: "Current Listings",
                 tabIcon: BugReport,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0, 3]}
-                    tasksIndexes={[0, 1, 2, 3]}
-                    tasks={bugs}
-                  />
-                )
+                tabContent: (<GridContainer>
+                    {items.map((item, i) => {
+                return (
+                    <Listing
+                      title={item.name}
+                      price={item.price}
+                      location={item.address.address}
+                      state={item.address.state}
+                      country={item.address.country}
+                      zip={item.address.zip}
+                      city={item.address.city}
+                      image={item.pictures}
+                      brand={item.brand}
+                      category={item.category}
+                      type={item.type}
+                      description = {item.description}
+                      pictures = {item.pictures}
+                    />
+                );
+              })}
+              </GridContainer>
+                ),
               },
               {
-                tabName: "Past Orders",
+                tabName: "Currently Rented",
                 tabIcon: Code,
                 tabContent: (
                   <Tasks
-                    checkedIndexes={[0]}
-                    tasksIndexes={[0, 1]}
-                    tasks={website}
+                    checkedIndexes={[]}
+                    tasksIndexes={[1, 2, 3, 4, 5]}
+                    tasks={currentRented}
                   />
-                )
+                ),
               },
-              {
-                tabName: "Available Listings",
-                tabIcon: Cloud,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[1]}
-                    tasksIndexes={[0, 1, 2]}
-                    tasks={server}
-                  />
-                )
-              }
             ]}
           />
-        </GridItem>
       </GridContainer>
-    </div>
   );
 }

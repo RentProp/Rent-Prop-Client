@@ -11,6 +11,7 @@ import Dashboard from "views/Search/Dashboard.js";
 import ProfilePage from "views/Components/ProfilePage/ProfilePage.js";
 import CaptureDetails from "views/CaptureDetails/CaptureDetails.js"
 import ListingPage from "views/ListingPage/ListingPage";
+import Cart from "views/Cart/Cart";
 import NavBar from "views/Components/NavBar/NavBar"
 import Footer from "components/Footer/Footer.js";
 import Account from "layouts/Account.js";
@@ -35,6 +36,7 @@ function App() {
           <Route path="/items" component={ListingPage} />
           <PrivateRoute path="/account" component={Account} />
           <PrivateRoute path="/addListing" component={Listing} />
+          <PrivateRoute path="/cart" component={Cart} />
           <PrivateRoute path="/external" component={ExternalApi} />
           <Redirect from="/" to="/search" />
         </Switch>
