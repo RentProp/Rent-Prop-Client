@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classNames from "classnames";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Header from "components/Header/Header.js";
 import Footer from "components/Footer/Footer.js";
@@ -29,27 +29,37 @@ const useStyles = makeStyles(styles);
 const useDownloadStyles = makeStyles(downloadStyles);
 
 export default function Dashboard(props) {
-  const initialValues = [
-    {
-      address: {},
-      name: "",
-      price: 0,
-      brand: "",
-      category: "",
-      description: "",
-      pictures: [],
-      reviews: [],
-      type: "",
-      seller: 0,
-      company: "",
-    },
-  ];
+  const { user, getAccessTokenSilently , isAuthenticated} = useAuth0();
+
+  const history = useHistory();
+  useEffect(() => {
+    (async () => {
+      if(isAuthenticated){
+      const token = await getAccessTokenSilently();
+      
+    fetch(`${apiUrl}/api/profiles/me`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      }
+    }).then((response) => {
+      if (!response.ok) {
+        console.log("SOMETHING WENT WRONG");
+        history.push("/capture-details");
+      } else {
+        console.log("SUCCESSS");
+        
+      }
+    });
+    }})(user);
+  }, [user.sub]);
+  
+
   const [items, setItems] = useState([]);
-  const [price, setPrice] = useState("");
   const classes = useStyles();
   const classesDownload = useDownloadStyles();
   const apiUrl = process.env.REACT_APP_API_URL;
-  const { user, getAccessTokenSilently } = useAuth0();
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoadingTrue, setLoading] = useState("False");
 

@@ -76,6 +76,7 @@ export default function Dashboard() {
                       type={item.type}
                       description = {item.description}
                       pictures = {item.pictures}
+                      id = {item.id}
                     />
                 );
               })}
