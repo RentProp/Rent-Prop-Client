@@ -33,7 +33,7 @@ function App() {
         <Switch>
           <PrivateRoute path="/capture-details" component={CaptureDetails} />
           <Route path="/search" component={Dashboard} />
-          <Route path="/items" component={ListingPage} />
+          <Route path="/item/:id" component={ListingPage} />
           <PrivateRoute path="/account" component={Account} />
           <PrivateRoute path="/addListing" component={Listing} />
           <PrivateRoute path="/cart" component={Cart} />
