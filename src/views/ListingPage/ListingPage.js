@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+/* global google */
+import React, { useState, useEffect } from 'react';
+import { useParams } from "react-router-dom";
 
 import styles from "assets/jss/material-kit-react/views/components.js";
 import { makeStyles } from "@material-ui/core/styles";
@@ -18,8 +20,11 @@ import Success from 'components/Typography/Success';
 import Danger from 'components/Typography/Danger';
 import Review from './Review';
 import DetailsTable from './DetailsTable';
+import Maps from 'views/Maps/Maps.js';
 
-var pageStyles = {...styles, ...imagesStyles,
+
+
+const pageStyles = {...styles, ...imagesStyles,
     imgFrame: { width: '100%', height: '100%', objectFit: 'contain'}, 
     textCenter: { textAlign: "center" }, 
     img: {maxWidth: '100%'},
@@ -28,16 +33,78 @@ var pageStyles = {...styles, ...imagesStyles,
     TabPageContainer: { height: "80vh", overflowY: "scroll"}
 }
 
+const defaultListing = {
+  name: "Default Item Name",
+  address: {
+    address: "",
+    city: "",
+    country: "",
+    google_map_link: "",
+    state: "",
+    zip: "",
+  },
+  brand: "Default Item Brand",
+  category: "Default Item Category",
+  company: "Default Company",
+  description: "This is default object. Very Nice!",
+  seller: 1,
+  reviews: [],
+  price: "0.00",
+  pictures: [
+    "https://via.placeholder.com/150",
+    "https://via.placeholder.com/250",
+  ],
+  type: "Default Item Type",
+};
+
 const useStyles = makeStyles(pageStyles);
 
 export default function ListingPage(props) {
     const classes = useStyles();
-    const [currentPage, setPage] = useState(0);
+    const geocoder = new google.maps.Geocoder();
+    const apiUrl = process.env.REACT_APP_API_URL;
+
+    const { id } = useParams();
+    // Hooks
+    const [isLoading, setLoading] = useState(true);
+    const [listing, setListing] = useState(defaultListing);
+    const [isLoadingCoords, setLoadingCoords] = useState(true);
+    const [coords, setCoords] = useState({ lat: 39.16, lng: -86.52 });
+    const [currentImage, setImage] = useState(0);    
     
+    useEffect(() => {
+      if (isLoading) {
+        fetch(`${apiUrl}/api/items/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            setListing(res);
+            setLoading(false);
+          })
+          .catch((e) => console.log(e));
+      } else {
+        if (isLoadingCoords) {
+          geocoder.geocode({address: listing.address.address}, (result, status) => {
+            if (status==="OK") {
+              let location = result[0].geometry.location;
+              setCoords({ lat: location.lat(), lng: location.lng()});
+            } else {
+              // Handle response failure     
+            }
+            setLoadingCoords(false);
+          });
+        }
+      }
+    },);
+
     const getPages = (images) => { 
         let pages = []; 
         for (let i = 0; i < images.length; i++) {
-            pages.push({ text: i + 1, onClick: () => setPage(i)});
+            pages.push({ text: i + 1, onClick: () => setImage(i)});
         }
         return pages;
     };
@@ -53,11 +120,9 @@ export default function ListingPage(props) {
         <GridContainer>
           <GridItem md={12}>
             <div style={{ display: "flex" }}>
-              <a>item</a>
+              <a>{listing.type}</a>
               <span style={{ margin: "0px 4px 0px 4px" }}>/</span>
-              <a>type</a>
-              <span style={{ margin: "0px 4px 0px 4px" }}>/</span>
-              <a>subtype</a>
+              <a>{listing.category}</a>
             </div>
           </GridItem>
           <GridItem xs={6} md={4} style={{ height: "60vh" }}>
@@ -66,13 +131,15 @@ export default function ListingPage(props) {
                 <div className={classes.imgFrame}>
                   <img
                     className={classes.img}
-                    src={images[currentPage]}
+                    src={images[currentImage]} //listing.pictures[currentImage]}
                     alt="listing"
                   />
                 </div>
               </CardBody>
             </Card>
-            <Pagination pages={getPages(images)}></Pagination>
+            <Pagination
+              pages={getPages(images) /*listing.pictures)*/}
+            ></Pagination>
           </GridItem>
           <GridItem xs={6} md={5} style={{ maxHeight: "65vh" }}>
             <div
@@ -82,7 +149,7 @@ export default function ListingPage(props) {
                 height: "100%",
               }}
             >
-              <h1 className={classes.mb0}>Item Name</h1>
+              <h1 className={classes.mb0}>{listing.name}</h1>
               <StyledRating name="listing-rating" rating={74} />
               <a>Seller</a>
               <ul style={{ overflowY: "scroll", height: "100%" }}>
@@ -121,7 +188,7 @@ export default function ListingPage(props) {
             <Card>
               <CardBody>
                 <Danger>
-                  <h3 className={classes.mb0}>$1017.99</h3>
+                  <h3 className={classes.mb0}>${listing.price}</h3>
                 </Danger>
                 <Success>
                   <h5 className={classes.mt0 + " " + classes.mb0}>In Stock</h5>
@@ -222,6 +289,14 @@ export default function ListingPage(props) {
                     </>
                   ),
                 },
+                {
+                  tabButton: "View On Map",
+                  tabContent: (
+                    <>
+                      <Maps coords={coords} />
+                    </>
+                  )
+                }
               ]}
             ></NavPills>
           </GridItem>
@@ -232,18 +307,7 @@ export default function ListingPage(props) {
                 <h3>Additional Information</h3>
                 <h5>Product Description</h5>
                 <p>
-                  The OTS All-Star is a classic adjustable hat. If you're
-                  gearing up for the big game, a tailgate party with friends, or
-                  really any time you feel like flexing your team spirit, OTS
-                  headwear will surely fit the bill. The All-Star has a
-                  structured crown and curved visor. With an adjustable strap,
-                  the All-Star is a one size fits all hat. This hat is crafted
-                  and constructed to last for years, premium quality, materials,
-                  and construction. The embroidery is stitched meticulously to
-                  show off your favorite team’s logo. OTS has a variety of
-                  licensed fanwear essentials -- both timeless and fashion
-                  forward designs that every true blue needs. Right fitting
-                  hats, super soft tees and proud team graphics.
+                  {listing.description}
                 </p>
               </CardBody>
             </Card>
@@ -259,7 +323,8 @@ export default function ListingPage(props) {
                     "Date First Available": "November 21, 2018",
                     Manufacture: "OTSBO Old Time Sports Booking",
                     ASIN: "B07KS228KQ",
-                    "RentNoww Best Seller's Rank": "#5,408 in Sports & Outdoors"
+                    "RentNoww Best Seller's Rank":
+                      "#5,408 in Sports & Outdoors",
                   }}
                 />
               </CardBody>
