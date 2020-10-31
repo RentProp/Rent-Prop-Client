@@ -73,6 +73,7 @@ export default function ListingPage(props) {
     const [currentImage, setImage] = useState(0);    
     
     useEffect(() => {
+      console.log(process.env);
       if (isLoading) {
         fetch(`${apiUrl}/api/items/${id}`, {
           method: "GET",
@@ -82,6 +83,7 @@ export default function ListingPage(props) {
         })
           .then((res) => res.json())
           .then((res) => {
+            console.log(res);
             setListing(res);
             setLoading(false);
           })
@@ -109,12 +111,6 @@ export default function ListingPage(props) {
         return pages;
     };
 
-    const images = [
-      "https://via.placeholder.com/150",
-      "https://via.placeholder.com/250",
-      "https://via.placeholder.com/350",
-    ];
-
     return (
       <div className={classes.container}>
         <GridContainer>
@@ -125,23 +121,18 @@ export default function ListingPage(props) {
               <a>{listing.category}</a>
             </div>
           </GridItem>
-          <GridItem xs={6} md={4} style={{ height: "60vh" }}>
-            <Card className={classes.textCenter} style={{ height: "80%" }}>
-              <CardBody>
-                <div className={classes.imgFrame}>
-                  <img
-                    className={classes.img}
-                    src={images[currentImage]} //listing.pictures[currentImage]}
-                    alt="listing"
-                  />
-                </div>
-              </CardBody>
+          <GridItem xs={6} md={4} style={{ height: "50vh" }}>
+            <Card className={classes.textCenter} style={{ display: "flex", flexDirection: "column", justifyContent: 'center', height: "80%" }}>
+              <img
+                className={classes.imgCard}
+                style={{ maxHeight: "100%", objectFit: 'contain' }}
+                src={listing.pictures[currentImage]}
+                alt="listing"
+              />
             </Card>
-            <Pagination
-              pages={getPages(images) /*listing.pictures)*/}
-            ></Pagination>
+            <Pagination pages={getPages(listing.pictures)} />
           </GridItem>
-          <GridItem xs={6} md={5} style={{ maxHeight: "65vh" }}>
+          <GridItem xs={6} md={5}>
             <div
               style={{
                 display: "flex",
@@ -151,37 +142,8 @@ export default function ListingPage(props) {
             >
               <h1 className={classes.mb0}>{listing.name}</h1>
               <StyledRating name="listing-rating" rating={74} />
-              <a>Seller</a>
-              <ul style={{ overflowY: "scroll", height: "100%" }}>
-                <li>
-                  [SPECIFICATIONS] Overall Dimensions: 15.75" W x 22" D x 22.75"
-                  H, Supply Drawers (Inside Dimensions): 12.5" W x 17.25" D x 2"
-                  H, File Drawer (Inside Dimensions): 12” W x 15.25” D x 10” H,
-                  Accommodates Letter or Legal Size Files
-                </li>
-                <li>
-                  [ADDED FEATURES] Caster on the File Drawer Prevents Tipping,
-                  Organizer Tray Included For Small Office Supplies, Fits Under
-                  Desk to Save Space, Plastic, Ridged Top With Lip Prevents
-                  Supplies From Slipping Off
-                </li>
-                <li>
-                  [SECURITY] Lock All 3 Drawers to Keep Your Files and Supplies
-                  Private, Two Keys are Provided, Durable Metal Construction
-                </li>
-                <li>
-                  [EASY TO ASSEMBLE] Ships Fully Assembled (Just Attach
-                  Casters), Ready to Use in Minutes
-                </li>
-                <li>
-                  [PACKAGING] Double Boxed in Recyclable Cardboard Added
-                  Protection When Shipping
-                </li>
-                <li>Overall Dimensions: 22” L x 15.75” W x 23” H</li>
-                <li>
-                  Top 2 Drawers Inside Dimensions: 12.5” W x 17.25” D x 2.25” H
-                </li>
-              </ul>
+              <a>{listing.company}</a>
+              <p>{listing.description}</p>
             </div>
           </GridItem>
           <GridItem md={3}>
@@ -295,13 +257,18 @@ export default function ListingPage(props) {
                     <>
                       <Maps coords={coords} />
                     </>
-                  )
-                }
+                  ),
+                },
               ]}
             ></NavPills>
           </GridItem>
+        </GridContainer>
+      </div>
+    );
+}
 
-          <GridItem md={8}>
+/*
+  <GridItem md={8}>
             <Card>
               <CardBody>
                 <h3>Additional Information</h3>
@@ -330,7 +297,4 @@ export default function ListingPage(props) {
               </CardBody>
             </Card>
           </GridItem>
-        </GridContainer>
-      </div>
-    );
-}
+ */
