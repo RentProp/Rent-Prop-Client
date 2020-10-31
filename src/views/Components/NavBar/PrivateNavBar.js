@@ -39,7 +39,7 @@ export default function PrivateNavBar() {
     history.push(path);
   };
   const routeCart = () => {
-    let path = `/cart`;
+    let path = `/user/cart`;
     history.push(path);
   };
   const routeAddItems = () => {

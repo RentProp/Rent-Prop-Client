@@ -106,6 +106,7 @@ export default function LoginPage(props) {
     <div>
       <GridContainer justify="center">
         <GridItem xs={11} sm={10} md={7} lg={7}>
+        <h2>Create Profile</h2>
           <Card>
             <CardHeader
               color="danger"

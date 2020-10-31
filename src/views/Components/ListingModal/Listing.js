@@ -116,14 +116,14 @@ export default function ListingModal(props) {
     let city = localStorage.getItem("city");
     let state = localStorage.getItem("state");
     let country = localStorage.getItem("country");
-    let googleMapLink = localStorage.getItem("googleMapLink");
+    let google_map_link = localStorage.getItem("googleMapLink");
       let address = {
       address: streeAddress,
       city,
       state,
       zip: zipCode,
       country,
-      google_map_link: googleMapLink,
+      google_map_link
     };
     let itemDetails = JSON.stringify({
       category : itemCategory,
@@ -136,6 +136,7 @@ export default function ListingModal(props) {
       pictures: url,
       address,
     });
+    console.log(itemDetails);
     callSecureApi(itemDetails);
   };
   if (isLoadingTrue === "True") {

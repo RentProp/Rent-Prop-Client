@@ -77,6 +77,7 @@ export default function Dashboard() {
                       description = {item.description}
                       pictures = {item.pictures}
                       id = {item.id}
+                      googleLink = {item.address.google_map_link}
                     />
                 );
               })}

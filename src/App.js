@@ -33,10 +33,10 @@ function App() {
         <Switch>
           <PrivateRoute path="/capture-details" component={CaptureDetails} />
           <Route path="/search" component={Dashboard} />
-          <Route path="/item/:id" component={ListingPage} />
+          <PrivateRoute path="/item/:id" component={ListingPage} />
           <PrivateRoute path="/account" component={Account} />
           <PrivateRoute path="/addListing" component={Listing} />
-          <PrivateRoute path="/cart" component={Cart} />
+          <PrivateRoute path="/user/cart" component={Cart} />
           <PrivateRoute path="/external" component={ExternalApi} />
           <Redirect from="/" to="/search" />
         </Switch>

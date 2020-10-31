@@ -149,6 +149,8 @@ export default function Dashboard(props) {
                       rating={74}
                       location={item.address.city}
                       image={item.pictures}
+                      userid = {user.sub}
+                      id = {item.id}
                     />
                   </div>
                 );
