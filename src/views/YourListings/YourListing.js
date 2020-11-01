@@ -79,8 +79,10 @@ export default function Dashboard() {
                       id = {item.id}
                       googleLink = {item.address.google_map_link}
                     />
+                    
                 );
               })}
+              {(items.length === 0) ? <h5>Looks like you have not listed items to rent out, Try doing that by clicking on Add Items to Listing!</h5> : <></>}
               </GridContainer>
                 ),
               },

@@ -1,5 +1,4 @@
 /* global google */
-import { Redirect, useHistory } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import styles from "assets/jss/material-kit-react/views/components.js";
 import { makeStyles } from "@material-ui/core/styles";
@@ -27,12 +26,9 @@ const cartStyles = {
 
 const useStyles = makeStyles(cartStyles);
 
-function CartListing(props) {
-  const history = useHistory();
+export default function CheckoutItem(props) {
   const item = props.item;
-  const { getAccessTokenSilently } = useAuth0();
   const geocoder = new google.maps.Geocoder();
-  const apiUrl = process.env.REACT_APP_API_URL;
   const classes = useStyles();
   const [isLoadingCoords, setLoadingCoords] = useState(true);
   const [coords, setCoords] = useState({ lat: 39.16, lng: -86.52 });
@@ -49,23 +45,6 @@ function CartListing(props) {
       });
     }
   });
-  const handleDeleteItem = async (id) => {
-    const token = await getAccessTokenSilently();
-    fetch(`${apiUrl}/api/carts/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    }).then((response) => {
-      if (!response.ok) {
-        console.log("SOMETHING WENT WRONG");
-      } else {
-        alert("Your item has been deleted");
-        history.push(window.location.origin);
-      }
-    });
-  };
   return (
     <Card>
       <CardBody>
@@ -94,11 +73,25 @@ function CartListing(props) {
             </GridContainer>
           </GridItem>
           <GridItem xs={4} md={3}>
-            <Button style={{ width: "100%" }} color="success" >
+            <Button style={{ width: "100%" }} color="success">
               Checkout!
             </Button>
           </GridItem>
         </GridContainer>
+        <GridContainer style={{ height: "100%", marginBottom: "15px" }}>
+          <GridItem xs={12}>
+              <h4 className={classes.heavyFont}>{item.name}</h4>
+                <h5 className={classes.compact}>
+                  {" "}
+                  {`${item.address.address} ${item.address.city}  ${item.address.state} ${item.address.country}`}{" "}
+                </h5>
+                <br></br>
+                <h5
+                  className={classes.compact}
+                  style={{ color: "#4caf50" }}
+                >{`$${item.price}`}</h5>
+          </GridItem>
+          </GridContainer>
         <GridContainer>
           <GridItem xs={12}>
             <Maps coords={coords} />
@@ -107,7 +100,7 @@ function CartListing(props) {
           </GridItem>
           <GridItem xs={1}>
             <Tooltip title="Remove Item">
-              <IconButton color="danger" aria-label="open drawer" onClick = {()=> handleDeleteItem(item.id)}>
+              <IconButton color="danger" aria-label="open drawer">
                 <Visibility />
               </IconButton>
             </Tooltip>
@@ -118,63 +111,3 @@ function CartListing(props) {
   );
 }
 
-export default function ListingPage(props) {
-  const classes = useStyles();
-  const apiUrl = process.env.REACT_APP_API_URL;
-  const { user, getAccessTokenSilently } = useAuth0();
-  const [items, setItems] = useState([]);
-  const [isLoading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const token = await getAccessTokenSilently();
-        fetch(`${apiUrl}/api/carts`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        })
-          .then((res) => res.json())
-          .then((res) => {
-            console.log(res);
-            setItems(res);
-            setLoading(false);
-          })
-          .catch((e) => console.log(e));
-      } catch {
-        console.log("Failed to get access token");
-      }
-    };
-    if (isLoading) {
-      fetchCart();
-    }
-  });
-
-  return (
-    <div className={classes.container}>
-      <GridContainer justify="center">
-        <GridItem xs={11} sm={10} md={10} lg={10}>
-          <Card>
-            <CardHeader color="danger">
-              <h4 className={classes.cardTitleWhite}>Your Cart</h4>
-            </CardHeader>
-            <CardBody>
-              {items.map((value) => {
-                return <CartListing item={value.item} />;
-              })}
-              {items.length === 0 ? (
-                <h5>
-                  Looks Like your cart is empty, look around and add some items!
-                </h5>
-              ) : (
-                <></>
-              )}
-            </CardBody>
-          </Card>
-        </GridItem>
-      </GridContainer>
-    </div>
-  );
-}

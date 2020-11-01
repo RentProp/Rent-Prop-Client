@@ -53,11 +53,12 @@ export default function Listing(props) {
     };
     const handleAddToCart = async (id, userid) => {
       const token = await getAccessTokenSilently();
-      let addItemToCart = {
-        id,
-        userid
-      }
-      fetch(`${apiUrl}/api/profiles/me/cart`, {
+      let addItemToCart = JSON.stringify({
+        item: id,
+        user_id: userid
+      })
+      alert(addItemToCart)
+      fetch(`${apiUrl}/api/carts`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -95,14 +96,14 @@ export default function Listing(props) {
             <div className={classes.row} style={{ marginBottom: "1em" }}>
               <LocationIcon className={classes.m0} />
               <p className={classes.m0} style={{ marginLeft: "0.5em" }}>
-                {props.location}
+                {props.location} 
               </p>
             </div>
             <div className={classes.row} style={{ justifyContent: "space-between" }}>
-              <Button color="success" style={{ flexGrow: 0 }} onClick= {()=> handleAddToCart(props.id, props.userid)}>Add To Cart</Button>
+              <Button color="danger" style={{ flexGrow: 0 }} onClick= {()=> handleAddToCart(props.id, props.userid)}>Add To Cart</Button>
               <p
                 style={{
-                  color: "#4caf50",
+                  color: "#f44336",
                   flexGrow: 0
                   //fontFamily: '"Roboto Slab", "Times New Roman", serif',
                 }}

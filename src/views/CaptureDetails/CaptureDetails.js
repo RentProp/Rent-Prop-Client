@@ -105,8 +105,7 @@ export default function LoginPage(props) {
   return (
     <div>
       <GridContainer justify="center">
-        <GridItem xs={11} sm={10} md={7} lg={7}>
-        <h2>Create Profile</h2>
+        <GridItem xs={11} sm={10} md={3} lg={3}>
           <Card>
             <CardHeader
               color="danger"
@@ -120,26 +119,9 @@ export default function LoginPage(props) {
                 alignItems="center"
                 justify="space-evenly"
               >
-                <GridItem style={{ justifyContent: "center", display: "flex" }}>
-                  <Badge
-                    overlap="circle"
-                    style={{ color: "#f44336" }}
-                    anchorOrigin={{
-                      vertical: "bottom",
-                      horizontal: "right",
-                    }}
-                    badgeContent={<AssignmentIcon />}
-                  >
-                    <Avatar
-                      alt={email}
-                      srcSet={picture}
-                      style={{ height: "75px", width: "75px" }}
-                    />
-                  </Badge>
-                </GridItem>
                 <form onSubmit={handleSubmit} style={{ width: "100%" }}>
                   <GridContainer>
-                    <GridItem xs={12} sm={12} md={6}>
+                    <GridItem xs={12} sm={12} md={12}>
                       <CustomInput
                         labelText="First Name"
                         id="float"
@@ -152,7 +134,9 @@ export default function LoginPage(props) {
                         value={firstName}
                       />
                     </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
+                    </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={12}>
                       <CustomInput
                         labelText="Last Name"
                         id="float"
@@ -167,7 +151,7 @@ export default function LoginPage(props) {
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
-                    <GridItem xs={12} sm={12} md={6}>
+                    <GridItem xs={12} sm={12} md={12}>
                       <CustomInput
                         labelText="Contact Number"
                         id="float"
@@ -180,10 +164,12 @@ export default function LoginPage(props) {
                         value={contactNumber}
                       />
                     </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
+                    </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={12}>
                       <CustomInput
                         labelText={"Email " + email}
-                        id="username"
+                        id="email"
                         formControlProps={{
                           fullWidth: true,
                         }}
@@ -195,10 +181,22 @@ export default function LoginPage(props) {
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <Address />
+                    <GridItem xs={12} sm={12} md={12}>
+                    <CustomInput
+                        labelText={"Username " + user.nickname}
+                        id="username"
+                        formControlProps={{
+                          fullWidth: true,
+                        }}
+                        inputProps={{
+                          disabled: true,
+                        }}
+                        defaultValue={"Username " + user.nickname}
+                      />
                     </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
+                    </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={12}>
                       <CustomInput
                         labelText="Zip Code"
                         id="float"
@@ -210,6 +208,11 @@ export default function LoginPage(props) {
                         }}
                         value={zipCode}
                       />
+                    </GridItem>
+                  </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={12}>
+                      <Address />
                     </GridItem>
                   </GridContainer>
                   <GridContainer>

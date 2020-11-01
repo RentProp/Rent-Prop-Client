@@ -30,28 +30,32 @@ const useDownloadStyles = makeStyles(downloadStyles);
 
 export default function Dashboard(props) {
   const { user, getAccessTokenSilently , isAuthenticated} = useAuth0();
-
+  const [userId, setUserId] = useState({});
   const history = useHistory();
   useEffect(() => {
     (async () => {
       if(isAuthenticated){
       const token = await getAccessTokenSilently();
-      
-    fetch(`${apiUrl}/api/profiles/me`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      }
-    }).then((response) => {
-      if (!response.ok) {
-        console.log("SOMETHING WENT WRONG");
-        history.push("/capture-details");
-      } else {
-        console.log("SUCCESSS");
-        
-      }
-    });
+      fetch(`${apiUrl}/api/profiles/me`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        }
+      }).then((response) => {
+        if (!response.ok) {
+          console.log("Public User") 
+          history.push("/capture-details");
+        } else {
+          return response.json()
+        }
+      })
+      .then((data) => {
+        if (data) {
+        setUserId(data.id)
+        console.log(data);
+        }
+      })
     }})(user);
   }, [user.sub]);
   
@@ -146,10 +150,10 @@ export default function Dashboard(props) {
                     <Listing
                       title={item.name}
                       price={item.price}
-                      rating={74}
+                      rating={4}
                       location={item.address.city}
                       image={item.pictures}
-                      userid = {user.sub}
+                      userid = {userId}
                       id = {item.id}
                     />
                   </div>
