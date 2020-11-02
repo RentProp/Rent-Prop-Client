@@ -1,5 +1,5 @@
 /* global google */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLocation } from "react";
 import styles from "assets/jss/material-kit-react/views/components.js";
 import { makeStyles } from "@material-ui/core/styles";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -27,12 +27,16 @@ const cartStyles = {
 const useStyles = makeStyles(cartStyles);
 
 export default function CheckoutItem(props) {
-  const item = props.item;
+  const [item, setItem]  = useState({});
+  const [userId, setUserId]  = useState("");
   const geocoder = new google.maps.Geocoder();
   const classes = useStyles();
   const [isLoadingCoords, setLoadingCoords] = useState(true);
   const [coords, setCoords] = useState({ lat: 39.16, lng: -86.52 });
   useEffect(() => {
+    setItem(localStorage.getItem("item"))
+    setUserId(localStorage.getItem("userid"))
+    console.log(item)
     if (isLoadingCoords) {
       geocoder.geocode({ address: item.address.address }, (result, status) => {
         if (status === "OK") {

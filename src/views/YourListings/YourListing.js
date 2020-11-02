@@ -7,8 +7,11 @@ import Code from "@material-ui/icons/Code";
 import Cloud from "@material-ui/icons/Cloud";
 import { useAuth0 } from "@auth0/auth0-react";
 import GridItem from "components/Grid/GridItem.js";
+import Card from "components/Card/Card.js";
+import CardHeader from "components/Card/CardHeader.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Tasks from "components/Tasks/Tasks.js";
+import CardBody from "components/Card/CardBody.js";
 import CustomTabs from "components/CustomTabs/CustomTabs.js";
 import { bugs, website, server } from "variables/general.js";
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
@@ -28,12 +31,12 @@ export default function Dashboard() {
   const [currentIndex, setIndex] = useState(0);
   const [currentRented, setCurrentRented] = useState(["A", "C"]);
   const [isLoadingTrue, setLoading] = useState("False");
-  
+
   useEffect(() => {
     (async () => {
       try {
         const token = await getAccessTokenSilently();
-        let userid = localStorage.getItem("userid")
+        let userid = localStorage.getItem("userid");
         let result = await fetch(`${apiUrl}/api/items?seller=${userid}`, {
           method: "GET",
           headers: {
@@ -42,63 +45,58 @@ export default function Dashboard() {
           },
         });
         const res = await result.json();
-        console.log(res)
+        console.log(res);
         await setData((previndex) => res);
       } catch {}
     })(items);
   }, [user.sub]);
-  
+
   if (isLoadingTrue === "True") {
     return <Loading />;
   }
   return (
-      <GridContainer>
-          <CustomTabs
-            headerColor="danger"
-            tabs={[
-              {
-                tabName: "Current Listings",
-                tabIcon: BugReport,
-                tabContent: (<GridContainer>
-                    {items.map((item, i) => {
-                return (
-                    <Listing
-                      title={item.name}
-                      price={item.price}
-                      location={item.address.address}
-                      state={item.address.state}
-                      country={item.address.country}
-                      zip={item.address.zip}
-                      city={item.address.city}
-                      image={item.pictures}
-                      brand={item.brand}
-                      category={item.category}
-                      type={item.type}
-                      description = {item.description}
-                      pictures = {item.pictures}
-                      id = {item.id}
-                      googleLink = {item.address.google_map_link}
-                    />
-                    
-                );
-              })}
-              {(items.length === 0) ? <h5>Looks like you have not listed items to rent out, Try doing that by clicking on Add Items to Listing!</h5> : <></>}
-              </GridContainer>
-                ),
-              },
-              {
-                tabName: "Currently Rented",
-                tabIcon: Code,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[]}
-                    tasksIndexes={[1, 2, 3, 4, 5]}
-                    tasks={currentRented}
-                  />
-                ),
-              },
-            ]}
-          />
-      </GridContainer>
+    <GridContainer>
+      <Card>
+        <CardHeader color="danger">
+          <h4 className={classes.cardTitleWhite}>Past Rentings</h4>
+          <p className={classes.cardCategoryWhite}>
+            Items that you have rented in the past!
+          </p>
+        </CardHeader>
+        <CardBody>
+          <GridContainer>
+            {items.map((item, i) => {
+              return (
+                <Listing
+                  title={item.name}
+                  price={item.price}
+                  location={item.address.address}
+                  state={item.address.state}
+                  country={item.address.country}
+                  zip={item.address.zip}
+                  city={item.address.city}
+                  image={item.pictures}
+                  brand={item.brand}
+                  category={item.category}
+                  type={item.type}
+                  description={item.description}
+                  pictures={item.pictures}
+                  id={item.id}
+                  googleLink={item.address.google_map_link}
+                />
+              );
+            })}
+            {items.length === 0 ? (
+              <h5>
+                Looks like you have not listed items to rent out, Try doing that
+                by clicking on Add Items to Listing!
+              </h5>
+            ) : (
+              <></>
+            )}
+          </GridContainer>
+        </CardBody>
+      </Card>
+    </GridContainer>
   );
 }
