@@ -122,17 +122,26 @@ export default function ListingPage(props) {
             </div>
           </GridItem>
           <GridItem xs={6} md={4} style={{ height: "50vh" }}>
-            <Card className={classes.textCenter} style={{ display: "flex", flexDirection: "column", justifyContent: 'center', height: "80%" }}>
+            <Card
+              className={classes.textCenter}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                height: "80%",
+                padding: 10,
+              }}
+            >
               <img
                 className={classes.imgCard}
-                style={{ maxHeight: "100%", objectFit: 'contain' }}
+                style={{ maxHeight: "100%", objectFit: "contain" }}
                 src={listing.pictures[currentImage]}
                 alt="listing"
               />
             </Card>
             <Pagination pages={getPages(listing.pictures)} />
           </GridItem>
-          <GridItem xs={6} md={5}>
+          <GridItem xs={6} md={5} style={{ height: "60vh" }}>
             <div
               style={{
                 display: "flex",
@@ -143,7 +152,7 @@ export default function ListingPage(props) {
               <h1 className={classes.mb0}>{listing.name}</h1>
               <StyledRating name="listing-rating" rating={74} />
               <a>{listing.company}</a>
-              <p>{listing.description}</p>
+              <p style={{overflowY: 'scroll'}}>{listing.description}</p>
             </div>
           </GridItem>
           <GridItem md={3}>
