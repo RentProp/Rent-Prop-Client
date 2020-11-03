@@ -21,6 +21,7 @@ import DateTimePicker from "components/DateTimePicker/DateTimePicker.js";
 import moment from 'moment';
 import Datetime from 'react-datetime';
 import { Alert } from "react-bootstrap";
+import Clearfix from "components/Clearfix/Clearfix.js";
 const cartStyles = {
   ...styles,
   rowContainer: { display: "flex", flexDirection: "row" },
@@ -48,6 +49,7 @@ function CartListing(props) {
   const [endDate, setEndDate] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [coords, setCoords] = useState({ lat: 39.16, lng: -86.52 });
+  
   useEffect(() => {
     if (isLoadingCoords) {
       geocoder.geocode({ address: item.address.address }, (result, status) => {
@@ -93,9 +95,9 @@ function CartListing(props) {
     callSecureApi(rentalProps);
   };
 
-  const handleDeleteItem = async (id) => {
+  const handleDeleteItem = async () => {
     const token = await getAccessTokenSilently();
-    fetch(`${apiUrl}/api/carts/${id}`, {
+    fetch(`${apiUrl}/api/carts/${props.cartId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -105,11 +107,14 @@ function CartListing(props) {
       if (!response.ok) {
         console.log("SOMETHING WENT WRONG");
       } else {
-        alert("Your item has been deleted");
-        history.push(window.location.origin);
+        alert("Your item has been deleted from the cart");
+        
+        let path ="/user/cart"
+        history.push(path);
       }
     });
   };
+  
   return (
     <Card>
       <CardBody>
@@ -130,6 +135,12 @@ function CartListing(props) {
                     {" "}
                     {`${item.address.address} ${item.address.city}  ${item.address.state} ${item.address.country}`}{" "}
                   </h5>
+                  
+                  <h5 className={classes.compact}>
+                    {" "}
+                    {`Seller ${item.seller_email} `}{" "}
+                    </h5>
+                  
                   <br></br>
                   <h5
                     className={classes.compact}
@@ -203,7 +214,7 @@ function CartListing(props) {
               <IconButton
                 color="danger"
                 aria-label="open drawer"
-                onClick={() => handleDeleteItem(item.id)}
+                onClick={() => handleDeleteItem()}
               >
                 <Visibility />
               </IconButton>
@@ -259,7 +270,7 @@ export default function ListingPage(props) {
             </CardHeader>
             <CardBody>
               {items.map((value) => {
-                return <CartListing item={value.item} user={value.user} />;
+                return <CartListing item={value.item} user={value.user} cartId = {value.id} />;
               })}
               {items.length === 0 ? (
                 <h5>
