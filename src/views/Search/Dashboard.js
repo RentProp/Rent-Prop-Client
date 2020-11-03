@@ -159,10 +159,9 @@ export default function Dashboard(props) {
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classesDownload.section}>
           <div className={classesDownload.container}>
-            <GridContainer>
+          <GridContainer>
               {items.map((item, i) => {
                 return (
-                  <div key={i}>
                     <Listing
                       title={item.name}
                       price={item.price}
@@ -172,10 +171,9 @@ export default function Dashboard(props) {
                       userid = {userId}
                       id = {item.id}
                     />
-                  </div>
                 );
               })}
-            </GridContainer>
+               </GridContainer>
           </div>
         </div>
       </div>

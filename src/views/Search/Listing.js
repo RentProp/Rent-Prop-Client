@@ -88,8 +88,8 @@ export default function Listing(props) {
   }
     return (
       
-      <GridItem xs={5} md={5}>
-        {addCart() ? 
+      <GridItem xs={3} md={3}>
+        {/* {addCart() ? 
         <SnackbarContent
         message={
           <span>
@@ -100,7 +100,7 @@ export default function Listing(props) {
         color="success"
         icon={Check}
       />
-       : ""}
+       : ""} */}
         <Card>
           <ButtonBase onClick = {()=> redirectToItemPage(props.id)}>
           <img
