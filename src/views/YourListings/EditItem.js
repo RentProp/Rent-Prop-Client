@@ -163,7 +163,6 @@ export default function Cards(props) {
       pictures: url,
       address,
     });
-    alert(itemDetails);
     callSecureApi(itemDetails);
   };
   if (isLoadingTrue === "True") {
