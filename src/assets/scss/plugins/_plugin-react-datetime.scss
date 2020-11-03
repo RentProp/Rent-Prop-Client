@@ -1,6 +1,7 @@
 /*!
 * https://github.com/YouCanBookMe/react-datetime
 */
+
 .rdt {
   position: relative;
   .rdtPicker {
@@ -23,7 +24,7 @@
   }
   input.form-control {
     border: 0;
-    background-image: linear-gradient(#9c27b0, #9c27b0),
+    background-image: linear-gradient(#ef5350, #ef5350),
       linear-gradient(#d2d2d2, #d2d2d2);
     background-size: 0 2px, 100% 1px;
     background-repeat: no-repeat;
@@ -36,7 +37,7 @@
     font-weight: 400;
     width: 100%;
     height: 36px;
-    padding: 7px 0;
+    padding: 1px 0;
     font-size: 14px;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     font-weight: 400;
@@ -47,7 +48,7 @@
   }
   input.form-control:focus {
     outline: none;
-    background-image: linear-gradient(#9c27b0, #9c27b0),
+    background-image: linear-gradient(#ef5350,#ef5350),
       linear-gradient(#d2d2d2, #d2d2d2);
     background-size: 100% 2px, 100% 1px;
     box-shadow: none;
@@ -113,7 +114,7 @@
 .rdtPicker table {
   width: 100%;
   margin: 0;
-  border-color: $white-color !important;
+  border-color: #fff !important;
   border-collapse: collapse;
 }
 .rdtPicker td,
@@ -134,9 +135,8 @@
   &.rdtToday.rdtActive,
   &.rdtActive,
   &.rdtActive:hover {
-    background-color: $brand-primary !important;
-    color: $white-color;
-    @include shadow-big-color($brand-primary);
+    background-color: #ef5350 !important;
+    color: #fff;
   }
 }
 .rdtDays {
@@ -152,7 +152,7 @@
     }
     .rdtOld,
     .rdtNew {
-      color: $grey-a400;
+      color: #BDBDBD;
     }
   }
 }
@@ -210,7 +210,7 @@
   th.rdtNext,
   th.rdtPrev,
   .rdtTimeToggle {
-    color: $brand-primary;
+    color: #ef5350;
   }
 }
 
@@ -288,7 +288,7 @@ td.rdtYear:hover {
 .rdtCounter {
   width: 40px;
   .rdtCount {
-    padding: 7px;
+    padding: 2px;
     height: 40px;
     border: 1px solid transparent;
   }
@@ -296,15 +296,15 @@ td.rdtYear:hover {
 .rdtCounters {
   .rdtCounter:last-child {
     .rdtCount {
-      color: $brand-primary;
+      color: #ef5350;
       border-radius: 50%;
-      border: 1px solid $brand-primary;
+      border: 1px solid #ef5350;
     }
   }
 }
 
 .rdtCounterSeparator {
-  padding: 7px;
+  padding: 2px;
   line-height: 100px;
 }
 .rdtCounter .rdtBtn {
@@ -312,7 +312,7 @@ td.rdtYear:hover {
   cursor: pointer;
   display: block;
   border-radius: 50%;
-  color: $grey-a200;
+  color: #BDBDBD;
   -webkit-transition: all 60ms ease-in;
   -moz-transition: all 60ms ease-in;
   -o-transition: all 60ms ease-in;
@@ -361,8 +361,8 @@ td.rdtYear:hover {
     text-align: center;
 
     &.rdtActive {
-      background-color: $brand-primary !important;
-      color: $white-color;
+      background-color: #ef5350 !important;
+      color: #fff;
     }
   }
 }

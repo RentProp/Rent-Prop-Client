@@ -30,32 +30,8 @@ const useDownloadStyles = makeStyles(downloadStyles);
 
 export default function Dashboard(props) {
   const { user, getAccessTokenSilently , isAuthenticated} = useAuth0();
-
+  const [userId, setUserId] = useState({});
   const history = useHistory();
-  useEffect(() => {
-    (async () => {
-      if(isAuthenticated){
-      const token = await getAccessTokenSilently();
-      
-    fetch(`${apiUrl}/api/profiles/me`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      }
-    }).then((response) => {
-      if (!response.ok) {
-        console.log("SOMETHING WENT WRONG");
-        history.push("/capture-details");
-      } else {
-        console.log("SUCCESSS");
-        
-      }
-    });
-    }})(user);
-  }, [user.sub]);
-  
-
   const [items, setItems] = useState([]);
   const classes = useStyles();
   const classesDownload = useDownloadStyles();
@@ -63,6 +39,50 @@ export default function Dashboard(props) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoadingTrue, setLoading] = useState("False");
 
+  useEffect(() => {
+    (async () => {
+      if(isAuthenticated){
+      const token = await getAccessTokenSilently();
+      fetch(`${apiUrl}/api/profiles/me`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        }
+      }).then((response) => {
+        if (!response.ok) {
+          console.log("Public User") 
+          history.push("/capture-details");
+        } else {
+          return response.json()
+        }
+      })
+      .then((data) => {
+        if (data) {
+        setUserId(data.id)
+        console.log(data);
+        }
+      })
+    }})(user);
+  }, [user.sub]);
+
+  
+  useEffect(() => {
+    (async () => {
+      fetch(`${apiUrl}/api/recommended`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      }).then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setItems((previndex) => data);
+      });
+    })(searchTerm);
+  }, [searchTerm]);
+
+  
   const callSecureApi = (searchTerm) => {
     console.log("sending request");
     fetch(`${apiUrl}/api/items?search=${searchTerm}`, {
@@ -139,21 +159,21 @@ export default function Dashboard(props) {
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classesDownload.section}>
           <div className={classesDownload.container}>
-            <GridContainer>
+          <GridContainer>
               {items.map((item, i) => {
                 return (
-                  <div key={i}>
                     <Listing
                       title={item.name}
                       price={item.price}
-                      rating={74}
+                      rating={4}
                       location={item.address.city}
                       image={item.pictures}
+                      userid = {userId}
+                      id = {item.id}
                     />
-                  </div>
                 );
               })}
-            </GridContainer>
+               </GridContainer>
           </div>
         </div>
       </div>

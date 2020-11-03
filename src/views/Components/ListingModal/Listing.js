@@ -87,7 +87,7 @@ export default function ListingModal(props) {
       );
     });
     Promise.all(promises)
-      .then(() => alert("All files uploaded"))
+      .then(() => console.log("All files uploaded"))
       .catch((err) => console.log(err.code));
   };
   const callSecureApi = async (itemDetails) => {
@@ -116,14 +116,14 @@ export default function ListingModal(props) {
     let city = localStorage.getItem("city");
     let state = localStorage.getItem("state");
     let country = localStorage.getItem("country");
-    let googleMapLink = localStorage.getItem("googleMapLink");
+    let google_map_link = localStorage.getItem("googleMapLink");
       let address = {
       address: streeAddress,
       city,
       state,
       zip: zipCode,
       country,
-      google_map_link: googleMapLink,
+      google_map_link
     };
     let itemDetails = JSON.stringify({
       category : itemCategory,
@@ -136,6 +136,7 @@ export default function ListingModal(props) {
       pictures: url,
       address,
     });
+    console.log(itemDetails);
     callSecureApi(itemDetails);
   };
   if (isLoadingTrue === "True") {
@@ -144,7 +145,7 @@ export default function ListingModal(props) {
   return (
     <div className={classes.container}>
       <GridContainer justify="center">
-        <GridItem xs={11} sm={10} md={7} lg={7}>
+        <GridItem xs={11} sm={10} md={4} lg={4}>
           <form onSubmit={handleSubmit} style={{ width: "100%" }}>
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
@@ -272,7 +273,7 @@ export default function ListingModal(props) {
                     <GridContainer>
                       <GridItem xs={12} sm={12} md={9}>
                         <Input
-                        required
+                          required
                           type="file"
                           inputProps={{ multiple: true }}
                           onChange={handleImageChange}
@@ -280,7 +281,7 @@ export default function ListingModal(props) {
                         />
                       </GridItem>
                       <GridItem xs={12} sm={12} md={3}>
-                        <Button
+                      <Button
                           variant="contained"
                           color="danger"
                           component="span"
@@ -289,7 +290,7 @@ export default function ListingModal(props) {
                           Upload
                         </Button>
                       </GridItem>
-                      <GridItem xs={12} sm={12} md={3}>
+                      <GridItem xs={12} sm={12} md={12}>
                         {url.map((u) => (
                           <img
                             src={u || "http://via.placeholder.com/300"}
@@ -305,7 +306,7 @@ export default function ListingModal(props) {
                           type="submit"
                           value="Submit"
                           color="danger"
-                          style={{ width: "100%" }}
+                          style={{ width: "100%", marginTop: "15px" }}
                         >
                           Submit
                         </Button>

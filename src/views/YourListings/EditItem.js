@@ -39,21 +39,22 @@ const useStyles = makeStyles(styles);
 export default function Cards(props) {
   const history = useHistory();
   const { user, getAccessTokenSilently } = useAuth0();
-  const [itemCategory, setItemCategory] = useState("");
-  const [itemType, setItemType] = useState("");
-  const [itemName, setItemName] = useState("");
-  const [itemBrand, setItemBrand] = useState("");
-  const [itemPrice, setItemPrice] = useState("");
-  const [itemDescription, setItemDescription] = useState("");
-  const [zipCode, setZipCode] = useState("");
-  const [state, setState] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [address, setAddress] = useState("");
+  const [itemCategory, setItemCategory] = useState(props.category);
+  const [itemType, setItemType] = useState(props.type);
+  const [itemName, setItemName] = useState(props.title);
+  const [itemBrand, setItemBrand] = useState(props.brand);
+  const [itemPrice, setItemPrice] = useState(props.price);
+  const [itemDescription, setItemDescription] = useState(props.description);
+  const [zipCode, setZipCode] = useState(props.zip);
+  const [state, setState] = useState(props.state);
+  const [city, setCity] = useState(props.city);
+  const [country, setCountry] = useState(props.country);
+  const [itemaddress, setAddress] = useState(props.location);
+  const [google_map_link, setGoogleLocation] = useState(props.googleLink);
   const [setItemImage, setImage] = useState([]);
-  const classes = useStyles();
-  const [url, setUrl] = useState([]);
   const [progress, setProgress] = useState(0);
+  const classes = useStyles();
+  const [url, setUrl] = useState(props.pictures);
   const apiUrl = process.env.REACT_APP_API_URL;
   const [modal, setModal] = React.useState(false);
   const [isLoadingTrue, setLoading] = useState("False");
@@ -98,9 +99,10 @@ export default function Cards(props) {
   };
   const callSecureApi = async (itemDetails) => {
     console.log(itemDetails);
+    let id = props.id;
     const token = await getAccessTokenSilently();
-    fetch(`${apiUrl}/api/items`, {
-      method: "POST",
+    fetch(`${apiUrl}/api/items/${id}`, {
+      method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -142,12 +144,13 @@ export default function Cards(props) {
     evt.preventDefault();
     setLoading("True");
     handleUpload();
-    let streetAddress = {
-      address,
+    let address = {
+      address: itemaddress,
       city,
       state,
       zip: zipCode,
       country,
+      google_map_link,
     };
     let itemDetails = JSON.stringify({
       category: itemCategory,
@@ -158,10 +161,9 @@ export default function Cards(props) {
       company: user.email,
       description: itemDescription,
       pictures: url,
-      streetAddress,
+      address,
     });
-    alert(itemDetails);
-    // callSecureApi(itemDetails);
+    callSecureApi(itemDetails);
   };
   if (isLoadingTrue === "True") {
     return <Loading />;
@@ -236,7 +238,7 @@ export default function Cards(props) {
             <GridContainer>
               <GridItem xs={12} sm={6} md={6} lg={6}>
                 <Input
-                  value={props.title}
+                  defaultValue={props.title}
                   onChange={(e) => setItemName(e.target.value)}
                   inputProps={{ "aria-label": "description" }}
                 />
@@ -244,7 +246,7 @@ export default function Cards(props) {
 
               <GridItem xs={12} sm={6} md={6} lg={6}>
                 <Input
-                  value={props.price}
+                  defaultValue={props.price}
                   onChange={(e) => setItemPrice(e.target.value)}
                   inputProps={{ "aria-label": "description" }}
                 />
@@ -293,6 +295,7 @@ export default function Cards(props) {
               </GridItem>
               <GridItem xs={12} sm={6} md={6} lg={6}>
                 <Input
+                  value={state || ""}
                   defaultValue={props.state}
                   onChange={(e) => setState(e.target.value)}
                   inputProps={{ "aria-label": "description" }}
@@ -329,7 +332,6 @@ export default function Cards(props) {
             <GridContainer>
               <GridItem xs={12} sm={12} md={12} lg={12}>
                 <Input
-                  required
                   type="file"
                   inputProps={{ multiple: true }}
                   onChange={handleImageChange}

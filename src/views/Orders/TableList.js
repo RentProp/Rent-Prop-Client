@@ -1,13 +1,20 @@
-import React from "react";
+import { Redirect, useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
 import GridItem from "components/Grid/GridItem.js";
+import BugReport from "@material-ui/icons/BugReport";
 import GridContainer from "components/Grid/GridContainer.js";
 import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
+import CustomTabs from "components/CustomTabs/CustomTabs.js";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Loading } from "../../../src/components";
 import CardBody from "components/Card/CardBody.js";
+import Listing from "./PastCard";
 
 const styles = {
   cardCategoryWhite: {
@@ -16,11 +23,11 @@ const styles = {
       margin: "0",
       fontSize: "14px",
       marginTop: "0",
-      marginBottom: "0"
+      marginBottom: "0",
     },
     "& a,& a:hover,& a:focus": {
-      color: "#FFFFFF"
-    }
+      color: "#FFFFFF",
+    },
   },
   cardTitleWhite: {
     color: "#FFFFFF",
@@ -34,45 +41,73 @@ const styles = {
       color: "#777",
       fontSize: "65%",
       fontWeight: "400",
-      lineHeight: "1"
-    }
-  }
+      lineHeight: "1",
+    },
+  },
 };
 
 const useStyles = makeStyles(styles);
 
-
-
-
-
 export default function TableList() {
   const classes = useStyles();
+  const history = useHistory();
+  const { user, getAccessTokenSilently } = useAuth0();
+  const [items, setData] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const [isLoadingTrue, setLoading] = useState("False");
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const token = await getAccessTokenSilently();
+        let userid = localStorage.getItem("userid");
+        let result = await fetch(`${apiUrl}/api/itemrentals?seller=${userid}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        const res = await result.json();
+        console.log(res);
+        await setData((previndex) => res);
+      } catch {}
+    })(items);
+  }, [user.sub]);
+  if (isLoadingTrue === "True") {
+    return <Loading />;
+  }
   return (
     <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="danger">
-            <h4 className={classes.cardTitleWhite}>Past Rentings</h4>
-            <p className={classes.cardCategoryWhite}>
-              Items that you have rented in the past! 
-            </p>
-          </CardHeader>
-          <CardBody>
-            <Table
-              tableHeaderColor="danger"
-              tableHead={["Name", "Dates", "Owner", "Price"]}
-              tableData={[
-                ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
-                ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
-                ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
-                ["Philip Chaney", "Korea, South", "Overland Park", "$38,735"],
-                ["Doris Greene", "Malawi", "Feldkirchen in Kärnten", "$63,542"],
-                ["Mason Porter", "Chile", "Gloucester", "$78,615"]
-              ]}
-            />
-          </CardBody>
-        </Card>
-      </GridItem>
+      <Card>
+        <CardHeader color="danger">
+          <h4 className={classes.cardTitleWhite}>Past Rentings</h4>
+          <p className={classes.cardCategoryWhite}>
+            Items that you have rented in the past!
+          </p>
+        </CardHeader>
+        <CardBody>
+          <GridContainer>
+            {items.map((item, i) => {
+              return (
+                <Listing
+                  begin_at={item.begin_at}
+                  end_at={item.begin_at}
+                  itemObject={item.item}
+                />
+              );
+            })}
+            {items.length === 0 ? (
+              <h5>
+                Looks like you have not rented anything, Try doing that by
+                clicking on Discover!
+              </h5>
+            ) : (
+              <></>
+            )}
+          </GridContainer>
+        </CardBody>
+      </Card>
     </GridContainer>
   );
 }

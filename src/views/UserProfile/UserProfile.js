@@ -55,8 +55,8 @@ export default function UserProfile() {
   const [state, setState] = useState("");
   const [url, setUrl] = useState("");
   const apiUrl = process.env.REACT_APP_API_URL;
-  const [isLoadingTrue, setLoading] = useState("False");
-  
+  const [isLoadingTrue, setLoading] = useState(false);
+
   useEffect(() => {
     (async () => {
       try {
@@ -69,7 +69,7 @@ export default function UserProfile() {
           },
         });
         const res = await result.json();
-        localStorage.setItem("userid", res.id)
+        localStorage.setItem("userid", res.id);
         await setFirstName((prevFirstName) => res.first_name);
         await setLastName((prevlastName) => res.last_name);
         await setContactNumber((prevContactNumber) => res.contact_number);
@@ -83,9 +83,7 @@ export default function UserProfile() {
     })(data);
   }, [user.sub]);
 
-
   const callSecureApi = async (userDetails) => {
-    
     const token = await getAccessTokenSilently();
     fetch(`${apiUrl}/api/profiles/me`, {
       method: "PUT",
@@ -104,7 +102,7 @@ export default function UserProfile() {
     });
   };
   const handleSubmit = (evt) => {
-    setLoading("True")
+    setLoading("True");
     evt.preventDefault();
     let auth0_id = user.sub;
     let username = user.nickname;
@@ -126,15 +124,13 @@ export default function UserProfile() {
       contact_number: contactNumber,
       address,
     });
-    alert(userDetails)
     console.log(userDetails);
     callSecureApi(userDetails);
   };
-  
-  if (isLoadingTrue === "True") {
+
+  if (isLoadingTrue) {
     return <Loading />;
   }
-  
 
   const { email, picture, name, nickname } = user;
   return (
@@ -142,13 +138,19 @@ export default function UserProfile() {
       <GridContainer>
         <GridItem xs={12} sm={12} md={8}>
           <Card>
-          <form onSubmit={handleSubmit} className={classes.root} noValidate autoComplete="off">
-            <CardHeader color="danger">
-              <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
-              <p className={classes.cardCategoryWhite}>Type the fields you wnat to update</p>
-            </CardHeader>
-            <CardBody>
-              
+            <form
+              onSubmit={handleSubmit}
+              className={classes.root}
+              noValidate
+              autoComplete="off"
+            >
+              <CardHeader color="danger">
+                <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
+                <p className={classes.cardCategoryWhite}>
+                  Type the fields you wnat to update
+                </p>
+              </CardHeader>
+              <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
@@ -215,8 +217,8 @@ export default function UserProfile() {
                         fullWidth: true,
                       }}
                       inputProps={{
-                          onChange: (e) => setContactNumber(e.target.value),
-                        }}
+                        onChange: (e) => setContactNumber(e.target.value),
+                      }}
                       value={contactNumber}
                     />
                   </GridItem>
@@ -278,12 +280,13 @@ export default function UserProfile() {
                     />
                   </GridItem>
                 </GridContainer>
-              
-            </CardBody>
+              </CardBody>
 
-            <CardFooter>
-              <Button color="danger" type="submit">Update Profile</Button>
-            </CardFooter>
+              <CardFooter>
+                <Button color="danger" type="submit">
+                  Update Profile
+                </Button>
+              </CardFooter>
             </form>
           </Card>
         </GridItem>
