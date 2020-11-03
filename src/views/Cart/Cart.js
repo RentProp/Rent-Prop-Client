@@ -91,7 +91,6 @@ function CartListing(props) {
       renter: userid,
       item : itemid
     });
-    alert(rentalProps);
     callSecureApi(rentalProps);
   };
 
