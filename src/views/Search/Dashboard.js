@@ -21,6 +21,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import { IconButton, InputAdornment } from "@material-ui/core";
 import Listing from "./Listing";
 import Filters from "./Filters";
+import ChatBot from "../ChatBot/ChatBot";
 import downloadStyles from "assets/jss/material-kit-react/views/componentsSections/downloadStyle.js";
 
 styles["transparent"] = { backgroundColor: "rgba(255, 255, 255, 0.5)" };

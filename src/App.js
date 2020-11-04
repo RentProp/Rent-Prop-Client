@@ -9,6 +9,7 @@ import { Home, Profile, ExternalApi } from "./views";
 import { createBrowserHistory } from "history";
 import Dashboard from "views/Search/Dashboard.js";
 import ProfilePage from "views/Components/ProfilePage/ProfilePage.js";
+import ChatBot from "views/ChatBot/ChatBot.js";
 import CaptureDetails from "views/CaptureDetails/CaptureDetails.js"
 import ListingPage from "views/ListingPage/ListingPage";
 import Cart from "views/Cart/Cart";
@@ -34,6 +35,7 @@ function App() {
         <Switch>
           <PrivateRoute path="/capture-details" component={CaptureDetails} />
           <Route path="/search" component={Dashboard} />
+          
           <PrivateRoute path="/item/:id" component={ListingPage} />
           <PrivateRoute path="/account" component={Account} />
           <PrivateRoute path="/addListing" component={Listing} />
@@ -42,6 +44,7 @@ function App() {
           <PrivateRoute path="/external" component={ExternalApi} />
           <Redirect from="/" to="/search" />
         </Switch>
+        <ChatBot />
       <Footer />
     </div>
   );
