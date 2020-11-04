@@ -5,16 +5,27 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 // @material-ui/icons
 import Check from "@material-ui/icons/Check";
+import "./Filters.css";
 
 import styles from "assets/jss/material-kit-react/customCheckboxRadioSwitch.js";
 
 styles["checkboxesContainer"] = {display: 'flex', flexDirection: 'column'};
+styles["checkboxesLabel"] = {
+    color: "#979097",
+    cursor: "pointer",
+    display: "inline-flex",
+    transition: "0.3s ease all",
+    fontWeight: 400,
+    lineHeight: 1.428571429,
+    paddingLeft: 0,
+    letterSpacing: 'unset'
+  };
 
 const useStyles = makeStyles(styles);
 
-function CustomCheckbox(props) {
+export function CustomCheckbox(props) {
     const classes = useStyles();
-
+    console.log(classes.label);
     return (
       <div
         className={classes.checkboxAndRadio}
@@ -31,14 +42,14 @@ function CustomCheckbox(props) {
               classes={{ checked: classes.checked }}
             />
           }
-          classes={{ label: classes.label }}
+          classes={{ label: classes.checkboxesLabel }}
           label={props.label}
         />
       </div>
     );
 }
 
-export default function Checkboxes(props) {
+export function Checkboxes(props) {
     const classes = useStyles();
 
     return (
