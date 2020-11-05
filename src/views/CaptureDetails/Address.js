@@ -53,15 +53,22 @@ class Address extends React.Component {
       <input
         ref={this.autocompleteInput}
         id="autocomplete"
-        placeholder="Enter your address *"
+        placeholder="Address *"
         type="text"
         style={{
           width: "100%",
-          border: "0px",
-          marginTop: "25px",
-          marginBottom: "25px",
+          borderTop: "0px",
+          borderRight: "0px",
+          borderLeft: "0px",
+          borderColor: "#d2d2d2",
+          borderWidth: "1px",
+          marginTop: "34px",
+          marginBottom: "22px",
           fontSize: "14px",
-          color: "#495057"
+          color: "#495057",
+          paddingBottom: "7px",
+          paddingLeft: "0px",
+          fontFamily: "inherit"
         }}
       ></input>
     );

@@ -104,7 +104,7 @@ export default function Listing(props) {
         <Card>
           <ButtonBase onClick = {()=> redirectToItemPage(props.id)}>
           <img
-            style={{ height: "180px", width: "100%", display: "block" }}
+            style={{ height: "180px", width: "100%", display: "block" , objectFit : "contain"}}
             className={classes.imgCardTop}
             src={props.image}
             alt="Card-img-cap"

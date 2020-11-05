@@ -2,6 +2,7 @@ import React from "react";
 // @material-ui/core components
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
+import {  Link } from "react-router-dom";
 import ListItem from "@material-ui/core/ListItem";
 import Explore from "@material-ui/icons/Explore";
 import ExitToApp from "@material-ui/icons/ExitToApp";
@@ -53,7 +54,7 @@ export default function PrivateNavBar() {
   };
   return (
     <Header
-      brand={<img src={logo} alt="logo" />}
+      brand={<Link to="/search"><img src={logo} alt="logo"  /> </Link>}
       color="danger"
       rightLinks={
         <List className={classes.list}>

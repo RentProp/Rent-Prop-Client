@@ -81,7 +81,7 @@ export default function TableList() {
     <GridContainer>
       <Card>
         <CardHeader color="danger">
-          <h4 className={classes.cardTitleWhite}>Past Rentings</h4>
+          <h4 className={classes.cardTitleWhite}>Past Rentals</h4>
           <p className={classes.cardCategoryWhite}>
             Items that you have rented in the past!
           </p>

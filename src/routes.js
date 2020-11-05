@@ -50,7 +50,7 @@ const dashboardRoutes = [
   
   {
     path: "/table",
-    name: "Past Rentings",
+    name: "Past Rentals",
     icon: "content_paste",
     component: TableList,
     layout: "/account"
