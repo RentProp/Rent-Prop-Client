@@ -46,9 +46,7 @@ export default function LoginPage(props) {
   //   })(firstName);
   // }, [user.sub]);
 
-
   const callSecureApi = async (userDetails) => {
-    
     const token = await getAccessTokenSilently();
     fetch(`${apiUrl}/api/profiles`, {
       method: "POST",
@@ -67,7 +65,7 @@ export default function LoginPage(props) {
     });
   };
   const handleSubmit = (evt) => {
-    setLoading("True")
+    setLoading("True");
     evt.preventDefault();
     let streeAddress = localStorage.getItem("streeAddress");
     let city = localStorage.getItem("city");
@@ -97,7 +95,7 @@ export default function LoginPage(props) {
     console.log(userDetails);
     callSecureApi(userDetails);
   };
-  
+
   if (isLoadingTrue === "True") {
     return <Loading />;
   }
@@ -111,7 +109,7 @@ export default function LoginPage(props) {
               color="danger"
               style={{ justifyContent: "center", display: "flex" }}
             >
-              Create Profile
+              <h3>Create Your Profile</h3>
             </CardHeader>
             <CardBody>
               <GridContainer
@@ -134,7 +132,7 @@ export default function LoginPage(props) {
                         value={firstName}
                       />
                     </GridItem>
-                    </GridContainer>
+                  </GridContainer>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={12}>
                       <CustomInput
@@ -164,7 +162,7 @@ export default function LoginPage(props) {
                         value={contactNumber}
                       />
                     </GridItem>
-                    </GridContainer>
+                  </GridContainer>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={12}>
                       <CustomInput
@@ -182,7 +180,7 @@ export default function LoginPage(props) {
                   </GridContainer>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={12}>
-                    <CustomInput
+                      <CustomInput
                         labelText={"Username " + user.nickname}
                         id="username"
                         formControlProps={{
@@ -194,7 +192,12 @@ export default function LoginPage(props) {
                         defaultValue={"Username " + user.nickname}
                       />
                     </GridItem>
-                    </GridContainer>
+                  </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={12}>
+                      <Address />
+                    </GridItem>
+                  </GridContainer>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={12}>
                       <CustomInput
@@ -208,11 +211,6 @@ export default function LoginPage(props) {
                         }}
                         value={zipCode}
                       />
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={12}>
-                      <Address />
                     </GridItem>
                   </GridContainer>
                   <GridContainer>

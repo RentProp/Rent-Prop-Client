@@ -73,9 +73,10 @@ export default function Cards(props) {
   };
 
   return (
-    <Card style={{ margin: "5px", width: "20%" }}>
+    <Card style={{ margin: "5px", width: "20%"  }}>
       <img
-        style={{ height: "180px", width: "100%", display: "block" }}
+        style={{ height: "180px", width: "100%", display: "block" ,
+        objectFit: "contain" }}
         className={classes.imgCardTop}
         src={props.itemObject.pictures[0]}
         alt="Card-img-cap"
@@ -108,7 +109,7 @@ export default function Cards(props) {
           </GridItem>
         </GridContainer>
 
-        <Button color="danger" onClick={() => viewItem(props.itemObject.id)}>
+        <Button color="danger" onClick={() => viewItem(props.itemObject.id)} style = {{width:"100%", marginTop: "15px"}}>
           View Item
         </Button>
       </CardBody>
