@@ -21,6 +21,7 @@ import Danger from 'components/Typography/Danger';
 import Review from './Review';
 import DetailsTable from './DetailsTable';
 import Maps from 'views/Maps/Maps.js';
+import { Loading } from "../../../src/components";
 
 
 
@@ -111,7 +112,7 @@ export default function ListingPage(props) {
         return pages;
     };
 
-    return (
+    return (isLoading) ? <Loading /> : (
       <div className={classes.container}>
         <GridContainer>
           <GridItem md={12}>
@@ -264,7 +265,7 @@ export default function ListingPage(props) {
                   tabButton: "View On Map",
                   tabContent: (
                     <>
-                      <Maps coords={coords} />
+                      (isLoadingCoords) ? <Loading /> : <Maps coords={coords} />
                     </>
                   ),
                 },
