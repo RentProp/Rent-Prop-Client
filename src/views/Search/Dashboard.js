@@ -23,8 +23,30 @@ import Listing from "./Listing";
 import Filters from "./Filters";
 import ChatBot from "../ChatBot/ChatBot";
 import downloadStyles from "assets/jss/material-kit-react/views/componentsSections/downloadStyle.js";
+import CustomDropdown from "components/CustomDropdown/CustomDropdown";
+import { CustomCheckbox, Checkboxes } from "./Checkboxes";
 
 styles["transparent"] = { backgroundColor: "rgba(255, 255, 255, 0.5)" };
+styles["buttonStyle"] = {
+    marginTop: 0,
+    marginBottom: 0,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    color: "rgba(255,255,255,0.5)",
+    fontSize: "16px"
+  }
+styles["filterContainer"] = {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+
+    width: "75%",
+    height: "60px",
+    margin: "auto",
+    marginTop: "20px"
+  }
+styles["height100"] = {
+  height: "100%",
+};
 
 const useStyles = makeStyles(styles);
 const useDownloadStyles = makeStyles(downloadStyles);
@@ -39,6 +61,49 @@ export default function Dashboard(props) {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoadingTrue, setLoading] = useState("False");
+  const [typeFilters, setTypeFilters] = useState({
+    property: { text: "Property", value: 0 },
+    service: { text: "Service", value: 0 },
+    vehicles: { text: "Vehicles", value: 0 },
+    items: { text: "Items", value: 0 },
+  });
+  const [categoryFilters, setCategoryFilters] = useState({
+    apartment: { text: "Apartment", value: 0 },
+    bunglow: { text: "Bunglow", value: 0 },
+    land: { text: "Land", value: 0 },
+    electrical: { text: "Electrical", value: 0 },
+    carpenter: { text: "Carpenter", value: 0 },
+    painter: { text: "Painter", value: 0 },
+    plumber: { text: "Plumber", value: 0 },
+    cleaners: { text: "Cleaners", value: 0 },
+    packersAndMovers: { text: "Packers and Movers", value: 0 },
+    car: { text: "Car", value: 0 },
+    bike: { text: "Bike", value: 0 },
+    motorbike: { text: "Motorbike", value: 0 },
+    truck: { text: "Truck", value: 0 },
+    boat: { text: "Boat", value: 0 },
+    machinery: { text: "Machinery", value: 0 },
+    toolkits: { text: "Toolkits", value: 0 },
+    electricalAppliances: { text: "Electrical Appliances", value: 0 },
+    clothings: { text: "Clothings", value: 0 },
+    airBalloons: { text: "Air Balloons", value: 0 },
+    other: { text: "Other", value: 0 },
+  });
+
+  const handleTypeDropdownChange = async (field, value) => {
+    alert(`field: ${field}, value: ${value}`);
+    let state = typeFilters;
+    state[field].value = value;
+    await setTypeFilters(state);
+    console.log(typeFilters);
+  };
+
+  const handleCategoryDropdownChange = (field, value) => {
+    alert(`field: ${field}, value: ${value}`);
+    let state = categoryFilters;
+    state[field].value = value;
+    setCategoryFilters(state);
+  };
 
   useEffect(() => {
     (async () => {
@@ -150,7 +215,88 @@ export default function Dashboard(props) {
                       ),
                     }}
                   />
-                  <Filters />
+                  <div className={classes.filterContainer}>
+                    <CustomDropdown
+                      dropup
+                      className={classes.height100}
+                      buttonText="Filter By Type"
+                      hoverColor="danger"
+                      dropdownList={Object.keys(typeFilters).map((key) => {
+                        return (
+                          <CustomCheckbox
+                            label={typeFilters[key].text}
+                            field={key}
+                            checked={
+                              typeFilters[key].value === 1 ? true : false
+                            }
+                            onClick={handleTypeDropdownChange}
+                          />
+                        );
+                      })}
+                      buttonProps={{
+                        className:
+                          classes.buttonStyle +
+                          " " +
+                          classes.flexGrow0 +
+                          " " +
+                          classes.height100,
+                      }}
+                      outerClassName={classes.height100}
+                    />
+
+                    <CustomDropdown
+                      dropup
+                      buttonText="Filter By Category"
+                      hoverColor="danger"
+                      dropdownList={Object.keys(categoryFilters).map((key) => {
+                        return (
+                          <CustomCheckbox
+                            label={categoryFilters[key].text}
+                            field={key}
+                            checked={
+                              categoryFilters[key].value === 1 ? true : false
+                            }
+                            onClick={handleCategoryDropdownChange}
+                          />
+                        );
+                      })}
+                      buttonProps={{
+                        className:
+                          classes.buttonStyle +
+                          " " +
+                          classes.flexGrow0 +
+                          " " +
+                          classes.height100,
+                      }}
+                      outerClassName={classes.height100}
+                    />
+
+                    <TextField
+                      id="min price"
+                      placeholder="Minimum Price"
+                      style={{ color: "black" }}
+                      variant="outlined"
+                      InputProps={{
+                        style: {
+                          color: "rgba(255,255,255,0.5)",
+                          fontSize: "20px",
+                        },
+                      }}
+                    />
+
+                    <TextField
+                      id="max price"
+                      placeholder="Maximum Price"
+                      style={{ color: "#979097" }}
+                      variant="outlined"
+                      InputProps={{
+                        style: {
+                          color: "rgba(255,255,255,0.5)",
+                          fontSize: "1rem",
+                        },
+                      }}
+                    />
+                  </div>
                 </form>
               </div>
             </GridItem>
@@ -160,21 +306,21 @@ export default function Dashboard(props) {
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classesDownload.section}>
           <div className={classesDownload.container}>
-          <GridContainer>
+            <GridContainer>
               {items.map((item, i) => {
                 return (
-                    <Listing
-                      title={item.name}
-                      price={item.price}
-                      rating={4}
-                      location={item.address.city}
-                      image={item.pictures}
-                      userid = {userId}
-                      id = {item.id}
-                    />
+                  <Listing
+                    title={item.name}
+                    price={item.price}
+                    rating={4}
+                    location={item.address.city}
+                    image={item.pictures}
+                    userid={userId}
+                    id={item.id}
+                  />
                 );
               })}
-               </GridContainer>
+            </GridContainer>
           </div>
         </div>
       </div>

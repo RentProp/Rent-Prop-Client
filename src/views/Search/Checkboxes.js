@@ -25,23 +25,22 @@ const useStyles = makeStyles(styles);
 
 export function CustomCheckbox(props) {
     const classes = useStyles();
-    console.log(classes.label);
     return (
       <div
-        className={classes.checkboxAndRadio}
+        className={ classes.checkboxAndRadio }
         style={{ color: "rgba(255, 255, 255, 0.5)", margin: "0px" }}
+        onClick={() => {props.onClick(props.field, (props.checked) ? 0 : 1)}}
       >
         <FormControlLabel
           control={
             <Checkbox
               tabIndex={-1}
-              //onClick={() => handleToggle(21)}
-              // inputProps={{style: {color:"rgba(255, 255, 255, 0.5)"}}}
               checkedIcon={<Check className={classes.checkedIcon} />}
               icon={<Check className={classes.uncheckedIcon} />}
               classes={{ checked: classes.checked }}
             />
           }
+          checked={props.checked}
           classes={{ label: classes.checkboxesLabel }}
           label={props.label}
         />

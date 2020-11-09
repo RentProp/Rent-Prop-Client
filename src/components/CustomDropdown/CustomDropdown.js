@@ -82,7 +82,7 @@ export default function CustomDropdown(props) {
   }
   return (
     <div>
-      <div>
+      <div className={props.outerClassName}>
         <Button
           aria-label="Notifications"
           aria-owns={anchorEl ? "menu-list" : null}
