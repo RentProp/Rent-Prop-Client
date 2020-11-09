@@ -39,7 +39,7 @@ styles["filterContainer"] = {
     flexDirection: "row",
     justifyContent: "space-around",
 
-    width: "75%",
+    width: "100%",
     height: "60px",
     margin: "auto",
     marginTop: "20px"
@@ -278,7 +278,7 @@ export default function Dashboard(props) {
                       variant="outlined"
                       InputProps={{
                         style: {
-                          color: "rgba(255,255,255,0.5)",
+                          color: "rgb(255,255,255)",
                           fontSize: "20px",
                         },
                       }}
@@ -291,8 +291,8 @@ export default function Dashboard(props) {
                       variant="outlined"
                       InputProps={{
                         style: {
-                          color: "rgba(255,255,255,0.5)",
-                          fontSize: "1rem",
+                          color: "rgb(255,255,255)",
+                          fontSize: "20px",
                         },
                       }}
                     />
