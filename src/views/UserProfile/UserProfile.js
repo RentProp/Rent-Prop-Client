@@ -162,6 +162,11 @@ export default function UserProfile() {
                       inputProps={{
                         disabled: true,
                       }}
+                      labelProps={{
+                        style: {
+                          fontStyle: "italic",
+                        },
+                      }}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
@@ -173,6 +178,11 @@ export default function UserProfile() {
                       }}
                       inputProps={{
                         disabled: true,
+                      }}
+                      labelProps={{
+                        style: {
+                          fontStyle: "italic",
+                        },
                       }}
                     />
                   </GridItem>

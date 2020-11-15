@@ -48,6 +48,21 @@ export default function Cards(props) {
   const [coords, setCoords] = useState({ lat: 39.16, lng: -86.52 });
   const [isLoadingCoords, setLoadingCoords] = useState(true);
   const geocoder = new google.maps.Geocoder();
+  const getFormattedDate = (date) => {
+    var year = date.getFullYear();
+
+    var month = (1 + date.getMonth()).toString();
+    month = month.length > 1 ? month : "0" + month;
+
+    var day = date.getDate().toString();
+    day = day.length > 1 ? day : "0" + day;
+
+    return month + "/" + day + "/" + year;
+  };
+
+  let beginDate = getFormattedDate(new Date(props.begin_at));
+  let endDate = getFormattedDate(new Date(props.end_at));
+
   useEffect(() => {
     if (isLoadingCoords) {
       geocoder.geocode(
@@ -73,10 +88,14 @@ export default function Cards(props) {
   };
 
   return (
-    <Card style={{ margin: "5px", width: "20%"  }}>
+    <Card style={{ margin: "5px", width: "250px" }}>
       <img
-        style={{ height: "180px", width: "100%", display: "block" ,
-        objectFit: "contain" }}
+        style={{
+          height: "180px",
+          width: "100%",
+          display: "block",
+          objectFit: "contain",
+        }}
         className={classes.imgCardTop}
         src={props.itemObject.pictures[0]}
         alt="Card-img-cap"
@@ -100,16 +119,18 @@ export default function Cards(props) {
             </Tooltip>
           </GridItem>
           <GridItem xs={12} sm={12} md={12}>
-            <p>Stat Date {props.begin_at}</p>
-            <p>End Date {props.end_at}</p>
+            <p>From: {beginDate}</p>
+            <p>To: {endDate}</p>
           </GridItem>
           <GridItem xs={12} sm={12} md={12}>
-              <Maps coords={coords} />
-            
+            <Maps coords={coords} />
           </GridItem>
         </GridContainer>
-
-        <Button color="danger" onClick={() => viewItem(props.itemObject.id)} style = {{width:"100%", marginTop: "15px"}}>
+        <Button
+          color="danger"
+          onClick={() => viewItem(props.itemObject.id)}
+          style={{ width: "100%", marginTop: "15px" }}
+        >
           View Item
         </Button>
       </CardBody>

@@ -17,7 +17,7 @@ export default function Maps(props) {
 
   const CustomSkinMap = withGoogleMap(() => (
     <GoogleMap
-      defaultZoom={14}
+      defaultZoom={10}
       defaultCenter={{ lat: coords.lat, lng: coords.lng }}
       defaultOptions={{
         scrollwheel: false,

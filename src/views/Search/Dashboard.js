@@ -281,6 +281,14 @@ export default function Dashboard(props) {
                           color: "rgb(255,255,255)",
                           fontSize: "20px",
                         },
+                        startAdornment: (
+                          <InputAdornment
+                            style={{ color: "#fff" }}
+                            position="start"
+                          >
+                            $
+                          </InputAdornment>
+                        ),
                       }}
                     />
 
@@ -294,6 +302,14 @@ export default function Dashboard(props) {
                           color: "rgb(255,255,255)",
                           fontSize: "20px",
                         },
+                        startAdornment: (
+                          <InputAdornment
+                            style={{ color: "#fff" }}
+                            position="start"
+                          >
+                            $
+                          </InputAdornment>
+                        ),
                       }}
                     />
                   </div>

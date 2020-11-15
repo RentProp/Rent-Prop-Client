@@ -22,6 +22,8 @@ import moment from 'moment';
 import Datetime from 'react-datetime';
 import { Alert } from "react-bootstrap";
 import Clearfix from "components/Clearfix/Clearfix.js";
+import { Loading } from "../../../src/components";
+
 const cartStyles = {
   ...styles,
   rowContainer: { display: "flex", flexDirection: "row" },
@@ -78,7 +80,7 @@ function CartListing(props) {
         console.log("SOMETHING WENT WRONG");
       } else {
         console.log("SUCCESSS");
-        alert("You will recive about confirmation")
+        alert("You will receive an email regarding confirmation!");
         history.push(window.location.origin);
       }
     });
@@ -259,7 +261,7 @@ export default function ListingPage(props) {
     }
   });
 
-  return (
+  return (isLoading) ? <Loading /> : (
     <div className={classes.container}>
       <GridContainer justify="center">
         <GridItem xs={11} sm={10} md={10} lg={10}>
