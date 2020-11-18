@@ -28,9 +28,9 @@ import Language from "@material-ui/icons/Language";
 import DashboardPage from "views/YourListings/YourListing.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/Orders/TableList.js";
-import Maps from "views/Maps/Maps.js";
+import UserMap from "views/UserMap/UserMap.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
-import { Message } from "@material-ui/icons";
+import { Message, Map } from "@material-ui/icons";
 
 const dashboardRoutes = [
   {
@@ -38,36 +38,45 @@ const dashboardRoutes = [
     name: "User Profile",
     icon: Person,
     component: UserProfile,
-    layout: "/account"
+    layout: "/account",
   },
   {
     path: "/listings",
     name: "Your Listings",
     icon: Dashboard,
     component: DashboardPage,
-    layout: "/account"
+    layout: "/account",
   },
   
+  {
+    path: "/map",
+    name: "Your Map",
+    icon: Map,
+    component: UserMap,
+    layout: "/account",
+  },
+
   {
     path: "/table",
     name: "Past Rentals",
     icon: "content_paste",
     component: TableList,
-    layout: "/account"
+    layout: "/account",
   },
+
   {
     path: "/notifications",
     name: "Notifications",
     icon: Notifications,
     component: NotificationsPage,
-    layout: "/account"
+    layout: "/account",
   },
   {
     path: "/messages",
     name: "Messages",
     icon: Message,
     component: NotificationsPage,
-    layout: "/account"
+    layout: "/account",
   },
 ];
 
