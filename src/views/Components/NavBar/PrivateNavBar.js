@@ -52,8 +52,13 @@ export default function PrivateNavBar() {
   };
 
   const routeUserProfile = () => {
-    let path = `/account/user`;
-    history.push(path);
+    let isAdmin = localStorage.getItem("Admin");
+    if (isAdmin){
+      let path = `/admin/user`;
+      history.push(path);
+    }else{let path = `/account/user`;
+    history.push(path);}
+    
   };
   
   const apiUrl = process.env.REACT_APP_API_URL;

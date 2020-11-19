@@ -127,6 +127,9 @@ export default function Dashboard(props) {
         if (data) {
         setUserId(data.id)
         console.log(data);
+        if (data.is_admin){
+        localStorage.setItem("Admin", true)
+        }
         }
       })
     }})(user);

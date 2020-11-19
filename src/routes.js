@@ -30,6 +30,7 @@ import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/Orders/TableList.js";
 import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
+import Chat from "views/Chat/containers/shell/ChatShell.js";
 import { Message } from "@material-ui/icons";
 
 const dashboardRoutes = [
@@ -66,7 +67,7 @@ const dashboardRoutes = [
     path: "/messages",
     name: "Messages",
     icon: Message,
-    component: NotificationsPage,
+    component: Chat,
     layout: "/account"
   },
 ];

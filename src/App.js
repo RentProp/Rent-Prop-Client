@@ -17,6 +17,7 @@ import Checkout from "views/Cart/Checkout";
 import NavBar from "views/Components/NavBar/NavBar"
 import Footer from "components/Footer/Footer.js";
 import Account from "layouts/Account.js";
+import Admin from "layouts/Admin.js";
 import Listing from "views/Components/ListingModal/Listing"
 import "assets/css/material-dashboard-react.css?v=1.9.0";
 
@@ -35,9 +36,9 @@ function App() {
         <Switch>
           <PrivateRoute path="/capture-details" component={CaptureDetails} />
           <Route path="/search" component={Dashboard} />
-          
           <PrivateRoute path="/item/:id" component={ListingPage} />
           <PrivateRoute path="/account" component={Account} />
+          <PrivateRoute path="/admin" component={Admin} />
           <PrivateRoute path="/addListing" component={Listing} />
           <PrivateRoute path="/user/cart" component={Cart} />
           <PrivateRoute path="/user/checkout" component={Checkout} />
