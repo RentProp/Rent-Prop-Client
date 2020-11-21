@@ -25,7 +25,7 @@ import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
-import DashboardPage from "views/Admin/YourListings/YourListing.js";
+import DashboardPage from "views/Admin/ApproveListings/ApproveListings.js";
 import UserProfile from "views/Admin/UserProfile/UserProfile.js";
 import TableList from "views/Admin/Orders/TableList.js";
 import Chat from "views/Admin/Chat/containers/shell/ChatShell.js";

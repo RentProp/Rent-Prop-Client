@@ -7,7 +7,7 @@ import createSagaMiddleware from 'redux-saga';
 import './index.scss';
 import rootSaga from './store/sagas';
 import rootReducer from './store/reducers';
-import App from './App';
+import Chat from './chat';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -29,9 +29,22 @@ const store = createStore(
 
 sagaMiddleware.run(rootSaga);
 
-ReactDOM.render(
+// ReactDOM.render(
+//     <Provider store={store}>
+//         <App />
+//     </Provider>,
+//     document.getElementById('root')
+// );
+
+
+const ChatIndex = () => {
+  return (
+    <div style ={{   justifyContent: "left", WebKitScrollBar: "none", fontSize: "10px"}}>
     <Provider store={store}>
-        <App />
-    </Provider>,
-    document.getElementById('root')
-);
+        <Chat />
+    </Provider>
+    </div>
+  );
+}
+
+export default ChatIndex;

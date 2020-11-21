@@ -32,7 +32,7 @@ const customDropdownStyle = theme => ({
     listStyle: "none",
     backgroundColor: "#fff",
     backgroundClip: "padding-box",
-    height: "30vh",
+    height: "17vh",
     overflowY: "scroll",
   },
   menuList: {

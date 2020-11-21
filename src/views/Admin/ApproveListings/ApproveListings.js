@@ -15,7 +15,7 @@ import CardBody from "components/Card/CardBody.js";
 import CustomTabs from "components/CustomTabs/CustomTabs.js";
 import { bugs, website, server } from "variables/general.js";
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
-import { Loading } from "../../../../src/components";
+import { Loading } from "../../../components";
 import Listing from "./EditItem";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
@@ -31,14 +31,15 @@ export default function Dashboard() {
   const [currentListing, setCurrentListing] = useState(["A", "B"]);
   const [currentIndex, setIndex] = useState(0);
   const [currentRented, setCurrentRented] = useState(["A", "C"]);
-  const [isLoadingTrue, setLoading] = useState("False");
+  const [isLoadingTrue, setLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
       try {
+        setLoading(true)
         const token = await getAccessTokenSilently();
         let userid = localStorage.getItem("userid");
-        let result = await fetch(`${apiUrl}/api/items?seller=${userid}`, {
+        let result = await fetch(`${apiUrl}/api/items/unapproved`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -48,20 +49,21 @@ export default function Dashboard() {
         const res = await result.json();
         console.log(res);
         await setData((previndex) => res);
+        setLoading(false)
       } catch {}
     })(items);
   }, [user.sub]);
 
-  if (isLoadingTrue === "True") {
+  if (isLoadingTrue === true) {
     return <Loading />;
   }
   return (
     <GridContainer>
       <Card>
         <CardHeader color="danger">
-          <h4 className={classes.cardTitleWhite}>Past Rentals</h4>
+          <h4 className={classes.cardTitleWhite}>Approve Items</h4>
           <p className={classes.cardCategoryWhite}>
-            Items that you have rented in the past!
+            Items that were requested by Owners to be listed on RentNoww. These items are currently not publicly available.
           </p>
         </CardHeader>
         <CardBody>

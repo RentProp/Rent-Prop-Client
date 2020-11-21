@@ -1,8 +1,12 @@
 import React from "react";
+import ReactDOM from 'react-dom';
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 // import { Container } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./App.css";
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 import {  Loading, PrivateRoute } from "./components";
 import { Home, Profile, ExternalApi } from "./views";
 // import "bootstrap/dist/css/bootstrap.min.css";
@@ -22,8 +26,6 @@ import Listing from "views/Components/ListingModal/Listing"
 import "assets/css/material-dashboard-react.css?v=1.9.0";
 
 
-var hist = createBrowserHistory();
-
 function App() {
   
   const { isLoading } = useAuth0();
@@ -42,7 +44,6 @@ function App() {
           <PrivateRoute path="/addListing" component={Listing} />
           <PrivateRoute path="/user/cart" component={Cart} />
           <PrivateRoute path="/user/checkout" component={Checkout} />
-          <PrivateRoute path="/external" component={ExternalApi} />
           <Redirect from="/" to="/search" />
         </Switch>
         <ChatBot />
