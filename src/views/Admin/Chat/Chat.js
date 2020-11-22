@@ -16,7 +16,7 @@ import { StreamChat } from "stream-chat";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import Card from "components/Card/Card.js";
-import "stream-chat-react/dist/css/index.css";
+import "stream-chat-react/dist/css/index.css"; 
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import { Loading } from "../../../../src/components";
