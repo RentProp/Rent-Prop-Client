@@ -28,7 +28,7 @@ import Language from "@material-ui/icons/Language";
 import DashboardPage from "views/Admin/ApproveListings/ApproveListings.js";
 import UserProfile from "views/Admin/UserProfile/UserProfile.js";
 import TableList from "views/Admin/Orders/TableList.js";
-import Chat from "views/Admin/Chat/containers/shell/ChatShell.js";
+import Chat from "views/Admin/Chat/Chat.js";
 import { Message } from "@material-ui/icons";
 
 const dashboardRoutes = [

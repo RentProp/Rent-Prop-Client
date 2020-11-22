@@ -30,7 +30,7 @@ import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/Orders/TableList.js";
 import UserMap from "views/UserMap/UserMap.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
-import Chat from "views/Chat/index.js";
+import Chat from "views/Chat/Chat.js";
 import { Message, Map } from "@material-ui/icons";
 
 const dashboardRoutes = [

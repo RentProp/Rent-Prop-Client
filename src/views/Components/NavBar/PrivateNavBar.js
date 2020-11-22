@@ -53,11 +53,13 @@ export default function PrivateNavBar() {
 
   const routeUserProfile = () => {
     let isAdmin = localStorage.getItem("Admin");
-    if (isAdmin){
+    if (isAdmin === "1"){
       let path = `/admin/user`;
       history.push(path);
-    }else{let path = `/account/user`;
-    history.push(path);}
+    }else{
+      let path = `/account/user`;
+      history.push(path);
+  }
     
   };
   

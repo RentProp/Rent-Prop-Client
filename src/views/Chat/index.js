@@ -7,7 +7,7 @@ import createSagaMiddleware from 'redux-saga';
 import './index.scss';
 import rootSaga from './store/sagas';
 import rootReducer from './store/reducers';
-import Chat from './chat';
+import Chat from './Chat';
 
 const sagaMiddleware = createSagaMiddleware();
 

@@ -166,10 +166,12 @@ export default function Dashboard(props) {
             if (data) {
               setUserId(data.id);
               console.log(data);
-              if (data.is_admin) {
-                localStorage.setItem("Admin", true);
+              if (data.is_admin === true) {
+                localStorage.setItem("Admin", "1");
+                console.log("admin")
               } else {
-                localStorage.setItem("Admin", false);
+                localStorage.setItem("Admin", "2");
+                console.log("not admin")
               }
             }
           });
