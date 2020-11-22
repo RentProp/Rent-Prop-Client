@@ -19,7 +19,7 @@ import Card from "components/Card/Card.js";
 import "stream-chat-react/dist/css/index.css";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import { Loading } from "../../../src/components";
+import { Loading } from "../../../../src/components";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 import { whiteColor } from "assets/jss/material-dashboard-react.js";
