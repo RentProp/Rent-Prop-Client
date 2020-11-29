@@ -15,10 +15,10 @@ import DateTimePicker from 'components/DateTimePicker/DateTimePicker.js';
 import imagesStyles from "assets/jss/material-kit-react/imagesStyles.js";
 import NavPills from 'components/NavPills/NavPills.js'
 import Listing from 'views/Search/Listing.js';
-import StyledRating from 'components/Rating/StyledRating.js';
+import OurRating from 'components/Rating/OurRating.js';
 import Success from 'components/Typography/Success';
 import Danger from 'components/Typography/Danger';
-import Review from './Review';
+import ReviewSection from './ReviewSection';
 import DetailsTable from './DetailsTable';
 import Maps from 'views/Maps/Maps.js';
 import { Loading } from "../../../src/components";
@@ -74,7 +74,6 @@ export default function ListingPage(props) {
     const [currentImage, setImage] = useState(0);    
     
     useEffect(() => {
-      console.log(process.env);
       if (isLoading) {
         fetch(`${apiUrl}/api/items/${id}`, {
           method: "GET",
@@ -151,7 +150,7 @@ export default function ListingPage(props) {
               }}
             >
               <h1 className={classes.mb0}>{listing.name}</h1>
-              <StyledRating name="listing-rating" rating={74} />
+              <OurRating name="listing-rating" rating={5} />
               <a>{listing.company}</a>
               <p style={{overflowY: 'scroll'}}>{listing.description}</p>
             </div>
@@ -186,21 +185,7 @@ export default function ListingPage(props) {
                       <h3>Reviews</h3>
 
                       <div className={classes.TabPageContainer}>
-                        <Review
-                          rating={72}
-                          title="Unmissable"
-                          text="Astonishing classic, each one of its ten songs provides a profound portrait of its time and of the people enduring it, and this grabs you from different perspectives and in different shapes. It grows old with you, I must say we both have grown old quite beautifully.
-                                  It includes one of the most delicate and versatile songs in rock history, 'There is a light that never goes out'.
-                                  I'm glad I celebrated its 30th birthday with this new vinyl.
-                                  review image"
-                          author="Isabel G"
-                        />
-                        <Review
-                          rating={60}
-                          title="Wow!"
-                          text="The only Smiths album I owned & loved was Meat is Murder - don't know why I'd never looked into their other stuff, but after reading some reviews, decided to buy Queen is Dead. I played it, then immediately played it again, then played several cuts, then played the whole thing again, and wondered why I'd deprived myself of this LP for over 20 yrs! The title cut just takes off...left me breathless. Frankly Mr. Shankly is hilarious. My personal favorite is Bigmouth Strikes Again. The ballads are stunning - can't think of one downside to this LP & the digital remastering is a plus. The Smiths excel in exposing our white underbelly - Morrissey's lyrics always nail that tender spot we don't always allow others to see, plus he has that dry wit. Like good literature, the music isn't defined by the decade in which it was written. It doesn't sound dated today & would also have been at home in the 60s or 70s. I Know It's Over could have been written in the 40s or 50s & those painful lyrics almost beg for a smoke filled bar & a bottle of scotch. This is an album I'll be returning to again & again."
-                          author="PK"
-                        />
+                        <ReviewSection id={id} />
                       </div>
                     </>
                   ),
@@ -265,7 +250,8 @@ export default function ListingPage(props) {
                   tabButton: "View On Map",
                   tabContent: (
                     <>
-                      (isLoadingCoords) ? <Loading /> : <Maps coords={coords} />
+                      <h3>Map View</h3>
+                      {isLoadingCoords ? <Loading /> : <Maps coords={coords} />}
                     </>
                   ),
                 },
@@ -276,35 +262,3 @@ export default function ListingPage(props) {
       </div>
     );
 }
-
-/*
-  <GridItem md={8}>
-            <Card>
-              <CardBody>
-                <h3>Additional Information</h3>
-                <h5>Product Description</h5>
-                <p>
-                  {listing.description}
-                </p>
-              </CardBody>
-            </Card>
-          </GridItem>
-
-          <GridItem md={4}>
-            <Card>
-              <CardBody>
-                <h3>Product Details</h3>
-                <DetailsTable
-                  details={{
-                    Department: "Mens",
-                    "Date First Available": "November 21, 2018",
-                    Manufacture: "OTSBO Old Time Sports Booking",
-                    ASIN: "B07KS228KQ",
-                    "RentNoww Best Seller's Rank":
-                      "#5,408 in Sports & Outdoors",
-                  }}
-                />
-              </CardBody>
-            </Card>
-          </GridItem>
- */

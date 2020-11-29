@@ -21,11 +21,10 @@ import Mic from "@material-ui/icons/Mic";
 import SearchIcon from "@material-ui/icons/Search";
 import { IconButton, InputAdornment } from "@material-ui/core";
 import Listing from "./Listing";
-import Filters from "./Filters";
 import ChatBot from "../ChatBot/ChatBot";
 import downloadStyles from "assets/jss/material-kit-react/views/componentsSections/downloadStyle.js";
 import CustomDropdown from "components/CustomDropdown/CustomDropdown";
-import { CustomCheckbox, Checkboxes } from "./Checkboxes";
+import { CustomRadio } from "./Radios";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 import SpeechRecognition, {
@@ -99,48 +98,55 @@ export default function Dashboard(props) {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoadingTrue, setLoading] = useState("False");
-  const [typeFilters, setTypeFilters] = useState({
-    property: { text: "Property", value: 0 },
-    service: { text: "Service", value: 0 },
-    vehicles: { text: "Vehicles", value: 0 },
-    items: { text: "Items", value: 0 },
-  });
-  const [categoryFilters, setCategoryFilters] = useState({
-    apartment: { text: "Apartment", value: 0 },
-    bunglow: { text: "Bunglow", value: 0 },
-    land: { text: "Land", value: 0 },
-    electrical: { text: "Electrical", value: 0 },
-    carpenter: { text: "Carpenter", value: 0 },
-    painter: { text: "Painter", value: 0 },
-    plumber: { text: "Plumber", value: 0 },
-    cleaners: { text: "Cleaners", value: 0 },
-    packersAndMovers: { text: "Packers and Movers", value: 0 },
-    car: { text: "Car", value: 0 },
-    bike: { text: "Bike", value: 0 },
-    motorbike: { text: "Motorbike", value: 0 },
-    truck: { text: "Truck", value: 0 },
-    boat: { text: "Boat", value: 0 },
-    machinery: { text: "Machinery", value: 0 },
-    toolkits: { text: "Toolkits", value: 0 },
-    electricalAppliances: { text: "Electrical Appliances", value: 0 },
-    clothings: { text: "Clothings", value: 0 },
-    airBalloons: { text: "Air Balloons", value: 0 },
-    other: { text: "Other", value: 0 },
-  });
+  const [selectedType, setSelectedType] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  
+  const types = [
+    "Property", 
+    "Services", 
+    "Vehicles", 
+    "Items", 
+    "Clear Filter"
+  ];
 
-  const handleTypeDropdownChange = async (field, value) => {
-    alert(`field: ${field}, value: ${value}`);
-    let state = typeFilters;
-    state[field].value = value;
-    await setTypeFilters(state);
-    console.log(typeFilters);
+  const categories = [
+    "Apartment",
+    "Bunglow",
+    "Land",
+    "Electrical",
+    "Carpenter",
+    "Painter",
+    "Plumber",
+    "Cleaners",
+    "Packers and Movers",
+    "Car",
+    "Bike",
+    "Motorbike",
+    "Truck",
+    "Boat",
+    "Machinery",
+    "Toolkits",
+    "Electrical Appliances",
+    "Clothings",
+    "Air Balloons",
+    "Other",
+    "Clear Filter"
+  ];
+
+  const handleTypeDropdownChange = (type) => {
+    if (type === "Clear Filter") {
+      setSelectedType("");
+    } else {
+      setSelectedType(type.toLowerCase());
+    }
   };
-
-  const handleCategoryDropdownChange = (field, value) => {
-    alert(`field: ${field}, value: ${value}`);
-    let state = categoryFilters;
-    state[field].value = value;
-    setCategoryFilters(state);
+  
+  const handleCategoryDropdownChange = (category) => {
+    if (category === "Clear Filter") {
+      setSelectedCategory("");
+    } else {
+      setSelectedCategory(category);
+    }
   };
 
   useEffect(() => {
@@ -187,26 +193,41 @@ export default function Dashboard(props) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-        },
+        }
       })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setItems((previndex) => data);
-        });
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("getting recommended data: ");
+        console.log(data);
+        setItems((previndex) => data);
+      });
     })(searchTerm);
   }, [searchTerm]);
 
   const callSecureApi = (searchTerm) => {
-    console.log("sending request");
-    fetch(`${apiUrl}/api/items?search=${searchTerm}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    let requestUrl = `${apiUrl}/api/items?search=${searchTerm}`;
+    
+    if (selectedCategory !== "") {
+      requestUrl += `&category=${selectedCategory}`;
+    } 
+    
+    if (selectedType !== "") {
+      requestUrl += `&type=${selectedType}`;
+    }
+
+    console.log("sending request to" + requestUrl);
+
+    fetch(requestUrl,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
+        console.log("response data:")
         console.log(data);
         setItems((previndex) => data);
       });
@@ -286,13 +307,12 @@ export default function Dashboard(props) {
                         className={classes.height100}
                         buttonText="Filter By Type"
                         hoverColor="danger"
-                        dropdownList={Object.keys(typeFilters).map((key) => {
+                        dropdownList={types.map((type) => {
                           return (
-                            <CustomCheckbox
-                              label={typeFilters[key].text}
-                              field={key}
+                            <CustomRadio
+                              label={type}
                               checked={
-                                typeFilters[key].value === 1 ? true : false
+                                (type.toLowerCase() === selectedType.toLowerCase()) ? true : false
                               }
                               onClick={handleTypeDropdownChange}
                             />
@@ -309,27 +329,23 @@ export default function Dashboard(props) {
                         outerClassName={classes.height100}
                       />
                     </GridItem>
+
                     <GridItem xs={3}>
                       <CustomDropdown
                         dropup
                         buttonText="Filter By Category"
                         hoverColor="danger"
-                        dropdownList={Object.keys(categoryFilters).map(
-                          (key) => {
-                            return (
-                              <CustomCheckbox
-                                label={categoryFilters[key].text}
-                                field={key}
-                                checked={
-                                  categoryFilters[key].value === 1
-                                    ? true
-                                    : false
-                                }
-                                onClick={handleCategoryDropdownChange}
-                              />
-                            );
-                          }
-                        )}
+                        dropdownList={categories.map((category) => {
+                          return (
+                            <CustomRadio
+                              label={category}
+                              checked={
+                                (category === selectedCategory) ? true : false
+                              }
+                              onClick={handleCategoryDropdownChange}
+                            />
+                          );
+                        })}
                         buttonProps={{
                           className:
                             classes.buttonStyle +
@@ -341,6 +357,7 @@ export default function Dashboard(props) {
                         outerClassName={classes.height100}
                       />
                     </GridItem>
+
                     <GridItem xs={3}>
                       <div className={classes.root}>
                         <Typography id="range-slider" gutterBottom>
