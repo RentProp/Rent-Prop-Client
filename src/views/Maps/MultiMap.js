@@ -21,9 +21,13 @@ function ItemMarker(props) {
       {isOpen ? (
         <InfoWindow onCloseClick={() => setOpen(!isOpen)}>
           <>
-            <h4 style={{marginBottom: '4px'}}>
+            <h4 style={{ marginBottom: "4px" }}>
               <b>{props.item.item.name}</b>
             </h4>
+            <a
+              target="_blank"
+              href={props.item.item.address.google_map_link}
+            >{`${props.item.item.address.address}, ${props.item.item.address.city}, ${props.item.item.address.state}, ${props.item.item.address.zip}`}</a>
             <Danger>
               <p>{"$" + props.item.item.price}</p>
             </Danger>
