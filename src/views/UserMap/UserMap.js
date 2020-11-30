@@ -54,7 +54,7 @@ export default function UserMap(props) {
           geocoder.geocode({ address: item.address.address }, (result, status) => {
             if (status === "OK") {
               let location = result[0].geometry.location;
-              temp.push({ lat: location.lat(), lng: location.lng() });
+              temp.push({item: item, coords: { lat: location.lat(), lng: location.lng() }});
               if (temp.length === itemsLength) {
                 setCoords(temp);
                 setIsLoading(false);

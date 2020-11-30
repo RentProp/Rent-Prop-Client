@@ -18,6 +18,7 @@ export default function OurRating(props) {
             value={props.rating}
             percision={0.5}
             size="large"
+            disabled={props.disabled}
         />
     );
 }

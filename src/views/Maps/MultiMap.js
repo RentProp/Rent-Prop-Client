@@ -1,10 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
   Marker,
+  InfoWindow,
 } from "react-google-maps";
+import Danger from "components/Typography/Danger";
+
+
+function ItemMarker(props) {
+
+  const [isOpen, setOpen] = useState(false);
+
+  return (
+    <Marker
+      position={{ lat: props.item.coords.lat, lng: props.item.coords.lng }}
+      onClick={() => setOpen(!isOpen)}
+    >
+      {isOpen ? (
+        <InfoWindow onCloseClick={() => setOpen(!isOpen)}>
+          <>
+            <h4 style={{marginBottom: '4px'}}>
+              <b>{props.item.item.name}</b>
+            </h4>
+            <Danger>
+              <p>{"$" + props.item.item.price}</p>
+            </Danger>
+          </>
+        </InfoWindow>
+      ) : (
+        ""
+      )}
+    </Marker>
+  );
+
+}
 
 export default function MultiMap(props) {
   //const mapsApi = process.env.REACT_APP_GOOGLE_API_KEY;
@@ -16,7 +47,7 @@ export default function MultiMap(props) {
   const CustomSkinMap = withGoogleMap(() => (
     <GoogleMap
       defaultZoom={10}
-      defaultCenter={{ lat: coords[0].lat, lng: coords[0].lng }}
+      defaultCenter={{ lat: coords[0].coords.lat, lng: coords[0].coords.lng }}
       defaultOptions={{
         scrollwheel: false,
         zoomControl: true,
@@ -83,7 +114,7 @@ export default function MultiMap(props) {
       }}
     >
         { 
-          coords.map((coord) => <Marker position={{ lat: coord.lat, lng: coord.lng }} />) 
+          coords.map((item) => <ItemMarker item={item} />) 
         }
     </GoogleMap>
   ));
