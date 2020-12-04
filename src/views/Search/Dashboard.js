@@ -402,7 +402,7 @@ export default function Dashboard(props) {
                   <Listing
                     title={item.name}
                     price={item.price}
-                    rating={4}
+                    rating={item.avg_rating}
                     location={item.address.city}
                     image={item.pictures}
                     userid={userId}

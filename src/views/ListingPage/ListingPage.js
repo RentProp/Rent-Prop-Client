@@ -150,7 +150,7 @@ export default function ListingPage(props) {
               }}
             >
               <h1 className={classes.mb0}>{listing.name}</h1>
-              <OurRating name="listing-rating" rating={5} disabled />
+              <OurRating name="listing-page-rating" rating={listing.avg_rating} disabled />
               <a>{listing.company}</a>
               <p style={{overflowY: 'scroll'}}>{listing.description}</p>
             </div>

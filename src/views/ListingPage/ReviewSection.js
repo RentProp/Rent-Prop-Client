@@ -59,7 +59,6 @@ export default function ReviewSection(props) {
       })
         .then((res) => res.json())
         .then((res) => {
-          console.log(res)
           setReviews(res)
           setIsLoading(false);
         })

@@ -9,7 +9,7 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import SnackbarContent from "components/Snackbar/SnackbarContent.js";
 import Check from "@material-ui/icons/Check";
-import Rating from "@material-ui/lab/Rating";
+import OurRating from "components/Rating/OurRating.js";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import { cardTitle, cardSubtitle } from "assets/jss/material-kit-react.js";
@@ -86,8 +86,7 @@ export default function Listing(props) {
       return false
     }
   }
-    return (
-      
+  return (    
       <GridItem xs={3} md={3}>
         {/* {addCart() ? 
         <SnackbarContent
@@ -112,11 +111,10 @@ export default function Listing(props) {
           </ButtonBase>
           <CardBody>
             <h6 class={classes.cardTitle}>{props.title}</h6>
-            <Rating
-              name="listing-rating"
-              value={5*(props.rating/100)}
-              percision={0.1}
-              size="large"
+            <OurRating
+              name="listing-card-rating"
+              rating={(props.rating) ? props.rating : 0}
+              disabled
             />
             <div className={classes.row} style={{ marginBottom: "1em" }}>
               <LocationIcon className={classes.m0} />
