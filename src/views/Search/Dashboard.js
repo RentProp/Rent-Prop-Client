@@ -100,7 +100,8 @@ export default function Dashboard(props) {
   const [isLoadingTrue, setLoading] = useState("False");
   const [selectedType, setSelectedType] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  
+  const [loadingRecommended, setLoadingRecommended] = useState(true);
+
   const types = [
     "Property", 
     "Services", 
@@ -187,22 +188,29 @@ export default function Dashboard(props) {
 
   const { transcript, setTerm } = useSpeechRecognition();
 
+  // Set search term to transcript whenever transcript changes
   useEffect(() => {
-    (async () => {
+    setSearchTerm(transcript);
+  }, [transcript]);
+
+  // For page load 
+  useEffect(() => {
+    if (loadingRecommended) {
       fetch(`${apiUrl}/api/recommended`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-        }
+        },
       })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("getting recommended data: ");
-        console.log(data);
-        setItems((previndex) => data);
-      });
-    })(searchTerm);
-  }, [searchTerm]);
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("getting recommended data: ");
+          console.log(data);
+          setItems((previndex) => data);
+          setLoadingRecommended(false);
+        });
+    }
+  });
 
   const callSecureApi = (searchTerm) => {
     let requestUrl = `${apiUrl}/api/items?search=${searchTerm}`;
@@ -229,18 +237,25 @@ export default function Dashboard(props) {
       .then((data) => {
         console.log("response data:")
         console.log(data);
-        setItems((previndex) => data);
+        setItems(data);
+        //setItems((previndex) => data);
       });
   };
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
     callSecureApi(searchTerm);
   };
-  const [value, setValue] = React.useState([20, 37]);
+  
+  const [priceRange, setPriceRange] = useState([20, 37]);
+  const handlePriceRangeChange = (event, newValue) => {
+    setPriceRange(newValue);
+  }
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const [distanceRange, setDistanceRange] = useState([20,37]);
+  const handleDistanceRangeChange = (event, newValue) => {
+    setDistanceRange(newValue);
+  }
 
   if (isLoadingTrue === "True") {
     return <Loading />;
@@ -261,7 +276,7 @@ export default function Dashboard(props) {
                     fullWidth
                     onChange={(e) => setSearchTerm(e.target.value)}
                     autoFocus
-                    value={transcript}
+                    value={searchTerm}
                     required
                     InputProps={{
                       classes: { input: classes.title },
@@ -276,16 +291,18 @@ export default function Dashboard(props) {
                       ),
                       endAdornment: (
                         <InputAdornment position="end">
-                          <IconButton
-                            aria-label="search button"
-                            edge="end"
-                            onClick={SpeechRecognition.startListening}
-                          >
-                            <Mic
-                              htmlColor="rgba(255, 255, 255, 0.5)"
-                              fontSize="large"
-                            />
-                          </IconButton>
+                          {(SpeechRecognition.browserSupportsSpeechRecognition()) ? 
+                            <IconButton
+                              aria-label="search button"
+                              edge="end"
+                              onClick={SpeechRecognition.startListening}
+                            >
+                              <Mic
+                                htmlColor="rgba(255, 255, 255, 0.5)"
+                                fontSize="large"
+                              />
+                            </IconButton> : null
+                          }
                           <IconButton
                             type="submit"
                             aria-label="search button"
@@ -364,8 +381,8 @@ export default function Dashboard(props) {
                           Price range
                         </Typography>
                         <PSlider
-                          value={value}
-                          onChange={handleChange}
+                          value={priceRange}
+                          onChange={handlePriceRangeChange}
                           valueLabelDisplay="auto"
                           aria-labelledby="range-slider"
                           getAriaValueText={valuetext}
@@ -378,8 +395,8 @@ export default function Dashboard(props) {
                           Distance range
                         </Typography>
                         <PSlider
-                          value={value}
-                          onChange={handleChange}
+                          value={distanceRange}
+                          onChange={handleDistanceRangeChange}
                           valueLabelDisplay="auto"
                           aria-labelledby="range-slider"
                           getAriaValueText={valuetext}
