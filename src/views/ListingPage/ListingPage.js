@@ -23,7 +23,18 @@ import DetailsTable from './DetailsTable';
 import Maps from 'views/Maps/Maps.js';
 import { Loading } from "../../../src/components";
 
+const types = {
+  PackersAndMovers: "Packers and Movers",
+  ElectrialAppliances : "Electrical Appliances",
+  AirBallon: "Air Balloon"
+};
 
+const categories = {
+  realestate: 'Real Estate and Property',
+  vehicles: 'Vehicles',
+  services: 'Staffing and Serviecs',
+  others: 'Appliances and Other Items'
+};
 
 const pageStyles = {...styles, ...imagesStyles,
     imgFrame: { width: '100%', height: '100%', objectFit: 'contain'}, 
@@ -31,7 +42,7 @@ const pageStyles = {...styles, ...imagesStyles,
     img: {maxWidth: '100%'},
     mb0: {marginBottom: 0},
     mt0: {marginTop: 0},
-    TabPageContainer: { height: "80vh", overflowY: "scroll"}
+    TabPageContainer: { height: "50vh", overflowY: "auto"}
 }
 
 const defaultListing = {
@@ -111,14 +122,16 @@ export default function ListingPage(props) {
         return pages;
     };
 
-    return (isLoading) ? <Loading /> : (
+    return isLoading ? (
+      <Loading />
+    ) : (
       <div className={classes.container}>
         <GridContainer>
           <GridItem md={12}>
             <div style={{ display: "flex" }}>
-              <a>{listing.type}</a>
+              <span>{categories[listing.category]}</span>
               <span style={{ margin: "0px 4px 0px 4px" }}>/</span>
-              <a>{listing.category}</a>
+              <span>{(Object.keys(types).includes(listing.type)) ? types[listing.type] : listing.type}</span>
             </div>
           </GridItem>
           <GridItem xs={6} md={4} style={{ height: "50vh" }}>
@@ -150,9 +163,13 @@ export default function ListingPage(props) {
               }}
             >
               <h1 className={classes.mb0}>{listing.name}</h1>
-              <OurRating name="listing-page-rating" rating={listing.avg_rating} disabled />
+              <OurRating
+                name="listing-page-rating"
+                rating={listing.avg_rating}
+                disabled
+              />
               <a>{listing.company}</a>
-              <p style={{overflowY: 'scroll'}}>{listing.description}</p>
+              <p style={{ overflowY: "scroll" }}>{listing.description}</p>
             </div>
           </GridItem>
           <GridItem md={3}>
@@ -174,89 +191,62 @@ export default function ListingPage(props) {
               </CardBody>
             </Card>
           </GridItem>
+          <GridItem md={6} style={{height: '50vh'}}>
+            {isLoadingCoords ? <Loading /> : <Maps coords={coords} />}
+          </GridItem>
+          <GridItem md={6}>
+            <div className={classes.TabPageContainer}>
+              <ReviewSection id={id} />
+            </div>
+          </GridItem>
           <GridItem md={12}>
-            <NavPills
-              color="danger"
-              tabs={[
-                {
-                  tabButton: "Reviews",
-                  tabContent: (
-                    <>
-                      <h3>Reviews</h3>
-
-                      <div className={classes.TabPageContainer}>
-                        <ReviewSection id={id} />
-                      </div>
-                    </>
-                  ),
-                },
-                {
-                  tabButton: "Related",
-                  tabContent: (
-                    <>
-                      <h3>Related Listings</h3>
-                      <div className={classes.TabPageContainer}>
-                        <GridContainer
-                          style={{ width: "100%", height: "100%" }}
-                        >
-                          <Listing
-                            title="Luddy School of Informatics, Computing, and Engineering"
-                            price="1,000.99"
-                            rating={74}
-                            location="700 N Woodlawn Ave, Bloomington, IN 47408"
-                          />
-                          <Listing
-                            title="Luddy School of Informatics, Computing, and Engineering"
-                            price="1,000.99"
-                            rating={74}
-                            location="700 N Woodlawn Ave, Bloomington, IN 47408"
-                          />
-                          <Listing
-                            title="Luddy School of Informatics, Computing, and Engineering"
-                            price="1,000.99"
-                            rating={74}
-                            location="700 N Woodlawn Ave, Bloomington, IN 47408"
-                          />
-                          <Listing
-                            title="Luddy School of Informatics, Computing, and Engineering"
-                            price="1,000.99"
-                            rating={74}
-                            location="700 N Woodlawn Ave, Bloomington, IN 47408"
-                          />
-                          <Listing
-                            title="Luddy School of Informatics, Computing, and Engineering"
-                            price="1,000.99"
-                            rating={74}
-                            location="700 N Woodlawn Ave, Bloomington, IN 47408"
-                          />
-                          <Listing
-                            title="Luddy School of Informatics, Computing, and Engineering"
-                            price="1,000.99"
-                            rating={74}
-                            location="700 N Woodlawn Ave, Bloomington, IN 47408"
-                          />
-                          <Listing
-                            title="Luddy School of Informatics, Computing, and Engineering"
-                            price="1,000.99"
-                            rating={74}
-                            location="700 N Woodlawn Ave, Bloomington, IN 47408"
-                          />
-                        </GridContainer>
-                      </div>
-                    </>
-                  ),
-                },
-                {
-                  tabButton: "View On Map",
-                  tabContent: (
-                    <>
-                      <h3>Map View</h3>
-                      {isLoadingCoords ? <Loading /> : <Maps coords={coords} />}
-                    </>
-                  ),
-                },
-              ]}
-            ></NavPills>
+            <h3>Related Listings</h3>
+            <div className={classes.TabPageContainer}>
+              <GridContainer style={{ width: "100%", height: "100%" }}>
+                <Listing
+                  title="Luddy School of Informatics, Computing, and Engineering"
+                  price="1,000.99"
+                  rating={74}
+                  location="700 N Woodlawn Ave, Bloomington, IN 47408"
+                />
+                <Listing
+                  title="Luddy School of Informatics, Computing, and Engineering"
+                  price="1,000.99"
+                  rating={74}
+                  location="700 N Woodlawn Ave, Bloomington, IN 47408"
+                />
+                <Listing
+                  title="Luddy School of Informatics, Computing, and Engineering"
+                  price="1,000.99"
+                  rating={74}
+                  location="700 N Woodlawn Ave, Bloomington, IN 47408"
+                />
+                <Listing
+                  title="Luddy School of Informatics, Computing, and Engineering"
+                  price="1,000.99"
+                  rating={74}
+                  location="700 N Woodlawn Ave, Bloomington, IN 47408"
+                />
+                <Listing
+                  title="Luddy School of Informatics, Computing, and Engineering"
+                  price="1,000.99"
+                  rating={74}
+                  location="700 N Woodlawn Ave, Bloomington, IN 47408"
+                />
+                <Listing
+                  title="Luddy School of Informatics, Computing, and Engineering"
+                  price="1,000.99"
+                  rating={74}
+                  location="700 N Woodlawn Ave, Bloomington, IN 47408"
+                />
+                <Listing
+                  title="Luddy School of Informatics, Computing, and Engineering"
+                  price="1,000.99"
+                  rating={74}
+                  location="700 N Woodlawn Ave, Bloomington, IN 47408"
+                />
+              </GridContainer>
+            </div>
           </GridItem>
         </GridContainer>
       </div>

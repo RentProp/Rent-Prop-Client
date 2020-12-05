@@ -92,7 +92,7 @@ export default function Maps(props) {
     <CustomSkinMap
       googleMapURL={`${mapsUrl}${mapsApi}`}
       loadingElement={<div style={{ height: `100%` }} />}
-      containerElement={<div style={{ height: `100vh` }} />}
+      containerElement={<div style={{ height: `100%` }} />}
       mapElement={<div style={{ height: `100%` }} />}
     />
   );

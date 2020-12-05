@@ -13,7 +13,7 @@ export default function Review(props) {
       <Card>
         <CardBody>
           <p><i>{props.text}</i></p>
-          <OurRating rating={props.rating} />
+          <OurRating rating={props.rating} disabled />
         </CardBody>
       </Card>
     );

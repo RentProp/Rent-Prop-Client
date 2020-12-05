@@ -84,7 +84,7 @@ export default function ReviewSection(props) {
                   value={review}
                 />
               </GridItem>
-              <GridItem sm={9}>
+              <GridItem sm={12} style={{display: 'flex', justifyContent: 'space-between'}}>
                 <StyledRating
                   name="review-rating"
                   value={rating}
@@ -92,9 +92,7 @@ export default function ReviewSection(props) {
                     setRating(newValue);
                   }}
                 />
-              </GridItem>
-              <GridItem sm={3}>
-                <Button type="submit" value="Submit" color="success">
+                <Button type="submit" value="Submit" color="success" style={{flexGrow: 0}}>
                   Submit
                 </Button>
               </GridItem>

@@ -332,7 +332,7 @@ export default function ListingModal(props) {
 }
 
 const top100Film = [
-  { title: "Real State And Property", value: "realestate" },
+  { title: "Real Estate And Property", value: "realestate" },
   { title: "Vehicles (Road/Water)", value: "vehicles" },
   { title: "Staffing And Services", value: "services" },
   { title: "Applicance And Other Items", value: "others" },
@@ -357,6 +357,6 @@ const top100Films = [
   { title: "Toolkits", value:  "Toolkits" },
   { title: "Electrial Appliances", value:  "ElectrialAppliances" },
   { title: "Clothings", value: "Clothings" },
-  { title: "Air Ballon", value:  "AirBallon" },
+  { title: "Air Balloon", value:  "AirBallon" },
   { title: "Other", value: "Other" },
 ];
