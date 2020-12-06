@@ -1,71 +1,19 @@
-# Rent-Prop-Client
-Front End and User Management
+# Name of the Project : RentNoww- Anything, Anywhere
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![image](https://user-images.githubusercontent.com/39978963/101292447-80045600-37dd-11eb-911c-899b9d0ec4f2.png)
 
-## Available Scripts
 
-In the project directory, you can run:
+![thumbnail](https://user-images.githubusercontent.com/39978963/101292383-21d77300-37dd-11eb-863d-8ec402a4207e.jpg)
 
-### `npm start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Abstract 
+RentNoww is a way for owners, renters and the RentNoww management to interact in such a way that it simplifies and organizes tasks related to their any kind of property. The system encompasses functionalities including, different rental items such as apartments, cars, boats and services such as plumbing, pest control and so on. The website also has a cool Chat Bot which helps people navigate through the website and help them rent out items and search for the items. The application has different views for management and renters, owners and it also provides a way of interacting with customers & management through a real-time chat. The customers are able to rate the rented items or services.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Checkout documentation for installation details (User Manual)
 
-### `npm test`
+## Architecture
+![auth_component](https://user-images.githubusercontent.com/39978963/101292456-88f52780-37dd-11eb-9067-0010513e65f1.jpg)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## GitHub https://github.com/RentProp
+## Website link https://rentnoww.herokuapp.com
