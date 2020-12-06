@@ -1,9 +1,9 @@
 # Name of the Project : RentNoww- Anything, Anywhere
 
-![image](https://user-images.githubusercontent.com/39978963/101292447-80045600-37dd-11eb-911c-899b9d0ec4f2.png)
-
 
 ![thumbnail](https://user-images.githubusercontent.com/39978963/101292383-21d77300-37dd-11eb-863d-8ec402a4207e.jpg)
+
+![image](https://user-images.githubusercontent.com/39978963/101292447-80045600-37dd-11eb-911c-899b9d0ec4f2.png)
 
 
 ## Abstract 
