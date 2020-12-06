@@ -102,7 +102,7 @@ export default function ReviewSection(props) {
       </Card>
 
       { 
-        reviews.map((item) => {
+        reviews.reverse().map((item) => {
           return (item.item.toString() === props.id.toString()) ? <Review text={item.review} rating={item.rating} /> : <></>;
         })
       }
