@@ -18,19 +18,15 @@
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
-import LibraryBooks from "@material-ui/icons/LibraryBooks";
-import BubbleChart from "@material-ui/icons/BubbleChart";
-import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
-import Unarchive from "@material-ui/icons/Unarchive";
-import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
 import DashboardPage from "views/YourListings/YourListing.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/Orders/TableList.js";
-import Maps from "views/Maps/Maps.js";
+import UserMap from "views/UserMap/UserMap.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
-import { Message } from "@material-ui/icons";
+import ChatView from "views/Chat/Chat.js";
+import { Message, Map } from "@material-ui/icons";
 
 const dashboardRoutes = [
   {
@@ -38,35 +34,44 @@ const dashboardRoutes = [
     name: "User Profile",
     icon: Person,
     component: UserProfile,
-    layout: "/account"
+    layout: "/account",
   },
   {
     path: "/listings",
     name: "Your Listings",
     icon: Dashboard,
     component: DashboardPage,
-    layout: "/account"
+    layout: "/account",
   },
   
   {
+    path: "/map",
+    name: "Your Map",
+    icon: Map,
+    component: UserMap,
+    layout: "/account",
+  },
+
+  {
     path: "/table",
-    name: "Past Rentings",
+    name: "Past Rentals",
     icon: "content_paste",
     component: TableList,
-    layout: "/account"
+    layout: "/account",
   },
+
   {
     path: "/notifications",
     name: "Notifications",
     icon: Notifications,
     component: NotificationsPage,
-    layout: "/account"
+    layout: "/account",
   },
   {
     path: "/messages",
     name: "Messages",
     icon: Message,
-    component: NotificationsPage,
+    component: ChatView,
     layout: "/account"
   },
 ];

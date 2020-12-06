@@ -1,0 +1,9 @@
+/* @import 'node_modules/stream-chat-react/dist/css/index.css' */
+
+.str-chat__avatar-fallback {
+  background-color: #f44336 }
+
+.str-chat__channel-preview--active {
+  background:#f44336;
+  color: white }
+

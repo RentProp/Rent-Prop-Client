@@ -17,6 +17,7 @@ import { bugs, website, server } from "variables/general.js";
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 import { Loading } from "../../../src/components";
 import Listing from "./EditItem";
+import { Link } from "react-router-dom";
 import classNames from "classnames";
 const useStyles = makeStyles(styles);
 
@@ -58,7 +59,7 @@ export default function Dashboard() {
     <GridContainer>
       <Card>
         <CardHeader color="danger">
-          <h4 className={classes.cardTitleWhite}>Past Rentings</h4>
+          <h4 className={classes.cardTitleWhite}>Past Rentals</h4>
           <p className={classes.cardCategoryWhite}>
             Items that you have rented in the past!
           </p>
@@ -89,7 +90,7 @@ export default function Dashboard() {
             {items.length === 0 ? (
               <h5>
                 Looks like you have not listed items to rent out, Try doing that
-                by clicking on Add Items to Listing!
+                by clicking on <Link to="/addListing">Add Items to Listing!</Link>
               </h5>
             ) : (
               <></>

@@ -163,7 +163,6 @@ export default function Cards(props) {
       pictures: url,
       address,
     });
-    alert(itemDetails);
     callSecureApi(itemDetails);
   };
   if (isLoadingTrue === "True") {
@@ -173,7 +172,12 @@ export default function Cards(props) {
   return (
     <Card style={{ margin: "5px", width: "20%" }}>
       <img
-        style={{ height: "180px", width: "100%", display: "block" }}
+        style={{
+          height: "180px",
+          width: "100%",
+          display: "block",
+          objectFit: "contain",
+        }}
         className={classes.imgCardTop}
         src={props.image}
         alt="Card-img-cap"
@@ -196,12 +200,18 @@ export default function Cards(props) {
           </GridItem>
         </GridContainer>
         <p>${props.price}</p>
-        <Button color="danger" onClick={() => setModal(true)}>
-          Edit Item
-        </Button>
-        <Button color="danger" onClick={() => handleDeleteItem(props.id)}>
-          Remove Item
-        </Button>
+        <GridContainer>
+          <GridItem xs={6}>
+            <Button color="danger" style={{width:"100%"}} onClick={() => setModal(true)}>
+              Edit Item
+            </Button>
+          </GridItem>
+          <GridItem xs={6}>
+            <Button color="danger" style={{width:"100%"}} onClick={() => handleDeleteItem(props.id)}>
+              Remove Item
+            </Button>
+          </GridItem>
+        </GridContainer>
       </CardBody>
       <Dialog
         classes={{

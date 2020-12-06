@@ -9,6 +9,7 @@ import Close from "@material-ui/icons/Close";
 // core components
 import Button from "components/CustomButtons/Button.js";
 import modalStyle from "assets/jss/material-kit-react/modalStyle.js";
+import inputStyl from "assets/jss/material-kit-react/components/customInputStyle";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
@@ -29,7 +30,7 @@ import Input from "@material-ui/core/Input";
 import { Loading } from "../../../../src/components";
 
 const useStyles = makeStyles(modalStyle);
-
+const inputStyles = makeStyles(inputStyl)
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
@@ -52,6 +53,7 @@ export default function ListingModal(props) {
   const [isLoadingTrue, setLoading] = useState("False");
 
   const classes = useStyles();
+  const classesInput = inputStyles();
   const handleImageChange = (e) => {
     for (let i = 0; i < e.target.files.length; i++) {
       const newFile = e.target.files[i];
@@ -152,13 +154,14 @@ export default function ListingModal(props) {
                 <Card>
                   <CardHeader color="danger">
                     <h4 className={classes.cardTitleWhite}>
-                      Add Items to Rent Out
+                    What do you want to rent out?
                     </h4>
                   </CardHeader>
                   <CardBody>
                     <GridContainer>
                       <GridItem xs={12} sm={6} md={6} lg={6}>
                         <Autocomplete
+                        
                           options={top100Film}
                           getOptionLabel={(option) => option.title}
                           id="debug"
@@ -166,6 +169,7 @@ export default function ListingModal(props) {
                           onChange={(e, values) => setItemCategory(values.value)}
                           renderInput={(params) => (
                             <TextField
+                            className = {classesInput.underline}
                               {...params}
                               variant="standard"
                               label="Item Type"
@@ -178,6 +182,7 @@ export default function ListingModal(props) {
                       </GridItem>
                       <GridItem xs={12} sm={6} md={6} lg={6}>
                         <Autocomplete
+                        className = {classesInput.underline}
                           options={top100Films}
                           getOptionLabel={(option) => option.title}
                           id="debug"
@@ -185,6 +190,7 @@ export default function ListingModal(props) {
                           onChange={(e, values) => setItemType(values.value)}
                           renderInput={(params) => (
                             <TextField
+                            className = {classesInput.underline}
                               {...params}
                               variant="standard"
                               label="Item Category"
@@ -273,6 +279,7 @@ export default function ListingModal(props) {
                     <GridContainer>
                       <GridItem xs={12} sm={12} md={9}>
                         <Input
+                          className = {classesInput.underline}
                           required
                           type="file"
                           inputProps={{ multiple: true }}
@@ -282,6 +289,7 @@ export default function ListingModal(props) {
                       </GridItem>
                       <GridItem xs={12} sm={12} md={3}>
                       <Button
+                          style = {{width: "100%"}}
                           variant="contained"
                           color="danger"
                           component="span"
@@ -324,7 +332,7 @@ export default function ListingModal(props) {
 }
 
 const top100Film = [
-  { title: "Real State And Property", value: "realestate" },
+  { title: "Real Estate And Property", value: "realestate" },
   { title: "Vehicles (Road/Water)", value: "vehicles" },
   { title: "Staffing And Services", value: "services" },
   { title: "Applicance And Other Items", value: "others" },
@@ -349,6 +357,6 @@ const top100Films = [
   { title: "Toolkits", value:  "Toolkits" },
   { title: "Electrial Appliances", value:  "ElectrialAppliances" },
   { title: "Clothings", value: "Clothings" },
-  { title: "Air Ballon", value:  "AirBallon" },
+  { title: "Air Balloon", value:  "AirBallon" },
   { title: "Other", value: "Other" },
 ];

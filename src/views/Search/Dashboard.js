@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import classNames from "classnames";
 import { Link, useHistory } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Header from "components/Header/Header.js";
 import Footer from "components/Footer/Footer.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -17,81 +17,252 @@ import CaptureDetails from "../CaptureDetails/CaptureDetails";
 import { whiteColor } from "assets/jss/material-dashboard-react.js";
 import TextField from "@material-ui/core/TextField";
 import ArrowForwardRounded from "@material-ui/icons/ArrowForwardRounded";
+import Mic from "@material-ui/icons/Mic";
 import SearchIcon from "@material-ui/icons/Search";
 import { IconButton, InputAdornment } from "@material-ui/core";
 import Listing from "./Listing";
-import Filters from "./Filters";
+import ChatBot from "../ChatBot/ChatBot";
 import downloadStyles from "assets/jss/material-kit-react/views/componentsSections/downloadStyle.js";
-
+import CustomDropdown from "components/CustomDropdown/CustomDropdown";
+import { CustomRadio } from "./Radios";
+import Typography from "@material-ui/core/Typography";
+import Slider from "@material-ui/core/Slider";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 styles["transparent"] = { backgroundColor: "rgba(255, 255, 255, 0.5)" };
+styles["buttonStyle"] = {
+  marginTop: 0,
+  marginBottom: 0,
+  backgroundColor: "rgba(0,0,0,0.5)",
+  color: "rgba(255,255,255,0.5)",
+  fontSize: "16px",
+  width:"100%"
+};
+styles["filterContainer"] = {
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-around",
+
+  width: "100%",
+  height: "60px",
+  margin: "auto",
+  marginTop: "20px",
+};
+styles["height100"] = {
+  height: "100%",
+};
+
+const PSlider = withStyles({
+  root: {
+    color: '#f44336',
+    height: 8,
+  },
+  thumb: {
+    height: 24,
+    width: 24,
+    backgroundColor: '#fff',
+    border: '2px solid currentColor',
+    marginTop: -8,
+    marginLeft: -12,
+    '&:focus, &:hover, &$active': {
+      boxShadow: 'inherit',
+    },
+  },
+  active: {},
+  valueLabel: {
+    left: 'calc(-50% + 4px)',
+  },
+  track: {
+    height: 8,
+    borderRadius: 4,
+  },
+  rail: {
+    height: 8,
+    borderRadius: 4,
+  },
+})(Slider);
 
 const useStyles = makeStyles(styles);
 const useDownloadStyles = makeStyles(downloadStyles);
-
+function valuetext(value) {
+  return `${value}$`;
+}
 export default function Dashboard(props) {
-  const { user, getAccessTokenSilently , isAuthenticated} = useAuth0();
+  const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [userId, setUserId] = useState({});
   const history = useHistory();
-  useEffect(() => {
-    (async () => {
-      if(isAuthenticated){
-      const token = await getAccessTokenSilently();
-      fetch(`${apiUrl}/api/profiles/me`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        }
-      }).then((response) => {
-        if (!response.ok) {
-          console.log("Public User") 
-          history.push("/capture-details");
-        } else {
-          return response.json()
-        }
-      })
-      .then((data) => {
-        if (data) {
-        setUserId(data.id)
-        console.log(data);
-        }
-      })
-    }})(user);
-  }, [user.sub]);
-  
-
   const [items, setItems] = useState([]);
   const classes = useStyles();
   const classesDownload = useDownloadStyles();
   const apiUrl = process.env.REACT_APP_API_URL;
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoadingTrue, setLoading] = useState("False");
+  const [selectedType, setSelectedType] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [loadingRecommended, setLoadingRecommended] = useState(true);
+
+  const types = [
+    "Property", 
+    "Services", 
+    "Vehicles", 
+    "Items", 
+    "Clear Filter"
+  ];
+
+  const categories = [
+    "Apartment",
+    "Bunglow",
+    "Land",
+    "Electrical",
+    "Carpenter",
+    "Painter",
+    "Plumber",
+    "Cleaners",
+    "Packers and Movers",
+    "Car",
+    "Bike",
+    "Motorbike",
+    "Truck",
+    "Boat",
+    "Machinery",
+    "Toolkits",
+    "Electrical Appliances",
+    "Clothings",
+    "Air Balloons",
+    "Other",
+    "Clear Filter"
+  ];
+
+  const handleTypeDropdownChange = (type) => {
+    if (type === "Clear Filter") {
+      setSelectedType("");
+    } else {
+      setSelectedType(type.toLowerCase());
+    }
+  };
+  
+  const handleCategoryDropdownChange = (category) => {
+    if (category === "Clear Filter") {
+      setSelectedCategory("");
+    } else {
+      setSelectedCategory(category);
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      if (isAuthenticated) {
+        const token = await getAccessTokenSilently();
+        fetch(`${apiUrl}/api/profiles/me`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              console.log("Public User");
+              history.push("/capture-details");
+            } else {
+              return response.json();
+            }
+          })
+          .then((data) => {
+            if (data) {
+              setUserId(data.id);
+              console.log(data);
+              if (data.is_admin === true) {
+                localStorage.setItem("Admin", "1");
+                console.log("admin")
+              } else {
+                localStorage.setItem("Admin", "2");
+                console.log("not admin")
+              }
+            }
+          });
+      }
+    })(user);
+  }, [user.sub]);
+
+  const { transcript, setTerm } = useSpeechRecognition();
+
+  // Set search term to transcript whenever transcript changes
+  useEffect(() => {
+    setSearchTerm(transcript);
+  }, [transcript]);
+
+  // For page load 
+  useEffect(() => {
+    if (loadingRecommended) {
+      fetch(`${apiUrl}/api/recommended`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("getting recommended data: ");
+          console.log(data);
+          setItems((previndex) => data);
+          setLoadingRecommended(false);
+        });
+    }
+  });
 
   const callSecureApi = (searchTerm) => {
-    console.log("sending request");
-    fetch(`${apiUrl}/api/items?search=${searchTerm}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    let requestUrl = `${apiUrl}/api/items?search=${searchTerm}`;
+    
+    if (selectedCategory !== "") {
+      requestUrl += `&category=${selectedCategory}`;
+    } 
+    
+    if (selectedType !== "") {
+      requestUrl += `&type=${selectedType}`;
+    }
+
+    console.log("sending request to" + requestUrl);
+
+    fetch(requestUrl,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
+        console.log("response data:")
         console.log(data);
-        setItems((previndex) => data);
+        setItems(data);
+        //setItems((previndex) => data);
       });
   };
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
     callSecureApi(searchTerm);
   };
+  
+  const [priceRange, setPriceRange] = useState([20, 37]);
+  const handlePriceRangeChange = (event, newValue) => {
+    setPriceRange(newValue);
+  }
+
+  const [distanceRange, setDistanceRange] = useState([20,37]);
+  const handleDistanceRangeChange = (event, newValue) => {
+    setDistanceRange(newValue);
+  }
 
   if (isLoadingTrue === "True") {
     return <Loading />;
   }
   return (
     <div>
-      <Parallax image={require("assets/img/bg4.jpg")}>
+      <Parallax image={require("assets/img/bg42.jpg")}>
         <div className={classes.container}>
           <GridContainer>
             <GridItem>
@@ -105,6 +276,7 @@ export default function Dashboard(props) {
                     fullWidth
                     onChange={(e) => setSearchTerm(e.target.value)}
                     autoFocus
+                    value={searchTerm}
                     required
                     InputProps={{
                       classes: { input: classes.title },
@@ -119,6 +291,18 @@ export default function Dashboard(props) {
                       ),
                       endAdornment: (
                         <InputAdornment position="end">
+                          {(SpeechRecognition.browserSupportsSpeechRecognition()) ? 
+                            <IconButton
+                              aria-label="search button"
+                              edge="end"
+                              onClick={SpeechRecognition.startListening}
+                            >
+                              <Mic
+                                htmlColor="rgba(255, 255, 255, 0.5)"
+                                fontSize="large"
+                              />
+                            </IconButton> : null
+                          }
                           <IconButton
                             type="submit"
                             aria-label="search button"
@@ -133,7 +317,93 @@ export default function Dashboard(props) {
                       ),
                     }}
                   />
-                  <Filters />
+                  <div className={classes.filterContainer}>
+                    <GridItem xs={3}>
+                      <CustomDropdown
+                        dropup
+                        className={classes.height100}
+                        buttonText="Filter By Type"
+                        hoverColor="danger"
+                        dropdownList={types.map((type) => {
+                          return (
+                            <CustomRadio
+                              label={type}
+                              checked={
+                                (type.toLowerCase() === selectedType.toLowerCase()) ? true : false
+                              }
+                              onClick={handleTypeDropdownChange}
+                            />
+                          );
+                        })}
+                        buttonProps={{
+                          className:
+                            classes.buttonStyle +
+                            " " +
+                            classes.flexGrow0 +
+                            " " +
+                            classes.height100,
+                        }}
+                        outerClassName={classes.height100}
+                      />
+                    </GridItem>
+
+                    <GridItem xs={3}>
+                      <CustomDropdown
+                        dropup
+                        buttonText="Filter By Category"
+                        hoverColor="danger"
+                        dropdownList={categories.map((category) => {
+                          return (
+                            <CustomRadio
+                              label={category}
+                              checked={
+                                (category === selectedCategory) ? true : false
+                              }
+                              onClick={handleCategoryDropdownChange}
+                            />
+                          );
+                        })}
+                        buttonProps={{
+                          className:
+                            classes.buttonStyle +
+                            " " +
+                            classes.flexGrow0 +
+                            " " +
+                            classes.height100,
+                        }}
+                        outerClassName={classes.height100}
+                      />
+                    </GridItem>
+
+                    <GridItem xs={3}>
+                      <div className={classes.root}>
+                        <Typography id="range-slider" gutterBottom>
+                          Price range
+                        </Typography>
+                        <PSlider
+                          value={priceRange}
+                          onChange={handlePriceRangeChange}
+                          valueLabelDisplay="auto"
+                          aria-labelledby="range-slider"
+                          getAriaValueText={valuetext}
+                        />
+                      </div>
+                    </GridItem>
+                    <GridItem xs={3}>
+                      <div className={classes.root}>
+                        <Typography id="range-slider" gutterBottom>
+                          Distance range
+                        </Typography>
+                        <PSlider
+                          value={distanceRange}
+                          onChange={handleDistanceRangeChange}
+                          valueLabelDisplay="auto"
+                          aria-labelledby="range-slider"
+                          getAriaValueText={valuetext}
+                        />
+                      </div>
+                    </GridItem>
+                  </div>
                 </form>
               </div>
             </GridItem>
@@ -146,17 +416,15 @@ export default function Dashboard(props) {
             <GridContainer>
               {items.map((item, i) => {
                 return (
-                  <div key={i}>
-                    <Listing
-                      title={item.name}
-                      price={item.price}
-                      rating={4}
-                      location={item.address.city}
-                      image={item.pictures}
-                      userid = {userId}
-                      id = {item.id}
-                    />
-                  </div>
+                  <Listing
+                    title={item.name}
+                    price={item.price}
+                    rating={item.avg_rating}
+                    location={item.address.city}
+                    image={item.pictures}
+                    userid={userId}
+                    id={item.id}
+                  />
                 );
               })}
             </GridContainer>

@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 // @material-ui/core components
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
+import {  Link } from "react-router-dom";
 import ListItem from "@material-ui/core/ListItem";
 import Explore from "@material-ui/icons/Explore";
 import ExitToApp from "@material-ui/icons/ExitToApp";
@@ -20,7 +21,7 @@ import IconButton from "@material-ui/core/IconButton";
 const useStyles = makeStyles(styles);
 const StyledBadge = withStyles((theme) => ({
   badge: {
-    right: -3,
+    right: 0,
     top: 1,
     border: `1px solid ${theme.palette.background.paper}`,
     padding: "0 4px",
@@ -28,10 +29,13 @@ const StyledBadge = withStyles((theme) => ({
 }))(Badge);
 export default function PrivateNavBar() {
   const classes = useStyles();
-  const { user } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const { logout } = useAuth0();
 
   const history = useHistory();
+
+  const [isFetchingCart, setFetchingCart] = useState(true);
+  const [numCartItems, setCartItems] = useState(0);
 
   const { email, picture } = user;
   const routeSearch = () => {
@@ -48,12 +52,48 @@ export default function PrivateNavBar() {
   };
 
   const routeUserProfile = () => {
-    let path = `/account/user`;
-    history.push(path);
+    let isAdmin = localStorage.getItem("Admin");
+    if (isAdmin === "1"){
+      let path = `/admin/user`;
+      history.push(path);
+    }else{
+      let path = `/account/user`;
+      history.push(path);
+  }
+    
   };
+  
+  const apiUrl = process.env.REACT_APP_API_URL;
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const token = await getAccessTokenSilently();
+        fetch(`${apiUrl}/api/carts`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            setCartItems(res.length);
+            setFetchingCart(false);
+          })
+          .catch((e) => console.log(e));
+      } catch {
+        console.log("Failed to get access token");
+      }
+    };
+    if (isFetchingCart) {
+      fetchCart();
+    }
+  });
+
+
   return (
     <Header
-      brand={<img src={logo} alt="logo" />}
+      brand={<Link to="/search"><img src={logo} alt="logo"  /> </Link>}
       color="danger"
       rightLinks={
         <List className={classes.list}>
@@ -86,7 +126,7 @@ export default function PrivateNavBar() {
               onClick={routeCart}
               color="transparent"
             >
-              <StyledBadge badgeContent={0} color="secondary">
+              <StyledBadge badgeContent={numCartItems} color="secondary">
                 <ShoppingCart style={{ color: "white" }} />
               </StyledBadge>
             </Button>

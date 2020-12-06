@@ -147,7 +147,7 @@ export default function UserProfile() {
               <CardHeader color="danger">
                 <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
                 <p className={classes.cardCategoryWhite}>
-                  Type the fields you wnat to update
+                  Type the fields you want to update
                 </p>
               </CardHeader>
               <CardBody>
@@ -162,6 +162,11 @@ export default function UserProfile() {
                       inputProps={{
                         disabled: true,
                       }}
+                      labelProps={{
+                        style: {
+                          fontStyle: "italic",
+                        },
+                      }}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
@@ -173,6 +178,11 @@ export default function UserProfile() {
                       }}
                       inputProps={{
                         disabled: true,
+                      }}
+                      labelProps={{
+                        style: {
+                          fontStyle: "italic",
+                        },
                       }}
                     />
                   </GridItem>
@@ -300,9 +310,6 @@ export default function UserProfile() {
             <CardBody profile>
               <h6 className={classes.cardCategory}>{email}</h6>
               <h4 className={classes.cardTitle}>{name}</h4>
-              <p className={classes.description}>Items Rented : 0</p>
-              <p className={classes.description}>Items Listed : 0</p>
-              <p className={classes.description}>Rating: 5/5</p>
             </CardBody>
           </Card>
         </GridItem>
