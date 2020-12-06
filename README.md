@@ -1,4 +1,4 @@
-# Name of the Project : RentNoww- Anything, Anywhere
+## RentNoww- Anything, Anywhere https://rentnoww.herokuapp.com
 
 
 ![thumbnail](https://user-images.githubusercontent.com/39978963/101292383-21d77300-37dd-11eb-863d-8ec402a4207e.jpg)
@@ -16,4 +16,3 @@ RentNoww is a way for owners, renters and the RentNoww management to interact in
 
 
 ## GitHub https://github.com/RentProp
-## Website link https://rentnoww.herokuapp.com
