@@ -110,7 +110,7 @@ export default function Listing(props) {
           />
           </ButtonBase>
           <CardBody>
-            <h6 class={classes.cardTitle}>{props.title}</h6>
+            <h6 class={classes.cardTitle} style={{height:'2em'}}>{props.title}</h6>
             <OurRating
               name="listing-card-rating"
               rating={(props.rating) ? props.rating : 0}
