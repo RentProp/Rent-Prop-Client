@@ -7,3 +7,10 @@
   background:#f44336;
   color: white }
 
+.str-chat-channel {
+    max-height: 70vh;
+}
+
+.str-chat {
+    height: 70vh;
+}
