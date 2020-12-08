@@ -61,13 +61,6 @@ const dashboardRoutes = [
   },
 
   {
-    path: "/notifications",
-    name: "Notifications",
-    icon: Notifications,
-    component: NotificationsPage,
-    layout: "/account",
-  },
-  {
     path: "/messages",
     name: "Messages",
     icon: Message,

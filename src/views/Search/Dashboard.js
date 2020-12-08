@@ -43,7 +43,6 @@ styles["filterContainer"] = {
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-around",
-
   width: "100%",
   height: "60px",
   margin: "auto",
@@ -51,6 +50,10 @@ styles["filterContainer"] = {
 };
 styles["height100"] = {
   height: "100%",
+};
+
+styles["fixedWidth"] = {
+  width: "200px"
 };
 
 const PSlider = withStyles({
@@ -100,13 +103,20 @@ export default function Dashboard(props) {
   const [isLoadingTrue, setLoading] = useState("False");
   const [selectedType, setSelectedType] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [searchCategory, setSearchCategory] = useState("");
+  const [searchType, setSearchType] = useState("");
   const [loadingRecommended, setLoadingRecommended] = useState(true);
+  const [itemPriceRange, setItemPriceRange] = useState([]);
+
+  const [lowFilter, setLowFilter] = useState(0);
+  const [highFilter, setHighFilter] = useState(Number.MAX_SAFE_INTEGER);
+
 
   const types = [
-    "Property", 
-    "Services", 
+    "Real Estate/Property", 
+    "Staffing And Services", 
     "Vehicles", 
-    "Items", 
+    "Appliances And Other Items", 
     "Clear Filter"
   ];
 
@@ -134,18 +144,53 @@ export default function Dashboard(props) {
     "Clear Filter"
   ];
 
+  const typeDict = { 
+      "Real Estate/Property": "realestate",
+      "Vehicles": "vehicles",
+      "Staffing And Services": "services",
+      "Appliances And Other Items": "others" 
+    };
+
+  const categoryDict = { 
+    "Apartment": "Apartment",
+    "Bunglow": "Bunglow",
+    "Land": "Land",
+    "Electrical": "Electrical",
+    "Carpenter": "Carpanter",
+    "Painter": "Painter",
+    "Plumber": "Plumber",
+    "Cleaners": "Cleaners",
+    "Packers And Movers": "PackersAndMovers",
+    "Car": "Car",
+    "Bike": "Bike",
+    "Motorbike": "Motorbike",
+    "Truck": "Truck",
+    "Boats": "Boats",
+    "Machinery": "Machinery",
+    "Toolkits": "Toolkits",
+    "Electrial Appliances": "ElectrialAppliances",
+    "Clothings": "Clothings",
+    "Air Balloon": "AirBallon",
+    "Other": "Other"
+  };
+
+
   const handleTypeDropdownChange = (type) => {
     if (type === "Clear Filter") {
       setSelectedType("");
+      setSearchType("");
     } else {
-      setSelectedType(type.toLowerCase());
+      setSearchType(typeDict[type]);
+      setSelectedType(type);
     }
   };
   
   const handleCategoryDropdownChange = (category) => {
     if (category === "Clear Filter") {
       setSelectedCategory("");
+      setSearchCategory("");
     } else {
+      setSearchCategory(categoryDict[category]);
       setSelectedCategory(category);
     }
   };
@@ -212,18 +257,30 @@ export default function Dashboard(props) {
     }
   });
 
+  useEffect(() => {
+    let prices = [];
+    items.forEach((item) => prices.push(parseFloat(item.price)));
+    prices.sort((a,b) => a - b);
+    let lowPrice = prices[0];
+    let highPrice = prices[prices.length - 1];
+    setItemPriceRange([lowPrice,highPrice]);
+    setLowFilter(lowPrice);
+    setHighFilter(highPrice);
+    console.log(prices);
+  },[items]);
+
   const callSecureApi = (searchTerm) => {
     let requestUrl = `${apiUrl}/api/items?search=${searchTerm}`;
     
-    if (selectedCategory !== "") {
-      requestUrl += `&category=${selectedCategory}`;
+    if (searchCategory !== "") {
+      requestUrl += `&category=${searchCategory}`;
     } 
     
-    if (selectedType !== "") {
-      requestUrl += `&type=${selectedType}`;
+    if (searchType !== "") {
+      requestUrl += `&type=${searchType}`;
     }
 
-    console.log("sending request to" + requestUrl);
+    console.log("sending request to " + requestUrl);
 
     fetch(requestUrl,
       {
@@ -247,9 +304,35 @@ export default function Dashboard(props) {
     callSecureApi(searchTerm);
   };
   
-  const [priceRange, setPriceRange] = useState([20, 37]);
+  const [priceRange, setPriceRange] = useState([0, 100]);
   const handlePriceRangeChange = (event, newValue) => {
     setPriceRange(newValue);
+  }
+
+  useEffect(() => {
+                    let lowestPrice = itemPriceRange[0];
+                    let lowRange = priceRange[0];
+
+                    let highestPrice = itemPriceRange[1];
+                    let highRange = priceRange[1];
+
+                    let deltaPrice = (highestPrice - lowestPrice) / 100;
+                    
+                    let low = lowestPrice + lowRange * deltaPrice;
+                    let high = highestPrice - (100 - highRange) * deltaPrice;
+                    
+                    console.log(`setting low filter to ${low}`)
+                    setLowFilter(low);
+
+                    console.log(`setting high filter to ${high}`);
+                    setHighFilter(high);
+
+                  },[priceRange, itemPriceRange]);
+
+  const checkPrice = (price) => {
+    price = parseFloat(price);
+    let ans = (price >= lowFilter && price <= highFilter);
+    return ans;
   }
 
   const [distanceRange, setDistanceRange] = useState([20,37]);
@@ -329,7 +412,7 @@ export default function Dashboard(props) {
                             <CustomRadio
                               label={type}
                               checked={
-                                (type.toLowerCase() === selectedType.toLowerCase()) ? true : false
+                                (type === selectedType) ? true : false
                               }
                               onClick={handleTypeDropdownChange}
                             />
@@ -341,7 +424,9 @@ export default function Dashboard(props) {
                             " " +
                             classes.flexGrow0 +
                             " " +
-                            classes.height100,
+                            classes.height100 +
+                            " " +
+                            classes.fixedWidth,
                         }}
                         outerClassName={classes.height100}
                       />
@@ -369,7 +454,9 @@ export default function Dashboard(props) {
                             " " +
                             classes.flexGrow0 +
                             " " +
-                            classes.height100,
+                            classes.height100 +
+                            " " +
+                            classes.fixedWidth,
                         }}
                         outerClassName={classes.height100}
                       />
@@ -415,7 +502,7 @@ export default function Dashboard(props) {
           <div className={classesDownload.container}>
             <GridContainer>
               {items.map((item, i) => {
-                return (
+                return (checkPrice(item.price)) ? (
                   <Listing
                     title={item.name}
                     price={item.price}
@@ -425,7 +512,7 @@ export default function Dashboard(props) {
                     userid={userId}
                     id={item.id}
                   />
-                );
+                ) : null;
               })}
             </GridContainer>
           </div>

@@ -335,7 +335,7 @@ const top100Film = [
   { title: "Real Estate And Property", value: "realestate" },
   { title: "Vehicles (Road/Water)", value: "vehicles" },
   { title: "Staffing And Services", value: "services" },
-  { title: "Applicance And Other Items", value: "others" },
+  { title: "Appliances And Other Items", value: "others" },
 ];
 
 const top100Films = [
@@ -343,7 +343,7 @@ const top100Films = [
   { title: "Bunglow", value: "Bunglow" },
   { title: "Land", value: "Land" },
   { title: "Electrical", value: "Electrical" },
-  { title: "Carpanter", value: "Carpanter" },
+  { title: "Carpenter", value: "Carpanter" },
   { title: "Painter", value: "Painter" },
   { title: "Plumber", value: "Plumber" },
   { title: "Cleaners", value: "Cleaners" },

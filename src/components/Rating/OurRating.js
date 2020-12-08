@@ -16,7 +16,7 @@ export default function OurRating(props) {
         <StyledRating
             name={props.name}
             value={props.rating}
-            percision={0.5}
+            percision={0.1}
             size="large"
             disabled={props.disabled}
         />
