@@ -106,6 +106,11 @@ export default function Dashboard(props) {
   const [searchCategory, setSearchCategory] = useState("");
   const [searchType, setSearchType] = useState("");
   const [loadingRecommended, setLoadingRecommended] = useState(true);
+  const [itemPriceRange, setItemPriceRange] = useState([]);
+
+  const [lowFilter, setLowFilter] = useState(0);
+  const [highFilter, setHighFilter] = useState(Number.MAX_SAFE_INTEGER);
+
 
   const types = [
     "Real Estate/Property", 
@@ -252,6 +257,18 @@ export default function Dashboard(props) {
     }
   });
 
+  useEffect(() => {
+    let prices = [];
+    items.forEach((item) => prices.push(parseFloat(item.price)));
+    prices.sort((a,b) => a - b);
+    let lowPrice = prices[0];
+    let highPrice = prices[prices.length - 1];
+    setItemPriceRange([lowPrice,highPrice]);
+    setLowFilter(lowPrice);
+    setHighFilter(highPrice);
+    console.log(prices);
+  },[items]);
+
   const callSecureApi = (searchTerm) => {
     let requestUrl = `${apiUrl}/api/items?search=${searchTerm}`;
     
@@ -287,9 +304,35 @@ export default function Dashboard(props) {
     callSecureApi(searchTerm);
   };
   
-  const [priceRange, setPriceRange] = useState([20, 37]);
+  const [priceRange, setPriceRange] = useState([0, 100]);
   const handlePriceRangeChange = (event, newValue) => {
     setPriceRange(newValue);
+  }
+
+  useEffect(() => {
+                    let lowestPrice = itemPriceRange[0];
+                    let lowRange = priceRange[0];
+
+                    let highestPrice = itemPriceRange[1];
+                    let highRange = priceRange[1];
+
+                    let deltaPrice = (highestPrice - lowestPrice) / 100;
+                    
+                    let low = lowestPrice + lowRange * deltaPrice;
+                    let high = highestPrice - (100 - highRange) * deltaPrice;
+                    
+                    console.log(`setting low filter to ${low}`)
+                    setLowFilter(low);
+
+                    console.log(`setting high filter to ${high}`);
+                    setHighFilter(high);
+
+                  },[priceRange, itemPriceRange]);
+
+  const checkPrice = (price) => {
+    price = parseFloat(price);
+    let ans = (price >= lowFilter && price <= highFilter);
+    return ans;
   }
 
   const [distanceRange, setDistanceRange] = useState([20,37]);
@@ -459,7 +502,7 @@ export default function Dashboard(props) {
           <div className={classesDownload.container}>
             <GridContainer>
               {items.map((item, i) => {
-                return (
+                return (checkPrice(item.price)) ? (
                   <Listing
                     title={item.name}
                     price={item.price}
@@ -469,7 +512,7 @@ export default function Dashboard(props) {
                     userid={userId}
                     id={item.id}
                   />
-                );
+                ) : null;
               })}
             </GridContainer>
           </div>

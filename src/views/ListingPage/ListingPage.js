@@ -43,7 +43,7 @@ const pageStyles = {...styles, ...imagesStyles,
     img: {maxWidth: '100%'},
     mb0: {marginBottom: 0},
     mt0: {marginTop: 0},
-    TabPageContainer: { height: "50vh", overflowY: "auto"}
+    TabPageContainer: { maxHeight: "60vh", overflowY: "auto" }
 }
 
 const defaultListing = {
@@ -132,7 +132,11 @@ export default function ListingPage(props) {
             <div style={{ display: "flex" }}>
               <span>{categories[listing.category]}</span>
               <span style={{ margin: "0px 4px 0px 4px" }}>/</span>
-              <span>{(Object.keys(types).includes(listing.type)) ? types[listing.type] : listing.type}</span>
+              <span>
+                {Object.keys(types).includes(listing.type)
+                  ? types[listing.type]
+                  : listing.type}
+              </span>
             </div>
           </GridItem>
           <GridItem xs={6} md={4} style={{ height: "50vh" }}>
@@ -169,8 +173,8 @@ export default function ListingPage(props) {
                 rating={listing.avg_rating}
                 disabled
               />
-              <a>{listing.company}</a>
-              <p style={{ overflowY: "scroll" }}>{listing.description}</p>
+              <p>{listing.company}</p>
+              <p>{listing.description}</p>
             </div>
           </GridItem>
           <GridItem md={3}>
@@ -182,23 +186,19 @@ export default function ListingPage(props) {
                 <Success>
                   <h5 className={classes.mt0 + " " + classes.mb0}>In Stock</h5>
                 </Success>
-                <DateTimePicker
-                  label="Rent on..."
-                  placeholder="Choose a date to begin renting"
-                />
                 <Button color="success" style={{ marginTop: "15px" }}>
                   Add To Cart
                 </Button>
               </CardBody>
             </Card>
           </GridItem>
-          <GridItem md={6} style={{height: '50vh'}}>
-            {isLoadingCoords ? <Loading /> : <Maps coords={coords} />}
-          </GridItem>
-          <GridItem md={6}>
+          <GridItem md={12}>
             <div className={classes.TabPageContainer}>
               <ReviewSection id={id} />
             </div>
+          </GridItem>
+          <GridItem md={12} style={{ height: "50vh" }}>
+            {isLoadingCoords ? <Loading /> : <Maps coords={coords} />}
           </GridItem>
           <GridItem md={12}>
             <h3>Related Listings</h3>
