@@ -103,13 +103,15 @@ export default function Dashboard(props) {
   const [isLoadingTrue, setLoading] = useState("False");
   const [selectedType, setSelectedType] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [searchCategory, setSearchCategory] = useState("");
+  const [searchType, setSearchType] = useState("");
   const [loadingRecommended, setLoadingRecommended] = useState(true);
 
   const types = [
-    "Property", 
-    "Services", 
+    "Real Estate/Property", 
+    "Staffing And Services", 
     "Vehicles", 
-    "Items", 
+    "Appliances And Other Items", 
     "Clear Filter"
   ];
 
@@ -137,18 +139,53 @@ export default function Dashboard(props) {
     "Clear Filter"
   ];
 
+  const typeDict = { 
+      "Real Estate/Property": "realestate",
+      "Vehicles": "vehicles",
+      "Staffing And Services": "services",
+      "Appliances And Other Items": "others" 
+    };
+
+  const categoryDict = { 
+    "Apartment": "Apartment",
+    "Bunglow": "Bunglow",
+    "Land": "Land",
+    "Electrical": "Electrical",
+    "Carpenter": "Carpanter",
+    "Painter": "Painter",
+    "Plumber": "Plumber",
+    "Cleaners": "Cleaners",
+    "Packers And Movers": "PackersAndMovers",
+    "Car": "Car",
+    "Bike": "Bike",
+    "Motorbike": "Motorbike",
+    "Truck": "Truck",
+    "Boats": "Boats",
+    "Machinery": "Machinery",
+    "Toolkits": "Toolkits",
+    "Electrial Appliances": "ElectrialAppliances",
+    "Clothings": "Clothings",
+    "Air Balloon": "AirBallon",
+    "Other": "Other"
+  };
+
+
   const handleTypeDropdownChange = (type) => {
     if (type === "Clear Filter") {
       setSelectedType("");
+      setSearchType("");
     } else {
-      setSelectedType(type.toLowerCase());
+      setSearchType(typeDict[type]);
+      setSelectedType(type);
     }
   };
   
   const handleCategoryDropdownChange = (category) => {
     if (category === "Clear Filter") {
       setSelectedCategory("");
+      setSearchCategory("");
     } else {
+      setSearchCategory(categoryDict[category]);
       setSelectedCategory(category);
     }
   };
@@ -218,15 +255,15 @@ export default function Dashboard(props) {
   const callSecureApi = (searchTerm) => {
     let requestUrl = `${apiUrl}/api/items?search=${searchTerm}`;
     
-    if (selectedCategory !== "") {
-      requestUrl += `&category=${selectedCategory}`;
+    if (searchCategory !== "") {
+      requestUrl += `&category=${searchCategory}`;
     } 
     
-    if (selectedType !== "") {
-      requestUrl += `&type=${selectedType}`;
+    if (searchType !== "") {
+      requestUrl += `&type=${searchType}`;
     }
 
-    console.log("sending request to" + requestUrl);
+    console.log("sending request to " + requestUrl);
 
     fetch(requestUrl,
       {
@@ -332,7 +369,7 @@ export default function Dashboard(props) {
                             <CustomRadio
                               label={type}
                               checked={
-                                (type.toLowerCase() === selectedType.toLowerCase()) ? true : false
+                                (type === selectedType) ? true : false
                               }
                               onClick={handleTypeDropdownChange}
                             />
