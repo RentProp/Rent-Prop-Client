@@ -1,6 +1,7 @@
 /* global google */
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import styles from "assets/jss/material-kit-react/views/components.js";
 import { makeStyles } from "@material-ui/core/styles";
@@ -77,7 +78,11 @@ export default function ListingPage(props) {
     const geocoder = new google.maps.Geocoder();
     const apiUrl = process.env.REACT_APP_API_URL;
 
+    const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+
+
     const { id } = useParams();
+    let userid = localStorage.getItem("userid");
     // Hooks
     const [isLoading, setLoading] = useState(true);
     const [listing, setListing] = useState(defaultListing);
@@ -122,6 +127,30 @@ export default function ListingPage(props) {
         }
         return pages;
     };
+
+     const handleAddToCart = async (id, userid) => {
+      if(isAuthenticated){
+        const token = await getAccessTokenSilently();
+        let addItemToCart = JSON.stringify({
+          item: id,
+          user_id: userid
+        })
+        fetch(`${apiUrl}/api/carts`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: addItemToCart
+        }).then((response) => {
+          if (!response.ok) {
+            console.log("SOMETHING WENT WRONG");
+          } else {
+            alert(`Added ${listing.name} to cart!`)
+          }
+        });
+      }
+    }
 
     return isLoading ? (
       <Loading />
@@ -174,7 +203,7 @@ export default function ListingPage(props) {
                 disabled
               />
               <p>{listing.company}</p>
-              <p>{listing.description}</p>
+              <p style={{ overflowY: "scroll" }}>{listing.description}</p>
             </div>
           </GridItem>
           <GridItem md={3}>
@@ -186,7 +215,11 @@ export default function ListingPage(props) {
                 <Success>
                   <h5 className={classes.mt0 + " " + classes.mb0}>In Stock</h5>
                 </Success>
-                <Button color="success" style={{ marginTop: "15px" }}>
+                <Button
+                  color="success"
+                  style={{ marginTop: "15px" }}
+                  onClick={() => handleAddToCart(id, userid)}
+                >
                   Add To Cart
                 </Button>
               </CardBody>
