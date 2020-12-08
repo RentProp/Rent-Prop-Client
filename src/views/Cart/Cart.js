@@ -85,6 +85,7 @@ function CartListing(props) {
       }
     });
   };
+
   const handleCheckout = (evt) => {
     evt.preventDefault();
     let rentalProps = JSON.stringify({
@@ -94,6 +95,7 @@ function CartListing(props) {
       item : itemid
     });
     callSecureApi(rentalProps);
+    handleDeleteItem();
   };
 
   const handleDeleteItem = async () => {
@@ -108,7 +110,7 @@ function CartListing(props) {
       if (!response.ok) {
         console.log("SOMETHING WENT WRONG");
       } else {
-        alert("Your item has been deleted from the cart");
+        alert(`${item.name} has been removed from your cart`);
         
         let path ="/user/cart"
         history.push(path);
