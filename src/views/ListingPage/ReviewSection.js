@@ -59,7 +59,7 @@ export default function ReviewSection(props) {
       })
         .then((res) => res.json())
         .then((res) => {
-          setReviews(res)
+          setReviews(res.reverse());
           setIsLoading(false);
         })
         .catch((e) => console.log(e));
@@ -102,7 +102,7 @@ export default function ReviewSection(props) {
       </Card>
 
       { 
-        reviews.reverse().map((item) => {
+        reviews.map((item) => {
           return (item.item.toString() === props.id.toString()) ? <Review text={item.review} rating={item.rating} /> : <></>;
         })
       }
